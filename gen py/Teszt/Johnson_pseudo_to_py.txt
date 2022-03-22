@@ -1,0 +1,52 @@
+class           # TODO ************ Make better names ************
+    Ak, B = [n] # n length array
+    blocked = [n] # n length logic array
+    s # integer
+    def CIRCUIT (v): # integer 
+        begin logical f;
+            procedure UNBLOCK (integer value u);
+                begin
+                    blocked (u):= false;
+                    for w ∈ B(u) do
+                        begin
+                            delete w from B(u);
+                            if blocked(w) then UNBLOCK(w);
+                        end
+                end UNBLOCK
+            f := false;
+            stack v;
+            blocked(v):= true;
+    L1:     for w ∈ Ak(v) do
+                if w == s then
+                    begin
+                        output circuit composed of stack followed by s;
+                        f := true;
+                    end
+                else if NOT blocked(w) then
+                        if CIRCUIT(w) then f := true;
+    L2:     if f then UNBLOCK(v)
+            else for w ∈ Ak(v) do
+                if v !∈ B(w) then put v on B(w);
+            unstack v;
+            CIRCUIT := f;
+        end CIRCUIT;
+    empty stack;
+    s:=l;
+    while s < n do
+        begin
+            A:= adjacency structure of strong component K with least
+                vertex in subgraph of G induced by {s, s+ 1, ..., n};
+            if Ak != empty set then
+                begin
+                    s := least vertex in Vk;
+                    for i ∈ Vk, do
+                        begin
+                            blocked(i) := false;
+                            B(i) := empty set;
+                        end;
+        L3:         dummy := CIRCUIT(s);
+                    s:=s+l;
+                end
+            else s := n;
+        end
+end;

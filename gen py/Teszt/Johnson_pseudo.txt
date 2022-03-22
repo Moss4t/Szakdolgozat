@@ -1,0 +1,56 @@
+First, a new node q is added to the graph, connected by zero-weight edges to each of the other nodes.
+Second, the Bellman–Ford algorithm is used, starting from the new vertex q, to find for each vertex v the minimum weight h(v) of a path from q to v. If this step detects a negative cycle, the algorithm is terminated.
+Next the edges of the original graph are reweighted using the values computed by the Bellman–Ford algorithm: an edge from u to v, having length {\displaystyle w(u,v)}{\displaystyle w(u,v)}, is given the new length w(u,v) + h(u) − h(v).
+Finally, q is removed, and Dijkstra's algorithm is used to find the shortest paths from each node s to every other vertex in the reweighted graph. The distance in the original graph is then computed for each distance D(u , v), by adding h(v) − h(u) to the distance returned by Dijkstra's algorithm.
+begin
+    integer list array Ak(n), B(n); 
+    logical array blocked (n); 
+    integer s;
+    logical procedure CIRCUIT (integer value v);
+        begin logical f;
+            procedure UNBLOCK (integer value u);
+                begin
+                    blocked (u):= false;
+                    for w ∈ B(u) do
+                        begin
+                            delete w from B(u);
+                            if blocked(w) then UNBLOCK(w);
+                        end
+                end UNBLOCK
+            f := false;
+            stack v;
+            blocked(v):= true;
+    L1:     for w ∈ Ak(v) do
+                if w == s then
+                    begin
+                        output circuit composed of stack followed by s;
+                        f := true;
+                    end
+                else if NOT blocked(w) then
+                        if CIRCUIT(w) then f := true;
+    L2:     if f then UNBLOCK(v)
+            else for w ∈ Ak(v) do
+                if v !∈ B(w) then put v on B(w);
+            unstack v;
+            CIRCUIT := f;
+        end CIRCUIT;
+    empty stack;
+    s:=l;
+    while s < n do
+        begin
+            A:= adjacency structure of strong component K with least
+                vertex in subgraph of G induced by {s, s+ 1, ..., n};
+            if Ak != empty set then
+                begin
+                    s := least vertex in Vk;
+                    for i ∈ Vk, do
+                        begin
+                            blocked(i) := false;
+                            B(i) := empty set;
+                        end;
+        L3:         dummy := CIRCUIT(s);
+                    s:=s+l;
+                end
+            else s := n;
+        end
+end;
