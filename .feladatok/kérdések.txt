@@ -1,0 +1,15 @@
+elég a körkereső algoritmust feljavítanom? 
+A kör keresést a generálásnál és a solvernél is alkalmazni kell?
+
+BB-ben használjuk a körkeresést?
+Vagy csak a redukált gráf rajzolásnál használnánk majd a Tarjant
+
+Utóbbinál pár kédés ami elő fordul:
+hány kört kell vissza adni?
+egyszer a hosszát nézi a visszatérési értéknek
+egyszer meg az egész eredményt?! a cic változónak mindenestől átadja
+és van amikor bool értéket ad visssza.
+majd megint a visszatérés hosszát vizsgáljuk.
+
+teszt: gráfnak max a körök számát változtatni
+olyan teszteket csináljak, amire tudom mi a válasz

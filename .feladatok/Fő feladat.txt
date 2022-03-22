@@ -1,0 +1,2 @@
+Körkeresés algoritmusa, pythonban megírni
+https://www.cs.tufts.edu/comp/150GA/homeworks/hw1/Johnson%2075.PDF

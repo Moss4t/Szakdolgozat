@@ -1,0 +1,4 @@
+Docker
+minisat
+
+Birocs toolokat küldött. Py kód, ami generál. Balaton Boglár a neve, ha minden igaz.
