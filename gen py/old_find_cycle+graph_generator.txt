@@ -1,0 +1,87 @@
+""" régi algoritmus: Birocs
+def find_cycle(G, source=None, orientation='original'):
+
+    out_edge, key, tailhead = helper_funcs(G, orientation)
+
+    explored = set()
+    cycle = []
+    final_node = None
+    for start_node in G.nbunch_iter(source): # returns nbunch of nodes that can be iterated. none = iterates through all nodes - Moha
+        if start_node in explored: # Test it! #
+            # No loop is possible.
+            continue
+        edges = []
+        seen = {start_node}
+        active_nodes = {start_node}
+        previous_head = None
+
+        for edge in NX.edge_dfs(G, start_node, orientation):
+            tail, head = tailhead(edge)
+            if head in explored: # Test it! #
+                continue
+            if previous_head is not None and tail != previous_head:
+                while True:
+                    try:
+                        popped_edge = edges.pop()
+                    except IndexError:
+                        edges = []
+                        active_nodes = {tail}
+                        break
+                    else:
+                        popped_head = tailhead(popped_edge)[1]
+                        active_nodes.remove(popped_head)
+
+                    if edges:
+                        last_head = tailhead(edges[-1])[1]
+                        if tail == last_head:
+                            break
+            edges.append(edge)
+
+            if head in active_nodes:
+                # We have a loop!
+                cycle.extend(edges)
+                final_node = head
+                break
+            else:
+                seen.add(head)
+                active_nodes.add(head)
+                previous_head = head
+
+        if cycle:
+            break
+        else:
+            explored.update(seen)
+
+    else:
+        return 0
+    for i, edge in enumerate(cycle):
+        tail, head = tailhead(edge)
+        if tail == final_node:
+            break
+
+    return cycle[i:]
+ """
+
+#*****************************************************************
+#Sensors placement and Graph
+#***************************************************************** 
+
+for i in range(1,N+1):
+    x = float(RD.randrange(*rangeX))
+    y = float(RD.randrange(*rangeY))
+    positions = (x,y)
+    rndRad = RD.randrange(*scopeRad)
+    g.add_node(i,pos=(x,y)) 
+    if NodeTypes == False:
+        arrScope.append([i,rndRad])
+        Scope = rndRad
+    else: 
+        arrScope.append([i,Scope])
+    circle = PL.Circle((x,y), Scope,  color="blue", fill=False)
+    if (isDraw):
+        fig.gca().add_artist(circle) 
+    pos=NX.get_node_attributes(g,'pos')
+    g.node.values() #### Changed
+if (isDraw):
+    NX.draw(g,pos, with_labels=True)
+    PL.title('Sensor nodes')
