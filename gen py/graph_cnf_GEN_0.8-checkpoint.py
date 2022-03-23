@@ -1,8 +1,5 @@
 from collections import defaultdict
-from pydoc import visiblename
-from turtle import st
 import matplotlib
-from numpy import integer
 matplotlib.use('TkAgg')
 #import matplotlib.pyplot as plt
 import random as rnd
@@ -222,99 +219,7 @@ Side note: Viszont topológiai rendezés után már nem lesz félig össze függ
  hiszen lesz olyan él, ami levél elem lesz. Ha össze lene kötve teljesen,
  akkor pedig az egész scc-t alkotna.
 '''
-#stack-ben csak egyszer szerepelhet egy elem. Ezért lehetséges nem ismétlődnek az scc elemei.
-
-# Python implementation of Kosaraju's algorithm to print all SCCs
-# Az összes scc-t megadja
-def dfs_util(self, Graph, node, visited):
-	visited[node] = True
-	# Mark the current node as visited and print it
-	g = []
-	g.append((node))
-	print(node)
-	# Recur for all the vertices adjacent to this vertex
-	for i in range(len(Graph.nodes())):
-		if visited[i] == False:
-			dfs_util(self, Graph, i,visited)
-	return g
-
-# lehet hogy itt csak a rekurziót kell rendezni?
-"""
-*****Directed graph*******
-Number of node: 8
-The maximum number of edges (if the graph is directed -default): 56
-Number of edges: 30
- Graph density : 0.54 (Coleman and More 1983).
-7
-0
-1
-2
-3
-4
-5
-6
-Gave every scc to you
-None
-Ended
-"""
-# TODO: Rendezd a dfs-t.
-# Egy esetre működik
-""" 
-*****Directed graph*******
-Number of node: 8
-The maximum number of edges (if the graph is directed -default): 56
-Number of edges: 19
-!Not scc, or semiconnection
-Gave every scc to you
-None
-"""
-
-nx.DiGraph.dfs_util = dfs_util # Monkey patch, it's kinda like delegates :)
-
-def fill_order(Graph, node, visited, stack):
-	visited[node] = True
-	# Recur for all the vertices adjacent to this vertex
-	for i in Graph.nodes(node):
-		if visited[node] == False:
-			fill_order(Graph, i, visited, stack)
-	stack = stack.append(node)
-
-nx.DiGraph.fill_order = fill_order
-
-def get_transpose(Graph):
-	g = nx.DiGraph(Graph)
-	# Recur for all the vertices adjacent to this vertex
-	for i in Graph.nodes():
-		for j in Graph.nodes(i):
-			g.add_edge(j,i)
-	return g
-
-nx.DiGraph.get_transpose = get_transpose
-
-def print_all_scc(Graph):
-	stack = []
-	visited = [False]*Graph.number_of_nodes()
-	for i in range(Graph.number_of_nodes()):
-		if visited[i] == False:
-			fill_order(Graph, i, visited, stack)
-
-	# Create reversed graph
-	gr = get_transpose(Graph)
-
-	# Mark all nodes as not visited (For second DFS)
-	visited = [False]*len((Graph.nodes))
-
-	# Process in order defined by the stack
-	while stack:
-		i = stack.pop()
-		if not visited[i]:
-			gr.dfs_util(Graph, i, visited)
-			print("Gave every scc to you")
-
-# Use it on the given graph.
-# This code is contributed by Neelam Yadav.
-
-nx.DiGraph.generate_all_scc = print_all_scc
+#stack-ben csak egyszer szerepelhet egy elem. Ezért lehetséges. Nem ismétlődnek az scc elemei.
 
 def weak_model_gen(G):
 	OK = nx.is_strongly_connected(G) & nx.is_semiconnected(G)
@@ -323,21 +228,25 @@ def weak_model_gen(G):
 		# print("Exited method: weak_model_gen, bad_args")
 		# raise SystemExit
 
-	# graph = defaultdict(list)
-	# copyG = type(G)(G)
-	# v = copyG.number_of_nodes()
-	print(print_all_scc(G))
+	print(get_all_scc(G))
 
-	""" copyg = type(G)(G)
+	copyg = type(G)(G)
 	while nx.number_strongly_connected_components(copyg) != 0:
 		sccStack = [ scc for scc in nx.strongly_connected_components(copyg) if len(scc) > 1]
+		sccs = [get_all_scc(G)]
+		new_nodes = []
+
 		print(sccStack.pop())
 		print(next(iter(sccStack)))
-		#sccStack))
-		copyg.remove_node() """
+		for x in sccs:
+			neibrs = [nx.neighbors(copyg, x)]
+			# az eredeti gráfban kéne megnézni, hogy egy scc melyik irányban van a másikhoz képest.
+			if x == 0:
+				new_nodes.append((x, neibrs))
+			else:
+				new_nodes.append((neibrs, x))
+		copyg.remove_node()
 
-	# lefordítani
-	# https://www.geeksforgeeks.org/strongly-connected-components/
 	"""
 	Kigyűjtjük az scc-ket.
 		Bonyolultakat is kellene (Amíg van scc: ...), mert
@@ -376,13 +285,8 @@ def weak_model_gen(G):
 	print("Connected everything: " + str(nx.is_semiconnected(wm)))
 	if(isDAG):
 		print(list(nx.topological_sort(wm)))
-	print(wm) """
-
-	#? scc-t talál, akkor egy másolat gráfhoz egy csomópontot adjon hozzá.
-	#? kéne egy olyan fgv ami megnézi, hogy egy él leírásában
-	#? csak egyszer szerepeljen benne a kör bármelyik eleme,
-	#? azaz kilépési pontról beszélünk.
-	"""
+	print(wm)
+#? **************************************************************************************************************
 		scc_node = []
 		new_nodes = []
 		pop_count = 0
@@ -450,6 +354,68 @@ def weak_model_gen(G):
 		if(isDAG):
 			wm = nx.topological_sort(wm)
 	"""
+
+# Python implementation of Kosaraju's algorithm to print all SCCs
+# Az összes scc-t megadja
+def dfs_util(self, Graph, node, visited, sccs):
+	visited[node] = True
+	# Mark the current node as visited and print it
+	sccs.append((node))
+	print(node)
+	# Recur for all the vertices adjacent to this vertex
+	for i in range(len(Graph.nodes())):
+		if visited[i] == False:
+			dfs_util(self, Graph, i,visited, sccs)
+	return sccs
+
+nx.DiGraph.dfs_util = dfs_util # Monkey patch, it's kinda like delegates :)
+
+def fill_order(Graph, node, visited, stack):
+	visited[node] = True
+	# Recur for all the vertices adjacent to this vertex
+	for i in Graph.nodes(node):
+		if visited[node] == False:
+			fill_order(Graph, i, visited, stack)
+	stack = stack.append(node)
+
+nx.DiGraph.fill_order = fill_order
+
+def get_transpose(Graph):
+	g = nx.DiGraph(Graph)
+	# Recur for all the vertices adjacent to this vertex
+	for i in Graph.nodes():
+		for j in Graph.nodes(i):
+			g.add_edge(j,i)
+	return g
+
+nx.DiGraph.get_transpose = get_transpose
+
+def get_all_scc(Graph):
+	stack = []
+	visited = [False]*Graph.number_of_nodes()
+	for i in range(Graph.number_of_nodes()):
+		if visited[i] == False:
+			fill_order(Graph, i, visited, stack)
+
+	# Create reversed graph
+	gr = get_transpose(Graph)
+	sccs = []
+
+	# Mark all nodes as not visited (For second DFS)
+	visited = [False]*len((Graph.nodes))
+
+	# Process in order defined by the stack
+	while stack:
+		i = stack.pop()
+		if not visited[i]:
+			sccs = gr.dfs_util(Graph, i, visited, sccs)
+			print("Gave every scc to you")
+			return sccs
+
+# Use it on the given graph.
+# This code is contributed by Neelam Yadav.
+
+nx.DiGraph.generate_all_scc = get_all_scc
 
 #**************************************************************************************************************
 #Details original

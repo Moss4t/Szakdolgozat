@@ -1,0 +1,6 @@
+hozza irodalom SYNASC2020 2.oldal bal alul.
+
+
+Is there an algorithm to find out which direction an edge is pointing to?
+
+I am working with [NetworkX DirectedGraphs](https://networkx.org/documentation/stable/index.html) in Python. 
