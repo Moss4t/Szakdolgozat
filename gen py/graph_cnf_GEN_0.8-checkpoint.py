@@ -77,16 +77,16 @@ def simple_cycles(G):
 
 # CODE ABOVE is networkx original implementation
 
-N=8 #Number of sensors
+N=6 #Number of sensors
 
 Scope = 10 #Homogenous sensor nodes Scope
 MinScopeRange = 7
-MaxScopeRange = 17
-rangeX = (25, 45)
-rangeY = (25, 45)
+MaxScopeRange = 37
+rangeX = (25, 65)
+rangeY = (25, 65)
 
-isDraw = False
-isSave = False
+isDraw = True
+isSave = True
 
 scopeRad = (MinScopeRange, MaxScopeRange) #Scope interval - random sugar
 NodeTypes = False #homogeneous or heterogeneous True = homogenius False=heterogeneus
@@ -163,7 +163,7 @@ if (isDraw):
 kloz = 0
 edges = []
 # Generating graph & cnf file
-for i in range(1,N+1):
+""" for i in range(1,N+1):
 	clause.append(i)
 	for j in range(1,N+1):
 		x1,y1 = pos[i]
@@ -186,6 +186,12 @@ for i in range(1,N+1):
 		clauseSet.append(clause)
 	clause = []
 	creal = []
+ """
+edges.append((1,0))
+edges.append((0,2))
+edges.append((0,3))
+edges.append((2,1))
+edges.append((3,4))
 
 g = nx.DiGraph(edges)
 list(nx.simple_cycles(g))
@@ -193,7 +199,7 @@ list(nx.simple_cycles(g))
 #**************************************************************************************************************
 #Weak Model elkepzeles
 #**************************************************************************************************************
-'''
+''' define the weak model
 A semi-connected graph is a graph that for each pair of vertices u,v,
 	there is either a path from u to v or a path from v to u.
 	Give an algorithm to test if a graph is semi-connected.
@@ -240,14 +246,16 @@ def weak_model_gen(G):
 		print(next(iter(sccStack)))
 		for x in sccs:
 			neibrs = [nx.neighbors(copyg, x)]
+			#? successors
 			# az eredeti gráfban kéne megnézni, hogy egy scc melyik irányban van a másikhoz képest.
 			if x == 0:
 				new_nodes.append((x, neibrs))
+			#? predecessors
 			else:
 				new_nodes.append((neibrs, x))
 		copyg.remove_node()
 
-	"""
+	""" egyszerű wm leírás
 	Kigyűjtjük az scc-ket.
 		Bonyolultakat is kellene (Amíg van scc: ...), mert
 		a-b kör, b-c kör. akkor lehet küldeni üzenetet a>b>c>b>a>...
@@ -435,9 +443,9 @@ if (isSave):
 #**************************************************************************************************************
 
 isStrConn = nx.is_strongly_connected(g)
-#print("G is strongly connected? " +str(isStrConn))
-
-weak_model_gen(g)
+print("G is strongly connected? " +str(isStrConn))
+copyG = type(g)(g)
+print(nx.condensation(copyG))
 
 #**************************************************************************************************************
 #Strong model
