@@ -41,7 +41,7 @@ def simple_cycles(G):
 		startnode = scc.pop()
 		# Processing node runs "circuit" routine from recursive version ( recursive version = teljessen másik verzió/implementációból)
 		path = [startnode]
-		blocked = set() # vertex: blocked from search?
+		blocked = set() # vertex: blocked from search? Maybe visited?
 		closed = set() # nodes involved in a cycle
 		blocked.add(startnode)
 		B = defaultdict(set) # graph portions that yield no elementary circuit
