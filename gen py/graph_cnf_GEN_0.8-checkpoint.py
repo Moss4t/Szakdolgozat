@@ -1,4 +1,5 @@
 from collections import defaultdict
+from operator import neg
 import matplotlib
 matplotlib.use('TkAgg')
 #import matplotlib.pyplot as plt
@@ -112,7 +113,7 @@ WMclauseSet = []
 
 
 #Directed graph
-g = nx.DiGraph()
+# g = nx.DiGraph()
 
 # Figure properties
 if (isDraw):
@@ -133,7 +134,7 @@ if (isDraw):
 #**************************************************************************************************************
 
 
-for i in range(1,N+1):
+""" for i in range(1,N+1):
 	x = float(rnd.randrange(*rangeX))
 	y = float(rnd.randrange(*rangeY))
 	positions = (x,y)
@@ -154,7 +155,7 @@ for i in range(1,N+1):
 #These comments are not deleted, what if you ever need it...
 if (isDraw):
 	nx.draw(g,pos, with_labels=True)
-	pylab.title('Sensor nodes')
+	pylab.title('Sensor nodes') """
 
 #**************************************************************************************************************
 #Strong Model-VALID
@@ -194,7 +195,7 @@ edges.append((2,1))
 edges.append((3,4))
 
 g = nx.DiGraph(edges)
-print(list(nx.simple_cycles(g)))
+# print(list(nx.simple_cycles(g)))
 
 #**************************************************************************************************************
 #Weak Model elkepzeles
@@ -248,43 +249,46 @@ def weak_model_gen(G):
 		scc_count += 1
 		for scc_elem in scc_Cycle:
 			negative_literals.append(-scc_elem) 	#! neg literal
-			neibrs = [nx.neighbors(Graph, scc_elem)] #? lehet hogy nem kell a szomszédokat is kigyűjteni, elég a leszármazottait ?
-			for neighbour in neibrs:
-				adj = nx.descendants(Graph, Graph.nodes(neighbour)) #? descendants set-et ad vissza.
-				for a in adj:
-					if a != scc_elem:
-						edges.append((scc_count, neighbour))
-						exitpoints.append(neighbour)	#! pos literal
+			neibrs = [ des for des in nx.descendants(Graph, scc_elem)] #? mióta fordult meg az iránya? 4-ből indul és éri el a többi részt.
+			while neibrs: #TODO: Ez itt problémás még. Valahogy a descendants [4, 3, 2, 1], [4, 3, 2, 0], [4, 3, 1, 0] adja (igen 3 scc van. De ez többször megy végig)
+				neighbour = neibrs.pop()
+				if neighbour != scc_elem:
+					edges.append((scc_count, neighbour))
+					exitpoints.append(neighbour)	#! pos literal
 		print(negative_literals)
 		print(exitpoints)
-		all_clauses.append((negative_literals, exitpoints))
+		#TODO: valahogy a file-ba jobb kiíratást. Nem listát írjon
+		for i in negative_literals:
+			all_clauses.append(i)
+		for i in exitpoints:
+			all_clauses.append(i)
 		negative_literals = []
 		exitpoints = []
 
 	wm = nx.DiGraph(edges)
-	index = []
 	isDAG = nx.is_directed_acyclic_graph(wm)
 	print("Is it a DAG? " + str(isDAG))
 	print("Is it semiconnected? " + str(nx.is_semiconnected(wm)))
 	if(isDAG):
-		index.append(nx.topological_sort(wm))
-	for i in index:
-		print(i)
-		edges.append((i,nx.neighbors(wm,i)))
-	
+		wm = nx.topological_sort(wm)
 	print(wm)
+	print(list(wm))
 
-	if isSave:
+	# if isDraw:
+	if True:
+		pylab.savefig(str(N)+"_"+str(g.number_of_edges())+"_"+str("%.2f" % float(graph_dens))+"_WM.png")
+	# if isSave:
 		file_wm = open(str(N)+"_"+str(g.number_of_edges())+"_"+str("%.2f" % float(graph_dens))+"_WM.cnf", "w")
 		file_wm.write('p cnf ')			#header
 		file_wm.write('%s ' % N)
-		file_wm.write('%s ' % str(all_clauses.count))
+		file_wm.write('%s ' % str(len(all_clauses)))
 		file_wm.write('\n')				#header vege
 
+		#TODO: valahogy a file-ba jobb kiíratást. Nem listát írjon
+		# jelenleg []-ba rakja bele
 		print("\nTo file: ", sep='')
-		for i in (negative_literals, exitpoints):
-			print(i, sep='')
-			file_wm.write('%s ' % i)
+		print(all_clauses)
+		file_wm.write('%s ' % str(all_clauses))
 		file_wm.write('%s\n' % 0)
 
  		# Fekete és fehér hozzárendelés
@@ -383,7 +387,7 @@ print("Number of edges: " , g.number_of_edges())
 print(" Graph density : %.2f (Coleman and More 1983)." % (graph_dens))
 
 if (isSave):
-	pylab.savefig(str(N)+"_"+str(g.number_of_edges())+"_"+str(float(graph_dens))+".png")
+	pylab.savefig(str(N)+"_"+str(g.number_of_edges())+"_"+str("%.2f" % float(graph_dens))+"_base.png")
 
 #**************************************************************************************************************
 # Details 1.0 - is_strongly_connected?????
@@ -412,7 +416,7 @@ else:
 		pylab.title('Communication graph - optimalized')
 		nx.draw(g,with_labels=True)
 	if (isSave):
-		pylab.savefig(str(N)+"_"+str(g.number_of_edges())+"_"+str("%.2f" % float(graph_dens))+".png")
+		pylab.savefig(str(N)+"_"+str(g.number_of_edges())+"_"+str("%.2f" % float(graph_dens))+"_SM.png")
 		f_sm = open(str(N)+"_"+str(g.number_of_edges())+"_"+str("%.2f" % float(graph_dens))+"_SM.cnf", "w")
 		f_sm.write('p cnf ')			#header
 		f_sm.write('%s ' % N)
