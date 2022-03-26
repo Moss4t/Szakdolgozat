@@ -9,3 +9,10 @@ If I have an edge between two strongly connected component (scc), or just two no
 Dokumentáció:
 5-10 soros kódrészletet leírni mit csinál.
 kiegészíteni a saját dolgommal. A kör keresés gyorsítás (a java csflock megoldóban kellene csinálni)
+
+Weak model in python: hu
+Ahhoz hogy a cnf fájlunk előálljon, ahhoz kell literálokat alkalmazni. Minden scc-t eltárolunk egy (NNP-ben? és ha több kimenet van? akkor már nem NNP.) halmaz negatív literál formájában. Majd hozzá adjuk az scc minden szomszédját.
+És ez tökéletesen jó így (szomszéd a halmazhoz hozzá fűzve), mert csak kifele mutathat nyíl, ahol tudja a szomszédait. Ő tudja ki a szomszédja, mert rá mutat. (remélem az nx.neighbours így működik) Ezzel megkapjuk a gyenge modell klózát (neg a, neg b, c) = (scc, szomszéd)
+
+Synasc2020-as plakáton az első ábrán látható gráfból a példa. Ha a és b kör, b-nek kötelessége c-be vagy d-be küldenie az üzenetet, amit a-tól kapott. Klózzal (neg a, neg b, c, d)
+És megkaptuk a gyenge modellünket :)
