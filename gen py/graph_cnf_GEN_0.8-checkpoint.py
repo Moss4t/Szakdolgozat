@@ -85,11 +85,11 @@ MaxScopeRange = 37
 rangeX = (25, 65)
 rangeY = (25, 65)
 
-isDraw = True
-isSave = True
+isDraw = False
+isSave = False
 
 scopeRad = (MinScopeRange, MaxScopeRange) #Scope interval - random sugar
-NodeTypes = False #homogeneous or heterogeneous True = homogenius False=heterogeneus
+NodeTypes = False #homogeneous or heterogeneous; True= homogenius False= heterogeneus
 if NodeTypes == True:
 	print("*****Undirected graph******")
 else:
@@ -194,7 +194,7 @@ edges.append((2,1))
 edges.append((3,4))
 
 g = nx.DiGraph(edges)
-list(nx.simple_cycles(g))
+print(list(nx.simple_cycles(g)))
 
 #**************************************************************************************************************
 #Weak Model elkepzeles
@@ -227,6 +227,7 @@ Side note: Viszont topológiai rendezés után már nem lesz félig össze függ
 '''
 #stack-ben csak egyszer szerepelhet egy elem. Ezért lehetséges. Nem ismétlődnek az scc elemei.
 
+
 def weak_model_gen(G):
 	OK = nx.is_strongly_connected(G) & nx.is_semiconnected(G)
 	if not OK:
@@ -234,26 +235,66 @@ def weak_model_gen(G):
 		# print("Exited method: weak_model_gen, bad_args")
 		# raise SystemExit
 
-	print(get_all_scc(G))
+	negative_literals = []
+	exitpoints = []
+	all_clauses = []
+	edges = []
+	scc_count = 0
+	Graph = nx.DiGraph(G.edges())
+	sccStack = [scc for scc in nx.strongly_connected_components(Graph) if len(scc) > 1]
 
-	copyg = type(G)(G)
-	while nx.number_strongly_connected_components(copyg) != 0:
-		sccStack = [ scc for scc in nx.strongly_connected_components(copyg) if len(scc) > 1]
-		sccs = [get_all_scc(G)]
-		new_nodes = []
+	while sccStack:
+		scc_Cycle = sccStack.pop()
+		scc_count += 1
+		for scc_elem in scc_Cycle:
+			negative_literals.append(-scc_elem) 	#! neg literal
+			neibrs = [nx.neighbors(Graph, scc_elem)] #? lehet hogy nem kell a szomszédokat is kigyűjteni, elég a leszármazottait ?
+			for neighbour in neibrs:
+				adj = nx.descendants(Graph, Graph.nodes(neighbour)) #? descendants set-et ad vissza.
+				for a in adj:
+					if a != scc_elem:
+						edges.append((scc_count, neighbour))
+						exitpoints.append(neighbour)	#! pos literal
+		print(negative_literals)
+		print(exitpoints)
+		all_clauses.append((negative_literals, exitpoints))
+		negative_literals = []
+		exitpoints = []
 
-		print(sccStack.pop())
-		print(next(iter(sccStack)))
-		for x in sccs:
-			neibrs = [nx.neighbors(copyg, x)]
-			#? successors
-			# az eredeti gráfban kéne megnézni, hogy egy scc melyik irányban van a másikhoz képest.
-			if x == 0:
-				new_nodes.append((x, neibrs))
-			#? predecessors
-			else:
-				new_nodes.append((neibrs, x))
-		copyg.remove_node()
+	wm = nx.DiGraph(edges)
+	index = []
+	isDAG = nx.is_directed_acyclic_graph(wm)
+	print("Is it a DAG? " + str(isDAG))
+	print("Is it semiconnected? " + str(nx.is_semiconnected(wm)))
+	if(isDAG):
+		index.append(nx.topological_sort(wm))
+	for i in index:
+		print(i)
+		edges.append((i,nx.neighbors(wm,i)))
+	
+	print(wm)
+
+	if isSave:
+		file_wm = open(str(N)+"_"+str(g.number_of_edges())+"_"+str("%.2f" % float(graph_dens))+"_WM.cnf", "w")
+		file_wm.write('p cnf ')			#header
+		file_wm.write('%s ' % N)
+		file_wm.write('%s ' % str(all_clauses.count))
+		file_wm.write('\n')				#header vege
+
+		print("\nTo file: ", sep='')
+		for i in (negative_literals, exitpoints):
+			print(i, sep='')
+			file_wm.write('%s ' % i)
+		file_wm.write('%s\n' % 0)
+
+ 		# Fekete és fehér hozzárendelés
+		for n in range(1, N+1):
+			file_wm.write('%s ' % n)
+		file_wm.write('%s\n' % 0)
+		for n in range(1, N+1):
+			file_wm.write('%s ' % -n)
+		file_wm.write('%s\n' % 0)
+		file_wm.close()
 
 	""" egyszerű wm leírás
 	Kigyűjtjük az scc-ket.
@@ -267,100 +308,6 @@ def weak_model_gen(G):
 	Össze kötjük
 		Iránynak merre? Legyen nem irányított? (undirected. Nem DAG? nem lehet topologiailag rendezni?)
 	Topológiailag rendezzük a csúcsokat.
-	"""
-
-	""" szarul, de működik.
-	visited = set()
-	scc_label = 1
-	edges = [G.edges()]
-	new_nodes = []
-	subGraph = nx.DiGraph(G.edges())
-	sccStack = [scc for scc in nx.strongly_connected_components(subGraph) if len(scc) > 1]
-
-	while sccStack:
-		scc_node = sccStack.pop()
-		for x in scc_node:
-			neibrs = [nx.neighbors(subGraph, x)]
-			for y in neibrs:
-				new_nodes.append((y, x))
-#				subGraph.remove_node(x) #töröltem minden csúcsot :)
-		print(new_nodes)
-		wm = nx.DiGraph(new_nodes)
-		new_nodes = []
-
-	isDAG = nx.is_directed_acyclic_graph(wm)
-	print("Is it a DAG? " + str(isDAG))
-	print("Connected everything: " + str(nx.is_semiconnected(wm)))
-	if(isDAG):
-		print(list(nx.topological_sort(wm)))
-	print(wm)
-#? **************************************************************************************************************
-		scc_node = []
-		new_nodes = []
-		pop_count = 0
-		# new_nodes.append([pop_count, szomszéd])
-
-		while sccStack:
-			print(list(edges))
-			print(list(new_nodes))
-			print(list(new_edges))
-			scc_node = sccStack.pop()
-
-			for x in scc_node:
-				neibrs = [nx.neighbors(subGraph, x)]
-				#? ugyan itt node van a neibrs-ben, attól még egy élet két node-al írok le
-				for y in neibrs:
-					if(y in scc_node):
-						edges.remove((x, y)) # töröljük, de akkor mi marad?
-					else:
-						new_nodes.append((y, x)) # belerakjuk a szomszédokat, de
-						# az scc elemeihez nézzük (x, y) nekünk pedig kell
-						# egy fix első node (fix, y szomszéddal)
-				# törölni köztük az éleket csak az scc-n belül
-				# majd vizsgálni, hogy melyik csúcsnak van még szomszédja
-				# a poppolt-adik elembe vissza rakni
-				# az scc bármely csúcsrára a szomszédos éleket
-				# majd ezt a poppolt-adik listát vissza adni mint élek listája
-			new_edges.append(new_nodes)
-			new_nodes = []
-			print("pop count: " + str(pop_count))
-			pop_count += 1 # why? hanyadik volt amit poppoltunk
-
-			# Ami ugye arra jó, hogy az új élek listájából egy új gráf
-			# már scc mentes legyen, ,ráeresztjük a topological oredrt
-			# és így már weak model lesz
-
-
-
-			scc = sccStack.pop()
-			for x in scc:
-				neibrs = [nx.neighbors(subG, x)]
-				while neibrs:
-					y = neibrs.pop()
-					if y not in scc: #ha nem az scc része az x
-						edges.append((scc_node, list(y))) #akkor az egy kilépési pont.
-				subG.remove_node(x)
-			scc_node+=1 # ettől azért jobban kéne új node-okat bevezetni
-		# scc-ben az összes élt kiveszem
-		# bármelyiknek van szomszédja, azt átadom egy kiemelt csúcsnak
-		# csak a kiemelt csúcsot tartom meg, a többit törlöm
-		# lehet gyorsítani. Ha már nincs éle egy csúcsnak az eredeti scc-ből
-		# akkor töröljük.
-
-		if (isDraw):
-		pylab.figure()
-		pylab.plot()
-		pylab.title('Communication graph - weak model')
-		nx.draw(subGraph,with_labels=True)
-		#plt.show()
-		if (isSave):
-			pylab.savefig(str(N)+"_"+str(subGraph.number_of_edges())+"_"+str("%.2f" % float(graph_dens))+".png")
-
-		isDAG = nx.is_directed_acyclic_graph(subG)
-		print("Is it a DAG? " + str(isDAG))
-		print(nx.is_semiconnected(subG)) #tudjuk tesztelni, h sikerült-e
-		if(isDAG):
-			wm = nx.topological_sort(wm)
 	"""
 
 # Python implementation of Kosaraju's algorithm to print all SCCs
@@ -446,6 +393,7 @@ isStrConn = nx.is_strongly_connected(g)
 print("G is strongly connected? " +str(isStrConn))
 copyG = type(g)(g)
 print(nx.condensation(copyG))
+weak_model_gen(copyG)
 
 #**************************************************************************************************************
 #Strong model
