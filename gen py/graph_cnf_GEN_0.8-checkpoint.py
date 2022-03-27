@@ -188,11 +188,11 @@ edges = []
 	clause = []
 	creal = []
  """
-edges.append((1,0))
-edges.append((0,2))
-edges.append((0,3))
 edges.append((2,1))
-edges.append((3,4))
+edges.append((1,3))
+edges.append((1,4))
+edges.append((3,2))
+edges.append((4,5))
 
 g = nx.DiGraph(edges)
 # print(list(nx.simple_cycles(g)))
@@ -248,20 +248,24 @@ def weak_model_gen(G):
 		scc_Cycle = sccStack.pop()
 		scc_count += 1
 		for scc_elem in scc_Cycle:
-			negative_literals.append(-scc_elem) 	#! neg literal
-			neibrs = [ des for des in nx.descendants(Graph, scc_elem)] #? mióta fordult meg az iránya? 4-ből indul és éri el a többi részt.
-			while neibrs: #TODO: Ez itt problémás még. Valahogy a descendants [4, 3, 2, 1], [4, 3, 2, 0], [4, 3, 1, 0] adja (igen 3 scc van. De ez többször megy végig)
+			negative_literals.append(-scc_elem)		#! neg literal
+			neibrs = [ des for des in nx.descendants(Graph, scc_elem)]
+			while neibrs:
 				neighbour = neibrs.pop()
 				if neighbour != scc_elem:
 					edges.append((scc_count, neighbour))
 					exitpoints.append(neighbour)	#! pos literal
+		#exitpoints.append(0.1)
+		#todo hol van egy klóz vége? oda
 		print(negative_literals)
 		print(exitpoints)
-		#TODO: valahogy a file-ba jobb kiíratást. Nem listát írjon
+		# [-1, -2, -3] [5, 4, 3, 2, 5, 4, 3, 1, 5, 4, 2, 1]
 		for i in negative_literals:
 			all_clauses.append(i)
 		for i in exitpoints:
 			all_clauses.append(i)
+		all_clauses.append(0.1)
+
 		negative_literals = []
 		exitpoints = []
 
@@ -270,6 +274,7 @@ def weak_model_gen(G):
 	print("Is it a DAG? " + str(isDAG))
 	print("Is it semiconnected? " + str(nx.is_semiconnected(wm)))
 	if(isDAG):
+		#Todo: az éleket a kiválogatás után hozzá adni. És az kell a fileba.
 		wm = nx.topological_sort(wm)
 	print(wm)
 	print(list(wm))
@@ -284,12 +289,13 @@ def weak_model_gen(G):
 		file_wm.write('%s ' % str(len(all_clauses)))
 		file_wm.write('\n')				#header vege
 
-		#TODO: valahogy a file-ba jobb kiíratást. Nem listát írjon
-		# jelenleg []-ba rakja bele
-		print("\nTo file: ", sep='')
-		print(all_clauses)
-		file_wm.write('%s ' % str(all_clauses))
-		file_wm.write('%s\n' % 0)
+		print("\nTo file: ", end='')
+		for i in all_clauses:
+			if i != 0.1:
+				file_wm.write('%s ' % str(i))
+				print(str(i) + ' ', end='')
+			else:
+				file_wm.write('%s\n' % 0)
 
  		# Fekete és fehér hozzárendelés
 		for n in range(1, N+1):
