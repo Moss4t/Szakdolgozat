@@ -206,7 +206,7 @@ A semi-connected graph is a graph that for each pair of vertices u,v,
 	Give an algorithm to test if a graph is semi-connected.
  Given a graph G=(V,E)
 	-Find strongly connected components in G
-	-Replace each SCC with a vertex, G become a directed acyclic graph (DAG)	 #corrected acrylic
+	-Replace each SCC with a vertex, G become a directed acyclic graph (DAG)
 	-Topological sort on DAG
 	-If there is an edge between each pair of vertices(v[i],v[i+1]) then
 	the given graph is semi-connected
@@ -219,62 +219,66 @@ Egy félig összefüggő gráf olyan gráf, ami
 	- Cseréljük ki az összes scc-t egy csúcsra, és G
 	egy irányított aciklikus gráf (DAG) lett.
 	- Topológiailag rendezzük a kapott DAG-ot.
-
--? Ha van él minden adott csúcs közt (v[i], v[i+1]), akkor az adott gráf
-félig összefüggő.
-Side note: Viszont topológiai rendezés után már nem lesz félig össze függő,
- hiszen lesz olyan él, ami levél elem lesz. Ha össze lene kötve teljesen,
- akkor pedig az egész scc-t alkotna.
+	- Ha van él minden adott csúcs közt (v[i], v[i+1]), akkor az adott gráf
+	félig összefüggő.
+	Side note: Legyen G-nek az éle, amivel össze van kötve = (v[i], v[i+1]).
 '''
 #stack-ben csak egyszer szerepelhet egy elem. Ezért lehetséges. Nem ismétlődnek az scc elemei.
 
 
 def weak_model_gen(G):
-	OK = nx.is_strongly_connected(G) & nx.is_semiconnected(G)
-	if not OK:
-		print("Not scc, or semiconnection")
+	#? nem tudom biztosra, hogy kéne előre vizsgálni.
+	# OK = nx.is_strongly_connected(G) & nx.is_semiconnected(G)
+	# if not OK:
+	# 	print("Not scc, or semiconnection")
 		# print("Exited method: weak_model_gen, bad_args")
 		# raise SystemExit
 
 	negative_literals = []
 	exitpoints = []
 	all_clauses = []
-	edges = []
-	scc_count = 0
+	edges_plus = []
+	edges = [G.edges()]
+	# Todo: scc_count legyen a len(G.nodes()), mint alap érték, hogy nagyobb legyen bármelyik node számánál az scc-t helyettesítő node száma.
+	# Todo: Lehet jobb, biztosabb megoldást kell erre kitalálni.
+	scc_count = len(G.nodes())
 	Graph = nx.DiGraph(G.edges())
 	sccStack = [scc for scc in nx.strongly_connected_components(Graph) if len(scc) > 1]
-
+	# Todo: edges-nek átadni az összes élt. Az scc-k éleit törölni és kicserélni a scc_count + exitpoint kimenetre
 	while sccStack:
 		scc_Cycle = sccStack.pop()
 		scc_count += 1
 		for scc_elem in scc_Cycle:
 			negative_literals.append(-scc_elem)		#! neg literal
-			neibrs = [ des for des in nx.descendants(Graph, scc_elem)]
+			neibrs = [ des for des in nx.descendants_at_distance(Graph, scc_elem, 1)]
+			print("next kör:" + str(scc_Cycle.next()))
+			print("next szomszéd:" + str(neibrs)) #todo vagy BFS helyett.
 			while neibrs:
-				neighbour = neibrs.pop()
-				if neighbour != scc_elem:
-					edges.append((scc_count, neighbour))
-					exitpoints.append(neighbour)	#! pos literal
-		#exitpoints.append(0.1)
-		#todo hol van egy klóz vége? oda
+				neighbor = neibrs.pop()
+				if neighbor != scc_elem: # Todo: ez egy cikluson belül van, mindig igaz, mert sose a szomszédjához hasonlítja. Kéne egy BFS?
+					# print("scc_count: %i, neighbor: %i" % (scc_count, neighbor))
+					edges_plus.append((scc_count, neighbor))
+					exitpoints.append(neighbor)	#! pos literal
+				edges.remove((scc_elem, neighbor))
+				# print("Neibours %i. edge: " % neighbor + str(edges))
+			exitpoints.append(0.1)
+			for i in negative_literals:
+				all_clauses.append(i)
+			for i in exitpoints:
+				all_clauses.append(i)
 		print(negative_literals)
 		print(exitpoints)
-		# [-1, -2, -3] [5, 4, 3, 2, 5, 4, 3, 1, 5, 4, 2, 1]
-		for i in negative_literals:
-			all_clauses.append(i)
-		for i in exitpoints:
-			all_clauses.append(i)
-		all_clauses.append(0.1)
 
 		negative_literals = []
 		exitpoints = []
 
-	wm = nx.DiGraph(edges)
+	wm = nx.DiGraph(edges_plus)
 	isDAG = nx.is_directed_acyclic_graph(wm)
 	print("Is it a DAG? " + str(isDAG))
 	print("Is it semiconnected? " + str(nx.is_semiconnected(wm)))
 	if(isDAG):
-		#Todo: az éleket a kiválogatás után hozzá adni. És az kell a fileba.
+		#! amíg hibás a kijövő adat, addig nem lesz jó ez se jó.
+		# Todo: az éleket a kiválogatás után hozzá adni. És az kell a fileba.
 		wm = nx.topological_sort(wm)
 	print(wm)
 	print(list(wm))
@@ -402,7 +406,7 @@ if (isSave):
 isStrConn = nx.is_strongly_connected(g)
 print("G is strongly connected? " +str(isStrConn))
 copyG = type(g)(g)
-print(nx.condensation(copyG))
+# print(nx.condensation(copyG))
 weak_model_gen(copyG)
 
 #**************************************************************************************************************
