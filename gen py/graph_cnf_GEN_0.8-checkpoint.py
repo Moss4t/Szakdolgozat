@@ -1,5 +1,4 @@
 from collections import defaultdict
-from operator import neg
 import matplotlib
 matplotlib.use('TkAgg')
 #import matplotlib.pyplot as plt
@@ -42,11 +41,11 @@ def simple_cycles(G):
 		startnode = scc.pop()
 		# Processing node runs "circuit" routine from recursive version ( recursive version = teljessen másik verzió/implementációból)
 		path = [startnode]
-		blocked = set() # vertex: blocked from search? Maybe visited?
+		blocked = set() # vertex: blocked from search? # Maybe visited?
 		closed = set() # nodes involved in a cycle
 		blocked.add(startnode)
 		B = defaultdict(set) # graph portions that yield no elementary circuit
-		stack = [(startnode, list(sccG[startnode]))] # sccG gives comp neibrs # sccGraph gives component numbers
+		stack = [(startnode, list(sccG[startnode]))] # sccG gives comp neibrs # sccGraph gives component neighbors
 		while stack:
 			thisnode, neibrs = stack[-1]
 			if neibrs:
@@ -221,7 +220,12 @@ Egy félig összefüggő gráf olyan gráf, ami
 	- Topológiailag rendezzük a kapott DAG-ot.
 	- Ha van él minden adott csúcs közt (v[i], v[i+1]), akkor az adott gráf
 	félig összefüggő.
-	Side note: Legyen G-nek az éle, amivel össze van kötve = (v[i], v[i+1]).
+	Side note: Az algráf minden éle legyen G-nek az éle, amivel össze van kötve = (v[i], v[i+1]).
+
+	
+	# Johnson algoritmusának szüksége van a csomópontok rendezésére. Az erősen összetett komponensek által megadott tetszőleges sorrendet rendelünk a csúcsokhoz.
+	# Nem szükséges a rendezés számontartása, mivel minden csomópont feldolgozás után törölve lesz. Valamint az eredeti gráfot elmentjük, hogy változtathassuk. 
+	# Csak az éleket vegyük ki, mert nincs szükség a tulajdonságaira.
 '''
 #stack-ben csak egyszer szerepelhet egy elem. Ezért lehetséges. Nem ismétlődnek az scc elemei.
 
@@ -238,29 +242,33 @@ def weak_model_gen(G):
 	exitpoints = []
 	all_clauses = []
 	edges_plus = []
-	edges = [G.edges()]
+	edges = type(G)(G.edges())
+	print("minden él:", edges.edges())
 	# Todo: scc_count legyen a len(G.nodes()), mint alap érték, hogy nagyobb legyen bármelyik node számánál az scc-t helyettesítő node száma.
 	# Todo: Lehet jobb, biztosabb megoldást kell erre kitalálni.
 	scc_count = len(G.nodes())
 	Graph = nx.DiGraph(G.edges())
 	sccStack = [scc for scc in nx.strongly_connected_components(Graph) if len(scc) > 1]
-	# Todo: edges-nek átadni az összes élt. Az scc-k éleit törölni és kicserélni a scc_count + exitpoint kimenetre
 	while sccStack:
 		scc_Cycle = sccStack.pop()
 		scc_count += 1
-		for scc_elem in scc_Cycle:
-			negative_literals.append(-scc_elem)		#! neg literal
-			neibrs = [ des for des in nx.descendants_at_distance(Graph, scc_elem, 1)]
-			print("next kör:" + str(scc_Cycle.next()))
-			print("next szomszéd:" + str(neibrs)) #todo vagy BFS helyett.
-			while neibrs:
-				neighbor = neibrs.pop()
-				if neighbor != scc_elem: # Todo: ez egy cikluson belül van, mindig igaz, mert sose a szomszédjához hasonlítja. Kéne egy BFS?
-					# print("scc_count: %i, neighbor: %i" % (scc_count, neighbor))
-					edges_plus.append((scc_count, neighbor))
-					exitpoints.append(neighbor)	#! pos literal
-				edges.remove((scc_elem, neighbor))
-				# print("Neibours %i. edge: " % neighbor + str(edges))
+		for scc_elem_x in scc_Cycle:
+			negative_literals.append(-scc_elem_x)		#! neg literal
+			dads_one_far = [ des for des in nx.descendants_at_distance(Graph, scc_elem_x, 1)]
+			print("next szomszéd:", dads_one_far)
+			while dads_one_far:
+				dad_element = dads_one_far.pop()
+				for scc_elem_y in scc_Cycle:
+					if dad_element != scc_elem_y:
+						print("scc: %i, szomszédja: %i" % (scc_count, dad_element))
+						edges_plus.append((scc_count, dad_element))
+						exitpoints.append(dad_element)	#! pos literal
+						break
+					
+					print("Törölt él:", (scc_elem_x, dad_element))
+					# scc_Cycle.remove(scc_elem_x)
+					edges.remove_edge(scc_elem_x, dad_element)
+				# print("Neighbors %i. edge: " % dad_element + str(edges))
 			exitpoints.append(0.1)
 			for i in negative_literals:
 				all_clauses.append(i)
@@ -271,6 +279,9 @@ def weak_model_gen(G):
 
 		negative_literals = []
 		exitpoints = []
+
+	# Todo: edges-nek átadni az összes élt. Az scc-k éleit törölni és kicserélni a scc_count + exitpoint kimenetre
+	# edges és edges_plus-t rendezni. Hogy jó  wm  legyen tárolva.
 
 	wm = nx.DiGraph(edges_plus)
 	isDAG = nx.is_directed_acyclic_graph(wm)
@@ -407,7 +418,7 @@ isStrConn = nx.is_strongly_connected(g)
 print("G is strongly connected? " +str(isStrConn))
 copyG = type(g)(g)
 # print(nx.condensation(copyG))
-weak_model_gen(copyG)
+weak_model_gen(g)
 
 #**************************************************************************************************************
 #Strong model

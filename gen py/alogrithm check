@@ -1,0 +1,39 @@
+import networkx as nx
+
+def weak_model_gen(G):
+    negative_literals = []
+    exitpoints = []
+    all_clauses = []
+    edges = []
+    scc_count = 0
+    Graph = nx.DiGraph(G.edges())
+    sccStack = [scc for scc in nx.strongly_connected_components(Graph) if len(scc) > 1]
+
+    while sccStack:
+            a = sccStack.pop()
+            scc_count += 1 # 1 marad végig a teszt esetben, mert csak egy scc van
+            for j in a:
+                negative_literals.append(-j)		#! neg literal
+                aj = [ des for des in nx.descendants(Graph, j)]
+                while aj:
+                    b = aj.pop()
+                    if b != j:
+                        edges.append((scc_count, b)) #wm-hez
+                        exitpoints.append(b)	#! pos literal
+                exitpoints.append(0.1)
+                for i in negative_literals:
+                    all_clauses.append(i)
+                for i in exitpoints:
+                    all_clauses.append(i)
+            print(negative_literals)
+            print(exitpoints)
+            print(all_clauses)
+
+""" 
+D-ből csinálunk logikai formulát.
+D = (Csúcsok, élek) = (csúcsok, rendezett csúcsok)
+D = ({1,2,3,4,5}, {(1,3),(1,4),(3,2),(2,1),(4,5)})
+!megszorítás: (-2,-1,-3,4)
+maradék literálok: ((-1,4), (-4,5))
+edges-be kéne ({(1,4), (4,5)})
+"""
