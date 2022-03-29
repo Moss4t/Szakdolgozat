@@ -1,16 +1,5 @@
-import collections
 from collections import defaultdict
 import networkx as nx
-
-def _main():
-    edges = []
-    edges.append((2,1))
-    edges.append((1,3))
-    edges.append((1,4))
-    edges.append((3,2))
-    edges.append((4,5))
-
-    g = nx.DiGraph(edges)
 
 #**************************************************************************************************************
 #Weak Model elkepzeles
@@ -37,15 +26,24 @@ Egy félig összefüggő gráf olyan gráf, ami
 	- Ha van él minden adott csúcs közt (v[i], v[i+1]), akkor az adott gráf
 	félig összefüggő.
 	Side note: Az algráf minden éle legyen G-nek az éle, amivel össze van kötve = (v[i], v[i+1]).
-
-	
-	# Johnson algoritmusának szüksége van a csomópontok rendezésére. Az erősen összetett komponensek által megadott tetszőleges sorrendet rendelünk a csúcsokhoz.
-	# Nem szükséges a rendezés számontartása, mivel minden csomópont feldolgozás után törölve lesz. Valamint az eredeti gráfot elmentjük, hogy változtathassuk. 
-	# Csak az éleket vegyük ki, mert nincs szükség a tulajdonságaira.
 '''
 
 def weak_model_gen(G):
-    print("Hello World!")
+    """ 
+     The condensation graph C of G. The node labels are integers corresponding to the index of the component in the list of strongly connected components of G.
+     C has a graph attribute named 'mapping' with a dictionary mapping the original nodes to the nodes in C to which they belong. 
+     Each node in C also has a node attribute 'members' with the set of original nodes in G that form the SCC that the node in C represents """
+    # simple-el sccket kigyűjteni, azokat klózokba.
+    all_scc = simple_cycles(G)
+    for cycle,  in all_scc:
+        for element in cycle:
+            negative = -element
+            #?posotive = element
+    dag_graph = type(G)(nx.condensation(G))
+    print("Before sort:",dag_graph)
+    print(dag_graph.edges())
+    dag_graph = nx.topological_sort(dag_graph)
+    print("After sort:",list(dag_graph))
 
 def _unblock(thisnode, blocked, B):
 	stack = {thisnode}
@@ -56,12 +54,18 @@ def _unblock(thisnode, blocked, B):
 			stack.update(B[node])
 			B[node].clear()
 
+# Todo: Ebbe bele rakni a klóz halmazok gyártását?
 def simple_cycles(G):
 	# Johnson's algorithm requires some ordering of the nodes.
 	# We assign the arbitrary ordering given by the strongly connected comps
 	# There is no need to track the ordering as each node removed as processed.
 	# Also we save the actual graph so we can mutate it. We only take the
-	# edges because we do not want to copy edge and node attributes here.
+	# edges because we do not want to copy edge and node attributes here.	
+
+	# Johnson algoritmusának szüksége van a csomópontok rendezésére. Az erősen összetett komponensek által megadott tetszőleges sorrendet rendelünk a csúcsokhoz.
+	# Nem szükséges a rendezés számontartása, mivel minden csomópont feldolgozás után törölve lesz. Valamint az eredeti gráfot elmentjük, hogy változtathassuk. 
+	# Csak az éleket vesszük ki, mert nincs szükség a tulajdonságaira.
+
 	subG = type(G)(G.edges())
 	sccStack = [scc for scc in nx.strongly_connected_components(subG) if len(scc) > 1]
 
@@ -113,3 +117,18 @@ def simple_cycles(G):
 		# done processing this node
 		H = subG.subgraph(scc) # make smaller to avoid work in SCC routine
 		sccStack.extend(scc for scc in nx.strongly_connected_components(H) if len(scc) > 1)
+
+def main():
+    edges = []
+    edges.append((2,1))
+    edges.append((1,3))
+    edges.append((1,4))
+    edges.append((3,2))
+    edges.append((4,5))
+    # edges.append((5,4))
+
+    g = nx.DiGraph(edges)
+    
+    weak_model_gen(g)
+
+main()

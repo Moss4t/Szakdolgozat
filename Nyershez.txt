@@ -1,0 +1,11 @@
+Szakdolgozat alap
+Téma, kész részlet amiből indulok, elmagyarázom miből tevődik össze, hogyan kapcsolódnak egymáshoz, ezek az elemek hogyan alkotnak egységet, mi a célja a működésének.
+Leírom milyen környezetben milyen programban lehet írni, futás során milyen bemenetek vannak, mit végez el a programrészlet, milyen eredményt ad.
+
+Amit én készen bevettem, milyen feltételek, és körülmények közt tudom hasznosítani. Ezután az én feladatom innen kezdődik, amikor a működését feltérkepeztem, kipróbáltam, láttam az eredményét
+
+Akkor jött, h ugyan azon a programnyelven, hogyan tudom a már meglévő részletet továbbfejleszteni úgy, hogy kísérletezek a különböző lehetőségek között. Mit lehet a részletek felhasználásával, tovább fejleszteni. Vagy hasonló környezetben hasznosítani. Milyen rendszer része ként lehet valahova be integrálni.
+
+Amikor kész.
+Kitekintés: a tovább fejlesztett részek felhasználási lehetiségei, hasznosságát, gyakorlati alkalmazási lehetőségeit hogyan lehet kiterjeszteni. (hálózati topológiákhoz, stb)
+Milyen prognyelv, milyen feltételek, gazdasági tényezők, személyi feltételek szükségesek, hogy maga ami a program elkészül, bevezethető legyen, piacra dobható legyen.
