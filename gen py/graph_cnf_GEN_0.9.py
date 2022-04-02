@@ -27,23 +27,91 @@ Egy félig összefüggő gráf olyan gráf, ami
 	félig összefüggő.
 	Side note: Az algráf minden éle legyen G-nek az éle, amivel össze van kötve = (v[i], v[i+1]).
 '''
-
+#Todo: csinálj teszteket a tesztelő file-al
 def weak_model_gen(G):
-    """ 
-     The condensation graph C of G. The node labels are integers corresponding to the index of the component in the list of strongly connected components of G.
-     C has a graph attribute named 'mapping' with a dictionary mapping the original nodes to the nodes in C to which they belong. 
-     Each node in C also has a node attribute 'members' with the set of original nodes in G that form the SCC that the node in C represents """
-    # simple-el sccket kigyűjteni, azokat klózokba.
-    all_scc = simple_cycles(G)
-    for cycle,  in all_scc:
-        for element in cycle:
-            negative = -element
-            #?posotive = element
-    dag_graph = type(G)(nx.condensation(G))
-    print("Before sort:",dag_graph)
-    print(dag_graph.edges())
-    dag_graph = nx.topological_sort(dag_graph)
-    print("After sort:",list(dag_graph))
+	""" 
+	The condensation graph C of G. The node labels are integers corresponding to the index of the component in the list of strongly connected components of G.
+	C has a graph attribute named 'mapping' with a dictionary mapping the original nodes to the nodes in C to which they belong. 
+	Each node in C also has a node attribute 'members' with the set of original nodes in G that form the SCC that the node in C represents 
+	
+	A kondenzált C gráf G-ből. A csomópontok cimkéi számokkal vannak jelölve, a hozzájuk tartozó komponens indexével, az SCC-k listájából G-ből.
+	C-nek van egy gráf tulajdonsága 'mapping' néven, egy szótárral, ami feltérképezi az eredeti csomópontokat és a C-ben megfelelő csomópontokhoz rendeli.
+	Minden csomópontnak C-ben van egy tulajdonsága 'members' néven, ami az eredeti csomópontok halmazával G-ben, az eredeti SCC-hez tartozó csomópontokat 
+	a C-ben lévő csomópont reprezentállja."""
+	negative_literals = []
+	positive_literals = []
+	# Todo nehezebb? simple-el sccket kigyűjteni, azokat klózokba. Majd a maradék elemeket is.
+	""" all_scc = simple_cycles(G)
+	print("all scc")
+	for cycle in all_scc:
+		for element in cycle:
+			print(element) 
+			negative = -element
+			posotive = element"""
+	# Todo egyszerű verzió: condens-el map, és members segítségével klózokat gyártani.
+	# after sort itarate through list. Each node check in the dagg : original, if original len() > 1, then add every member as negative literal, and then
+	# the exitpoint. Which should be the edge in the sorted list.
+	dagg = nx.condensation(G)
+	map = dagg.graph["mapping"]
+	mem = nx.get_node_attributes(dagg, "members")
+	print("mapping: ",map)
+	# {eredeti : dagg} dictben lévő node
+	# mapping:  {5: 0, 4: 1, 1: 2, 2: 2, 3: 2} 
+	# members:  {0: {5}, 1: {4}, 2: {1, 2, 3}}
+
+	prev = next(iter(mem.items()))
+	# while mem.items():
+	# 	ne = mem.pop(list(mem.items())[0])
+	# 	print(prev,ne)
+	
+	edges = list(dagg.edges())
+	# todo Összehasonlítani az élek szerint.
+	for x, y in mem.items():
+		ne = (x, y)
+		if (prev[0], x) in edges:
+			print("y")
+			# print("py", prev[1])
+			prev = ne
+		else:
+			print(edges)
+			print(prev[0], x)
+			prev = ne
+
+
+	
+	""" for i, j in mem.items():
+		if len(j) > 1:
+			for x in j:
+				print(-x)
+		else:
+			print(i) """
+
+	clause = []
+	# prev = list(mem.items())[0]
+			
+	# {dagg : eredeti} dictben lévő node-ok
+	# members:  {0: {5}, 1: {4}, 2: {1, 2, 3}}
+	
+	# todo rendezés előtt megcsinálni a klózokat. Utána rendezni, és a fileba sorrendben kiírni. 
+	# élekkel az eredetihez kötni a dagg elemei szerint. Utána a sorrend a dagg csúcsait rendezi. Ez alapján lehet a fileba a sorrnedet kiírni.
+	
+	"""
+	for el in edges:
+		for i in range(1, len(mem.items())):
+			print(i)
+			if (prev, i) == el:
+				prev """
+
+
+
+	print("Before sort:",dagg.nodes)
+	print(dagg.edges())
+	dagg = nx.topological_sort(dagg)
+	print("After sort:",list(dagg))
+	
+	# print(dagg.edges())
+	# result = {dagg['mapping'] : dagg['members']}
+	# print(str(dict(result)))
 
 def _unblock(thisnode, blocked, B):
 	stack = {thisnode}
@@ -119,16 +187,16 @@ def simple_cycles(G):
 		sccStack.extend(scc for scc in nx.strongly_connected_components(H) if len(scc) > 1)
 
 def main():
-    edges = []
-    edges.append((2,1))
-    edges.append((1,3))
-    edges.append((1,4))
-    edges.append((3,2))
-    edges.append((4,5))
-    # edges.append((5,4))
+	edges = []
+	edges.append((2,1))
+	edges.append((1,3))
+	edges.append((1,4))
+	edges.append((3,2))
+	edges.append((4,5))
+	# edges.append((5,4))
 
-    g = nx.DiGraph(edges)
-    
-    weak_model_gen(g)
+	g = nx.DiGraph(edges)
+	
+	weak_model_gen(g)
 
 main()
