@@ -1,4 +1,5 @@
 from collections import defaultdict
+from itertools import tee, chain
 import networkx as nx
 
 #**************************************************************************************************************
@@ -27,6 +28,15 @@ Egy félig összefüggő gráf olyan gráf, ami
 	félig összefüggő.
 	Side note: Az algráf minden éle legyen G-nek az éle, amivel össze van kötve = (v[i], v[i+1]).
 '''
+# https://stackoverflow.com/questions/1011938/loop-that-also-accesses-previous-and-next-values
+# original implementation by: https://stackoverflow.com/users/17160/nosklo
+# editor: https://stackoverflow.com/users/4495634/zaidrehman
+# and here is my modification:
+def previous(some_iterable):
+    prevs, items = tee(some_iterable, 2)
+    prevs = chain([None], prevs)
+    return zip(prevs, items)
+	
 #Todo: csinálj teszteket a tesztelő file-al
 def weak_model_gen(G):
 	""" 
@@ -38,8 +48,8 @@ def weak_model_gen(G):
 	C-nek van egy gráf tulajdonsága 'mapping' néven, egy szótárral, ami feltérképezi az eredeti csomópontokat és a C-ben megfelelő csomópontokhoz rendeli.
 	Minden csomópontnak C-ben van egy tulajdonsága 'members' néven, ami az eredeti csomópontok halmazával G-ben, az eredeti SCC-hez tartozó csomópontokat 
 	a C-ben lévő csomópont reprezentállja."""
-	negative_literals = []
-	positive_literals = []
+	# negative_literals = []
+	# positive_literals = []
 	# Todo nehezebb? simple-el sccket kigyűjteni, azokat klózokba. Majd a maradék elemeket is.
 	""" all_scc = simple_cycles(G)
 	print("all scc")
@@ -55,64 +65,41 @@ def weak_model_gen(G):
 	map = dagg.graph["mapping"]
 	mem = nx.get_node_attributes(dagg, "members")
 	print("mapping: ",map)
+	print("members: ",mem)
 	# {eredeti : dagg} dictben lévő node
 	# mapping:  {5: 0, 4: 1, 1: 2, 2: 2, 3: 2} 
 	# members:  {0: {5}, 1: {4}, 2: {1, 2, 3}}
-
-	prev = next(iter(mem.items()))
-	# while mem.items():
-	# 	ne = mem.pop(list(mem.items())[0])
-	# 	print(prev,ne)
-	
-	edges = list(dagg.edges())
-	# todo Összehasonlítani az élek szerint.
-	for x, y in mem.items():
-		ne = (x, y)
-		if (prev[0], x) in edges:
-			print("y")
-			# print("py", prev[1])
-			prev = ne
-		else:
-			print(edges)
-			print(prev[0], x)
-			prev = ne
-
-
-	
-	""" for i, j in mem.items():
-		if len(j) > 1:
-			for x in j:
-				print(-x)
-		else:
-			print(i) """
+	# previndex [0],[1],[0],[1],[0],[   1   ]
 
 	clause = []
-	# prev = list(mem.items())[0]
-			
-	# {dagg : eredeti} dictben lévő node-ok
-	# members:  {0: {5}, 1: {4}, 2: {1, 2, 3}}
+	edges = list(dagg.edges())
+	# todo Összehasonlítani az élek szerint.
+	for prev, curr in previous(mem.items()):
+		if prev == None:
+			continue
+		if (prev[0], curr[0]) in edges:
+			print("edge: prev to curr")
+			for i in prev[1]:
+				clause.append(-i)
+			for i in curr[1]:
+				clause.append(i)
+
+		elif (curr[0], prev[0]) in edges:
+			print("edge: curr to prev")
+			for i in curr[1]:
+				clause.append(-i)
+			for i in prev[1]:
+				clause.append(i)
 	
+	print(clause)
 	# todo rendezés előtt megcsinálni a klózokat. Utána rendezni, és a fileba sorrendben kiírni. 
 	# élekkel az eredetihez kötni a dagg elemei szerint. Utána a sorrend a dagg csúcsait rendezi. Ez alapján lehet a fileba a sorrnedet kiírni.
 	
-	"""
-	for el in edges:
-		for i in range(1, len(mem.items())):
-			print(i)
-			if (prev, i) == el:
-				prev """
-
-
-
 	print("Before sort:",dagg.nodes)
 	print(dagg.edges())
 	dagg = nx.topological_sort(dagg)
 	print("After sort:",list(dagg))
 	
-	# print(dagg.edges())
-	# result = {dagg['mapping'] : dagg['members']}
-	# print(str(dict(result)))
-
 def _unblock(thisnode, blocked, B):
 	stack = {thisnode}
 	while stack:
