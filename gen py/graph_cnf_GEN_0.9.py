@@ -1,4 +1,3 @@
-from collections import defaultdict
 from itertools import tee, chain
 import networkx as nx
 
@@ -28,7 +27,7 @@ Egy félig összefüggő gráf olyan gráf, ami
 	félig összefüggő.
 	Side note: Az algráf minden éle legyen G-nek az éle, amivel össze van kötve = (v[i], v[i+1]).
 '''
-# https://stackoverflow.com/questions/1011938/loop-that-also-accesses-previous-and-next-values
+# source: https://stackoverflow.com/questions/1011938/loop-that-also-accesses-previous-and-next-values
 # original implementation by: https://stackoverflow.com/users/17160/nosklo
 # editor: https://stackoverflow.com/users/4495634/zaidrehman
 # and here is my modification:
@@ -38,152 +37,125 @@ def previous(some_iterable):
     return zip(prevs, items)
 	
 #Todo: csinálj teszteket a tesztelő file-al
+
+#Todo Egészítsd ki a leírást példákkal
+# The model does not compute with self loops (because in our use it is not possible)
 def weak_model_gen(G):
-	""" 
-	The condensation graph C of G. The node labels are integers corresponding to the index of the component in the list of strongly connected components of G.
-	C has a graph attribute named 'mapping' with a dictionary mapping the original nodes to the nodes in C to which they belong. 
-	Each node in C also has a node attribute 'members' with the set of original nodes in G that form the SCC that the node in C represents 
-	
-	A kondenzált C gráf G-ből. A csomópontok cimkéi számokkal vannak jelölve, a hozzájuk tartozó komponens indexével, az SCC-k listájából G-ből.
-	C-nek van egy gráf tulajdonsága 'mapping' néven, egy szótárral, ami feltérképezi az eredeti csomópontokat és a C-ben megfelelő csomópontokhoz rendeli.
-	Minden csomópontnak C-ben van egy tulajdonsága 'members' néven, ami az eredeti csomópontok halmazával G-ben, az eredeti SCC-hez tartozó csomópontokat 
-	a C-ben lévő csomópont reprezentállja."""
-	# negative_literals = []
-	# positive_literals = []
-	# Todo nehezebb? simple-el sccket kigyűjteni, azokat klózokba. Majd a maradék elemeket is.
-	""" all_scc = simple_cycles(G)
-	print("all scc")
-	for cycle in all_scc:
-		for element in cycle:
-			print(element) 
-			negative = -element
-			posotive = element"""
-	# Todo egyszerű verzió: condens-el map, és members segítségével klózokat gyártani.
-	# after sort itarate through list. Each node check in the dagg : original, if original len() > 1, then add every member as negative literal, and then
-	# the exitpoint. Which should be the edge in the sorted list.
+	"""Returns the weak model of a graph. 
+
+	The weak model of a graph gives a list of literals.
+	Each clause is separated with the unique value 0.1.
+
+	Parameters
+	----------
+	G : Networkx DiGraph
+		A directed graph
+
+	Returns
+	-------
+	Clause : A single iterable list
+		Every negative literal represents a cycle, and every positive 
+		literal is an exit point of it. A cycle does not include the 
+		same value twice.
+	"""
 	dagg = nx.condensation(G)
 	map = dagg.graph["mapping"]
 	mem = nx.get_node_attributes(dagg, "members")
 	print("mapping: ",map)
 	print("members: ",mem)
 	# {eredeti : dagg} dictben lévő node
-	# mapping:  {5: 0, 4: 1, 1: 2, 2: 2, 3: 2} 
+	# mapping:  {5: 0, 4: 1, 1: 2, 2: 2, 3: 2}
 	# members:  {0: {5}, 1: {4}, 2: {1, 2, 3}}
 	# previndex [0],[1],[0],[1],[0],[   1   ]
 
+	#!  Nem ad vissza minden scc-t. Csak a legnagyobbakat.
+	# Todo: neighbours-t használva. nézze meg a csúcsokból kimutató nyilakat. Azok is literálok neg amiből, poz mindenhova, ahova mutat. 
+	# Todo  Ha van két csomópont közt él, akkor mindkettőt neg-el adom hozzá, és egyesével a szomszédait, kivéve a közös élen lévőt (self loop)
+	# mapping:  {1: 0, 2: 0, 3: 0, 4: 0}
+	# members:  {0: {1, 2, 3, 4}}
 	clause = []
 	edges = list(dagg.edges())
-	# todo Összehasonlítani az élek szerint.
-	for prev, curr in previous(mem.items()):
-		if prev == None:
-			continue
-		if (prev[0], curr[0]) in edges:
-			print("edge: prev to curr")
-			for i in prev[1]:
-				clause.append(-i)
-			for i in curr[1]:
-				clause.append(i)
+	if len(edges) == 0:
+		# go through nodes add every node as negative literal. Mark it, so later it will be known.
+		for i in mem.values():
+			while i:
+				clause.append(-i.pop())
+		print("Careful! All are negative literals.")
+		print(clause)
+	else:
+		for prev, curr in previous(mem.items()):
+			if prev == None:
+				continue
+			if (prev[0], curr[0]) in edges:
+				print("edge: prev to curr")
+				for i in prev[1]:
+					clause.append(-i)
+				for i in curr[1]:
+					clause.append(i)
+				clause.append(0.1)
 
-		elif (curr[0], prev[0]) in edges:
-			print("edge: curr to prev")
-			for i in curr[1]:
-				clause.append(-i)
-			for i in prev[1]:
-				clause.append(i)
+			elif (curr[0], prev[0]) in edges:
+				print("edge: curr to prev")
+				for i in curr[1]:
+					clause.append(-i)
+				for i in prev[1]:
+					clause.append(i)
+				clause.append(0.1)
+
+		print(clause)
+		
 	
-	print(clause)
-	# todo rendezés előtt megcsinálni a klózokat. Utána rendezni, és a fileba sorrendben kiírni. 
+	# todo nodeokat rendezni, és a fileba sorrendben kiírni.
 	# élekkel az eredetihez kötni a dagg elemei szerint. Utána a sorrend a dagg csúcsait rendezi. Ez alapján lehet a fileba a sorrnedet kiírni.
 	
 	print("Before sort:",dagg.nodes)
 	print(dagg.edges())
-	dagg = nx.topological_sort(dagg)
-	print("After sort:",list(dagg))
-	
-def _unblock(thisnode, blocked, B):
-	stack = {thisnode}
-	while stack:
-		node = stack.pop()
-		if node in blocked:
-			blocked.remove(node)
-			stack.update(B[node])
-			B[node].clear()
+	copy_dagg = nx.topological_sort(dagg)
+	print("After sort:",list(copy_dagg))
 
+""" 
+# Todo nehezebb? simple-el sccket kigyűjteni, azokat klózokba. Majd a maradék elemeket is.
 # Todo: Ebbe bele rakni a klóz halmazok gyártását?
 def simple_cycles(G):
-	# Johnson's algorithm requires some ordering of the nodes.
-	# We assign the arbitrary ordering given by the strongly connected comps
-	# There is no need to track the ordering as each node removed as processed.
-	# Also we save the actual graph so we can mutate it. We only take the
-	# edges because we do not want to copy edge and node attributes here.	
-
-	# Johnson algoritmusának szüksége van a csomópontok rendezésére. Az erősen összetett komponensek által megadott tetszőleges sorrendet rendelünk a csúcsokhoz.
-	# Nem szükséges a rendezés számontartása, mivel minden csomópont feldolgozás után törölve lesz. Valamint az eredeti gráfot elmentjük, hogy változtathassuk. 
-	# Csak az éleket vesszük ki, mert nincs szükség a tulajdonságaira.
-
-	subG = type(G)(G.edges())
-	sccStack = [scc for scc in nx.strongly_connected_components(subG) if len(scc) > 1]
-
-	# Johnson's algorithm exclude self cycle edges like (v, v)
-	# To be backward compatible, we record those cycles in advance
-	# and then remove from subG
-	for v in subG:
-		if subG.has_edge(v, v):
-			yield [v]
-			subG.remove_edge(v, v)
-
-	while sccStack:
-		scc = sccStack.pop()
-		sccG = subG.subgraph(scc)
-		# order of scc determines ordering of nodes
-		startnode = scc.pop()
-		# Processing node runs "circuit" routine from recursive version ( recursive version = teljessen másik verzió/implementációból)
-		path = [startnode]
-		blocked = set() # vertex: blocked from search? # Maybe visited?
-		closed = set() # nodes involved in a cycle
-		blocked.add(startnode)
-		B = defaultdict(set) # graph portions that yield no elementary circuit
-		stack = [(startnode, list(sccG[startnode]))] # sccG gives comp neibrs # sccGraph gives component neighbors
-		while stack:
-			thisnode, neibrs = stack[-1]
-			if neibrs:
-				nextnode = neibrs.pop()
-				if nextnode == startnode:
-					yield path[:]
-					closed.update(path)
-#						print "Found a cycle", path, closed
-				elif nextnode not in blocked:
-					path.append(nextnode)
-					stack.append((nextnode, list(sccG[nextnode])))
-					closed.discard(nextnode)
-					blocked.add(nextnode)
-					continue
-			# done with nextnode... look for more neighbors
-			if not neibrs: # no more neibrs
-				if thisnode in closed:
-					_unblock(thisnode, blocked, B)
-				else:
-					for nbr in sccG[thisnode]:
-						if thisnode not in B[nbr]:
-							B[nbr].add(thisnode)
-				stack.pop()
-				#				assert path[-1] == thisnode
-				path.pop()
-		# done processing this node
-		H = subG.subgraph(scc) # make smaller to avoid work in SCC routine
-		sccStack.extend(scc for scc in nx.strongly_connected_components(H) if len(scc) > 1)
+	print("not in use") """
+	
+def weak_model_to_cnf_file(cl):
+	print("not implemented yet.")
 
 def main():
 	edges = []
+	# Geeks for Geeks graph example:
+	# edges.append((2,1))
+	# edges.append((1,3))
+	# edges.append((1,4))
+	# edges.append((3,2))
+	# edges.append((4,5))
+
+	# edges.append((5,4))
+
+	# SYNASC2020_submission_77_v20.pdf Fig. 1. example:
+	# a=1, b=2, c=3, d=4
+	edges.append((1,2))
 	edges.append((2,1))
 	edges.append((1,3))
-	edges.append((1,4))
-	edges.append((3,2))
-	edges.append((4,5))
-	# edges.append((5,4))
+	edges.append((3,1))
+	edges.append((2,3))
+	edges.append((2,4))
+	edges.append((3,4))
+
+	# SYNASC2020_submission_77_v20.pdf Fig. 3. example:
+	# a=1, b=2, c=3, d=4
+	# edges.append((1,2))
+	# edges.append((2,1))
+	# edges.append((2,3))
+	# edges.append((3,2))
+	# edges.append((3,4))
+	# edges.append((4,1))
 
 	g = nx.DiGraph(edges)
 	
 	weak_model_gen(g)
+	# cl = []
+	# weak_model_to_cnf_file(cl)
 
 main()
