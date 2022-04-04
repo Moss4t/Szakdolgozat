@@ -1,5 +1,6 @@
 from itertools import tee, chain
 import networkx as nx
+import pylab
 
 #**************************************************************************************************************
 #Weak Model elkepzeles
@@ -58,6 +59,12 @@ def weak_model_gen(G):
 		literal is an exit point of it. A cycle does not include the 
 		same value twice.
 	"""
+	OK = nx.is_strongly_connected(G)
+	if not OK:
+		print("Not strongly connected")
+		# print("Exited method: weak_model_gen, bad_args")
+		# raise SystemExit
+
 	dagg = nx.condensation(G)
 	map = dagg.graph["mapping"]
 	mem = nx.get_node_attributes(dagg, "members")
@@ -69,7 +76,7 @@ def weak_model_gen(G):
 	# previndex [0],[1],[0],[1],[0],[   1   ]
 
 	#!  Nem ad vissza minden scc-t. Csak a legnagyobbakat.
-	# Todo: neighbours-t használva. nézze meg a csúcsokból kimutató nyilakat. Azok is literálok neg amiből, poz mindenhova, ahova mutat. 
+	# Todo: neighbors-t használva. nézze meg a csúcsokból kimutató nyilakat. Azok is literálok neg amiből, poz mindenhova, ahova mutat. 
 	# Todo  Ha van két csomópont közt él, akkor mindkettőt neg-el adom hozzá, és egyesével a szomszédait, kivéve a közös élen lévőt (self loop)
 	# mapping:  {1: 0, 2: 0, 3: 0, 4: 0}
 	# members:  {0: {1, 2, 3, 4}}
@@ -80,8 +87,9 @@ def weak_model_gen(G):
 		for i in mem.values():
 			while i:
 				clause.append(-i.pop())
+		clause.append(0.1)
 		print("Careful! All are negative literals.")
-		print(clause)
+		return(clause)
 	else:
 		for prev, curr in previous(mem.items()):
 			if prev == None:
@@ -102,16 +110,14 @@ def weak_model_gen(G):
 					clause.append(i)
 				clause.append(0.1)
 
-		print(clause)
-		
-	
-	# todo nodeokat rendezni, és a fileba sorrendben kiírni.
-	# élekkel az eredetihez kötni a dagg elemei szerint. Utána a sorrend a dagg csúcsait rendezi. Ez alapján lehet a fileba a sorrnedet kiírni.
-	
 	print("Before sort:",dagg.nodes)
 	print(dagg.edges())
 	copy_dagg = nx.topological_sort(dagg)
 	print("After sort:",list(copy_dagg))
+	
+	return(clause)
+	# todo nodeokat rendezni, és a fileba sorrendben kiírni.
+	# élekkel az eredetihez kötni a dagg elemei szerint. Utána a sorrend a dagg csúcsait rendezi. Ez alapján lehet a fileba a sorrnedet kiírni.
 
 """ 
 # Todo nehezebb? simple-el sccket kigyűjteni, azokat klózokba. Majd a maradék elemeket is.
@@ -119,8 +125,37 @@ def weak_model_gen(G):
 def simple_cycles(G):
 	print("not in use") """
 	
-def weak_model_to_cnf_file(cl):
-	print("not implemented yet.")
+def weak_model_to_cnf_file(G, Literals):
+	N = G.number_of_nodes()
+	E = G.number_of_edges()
+	D = nx.density(G)
+	pylab.title("Weak Model's Starting Graph")
+	nx.draw(G, with_labels = True)
+	pylab.savefig(str(N)+"_"+str(E)+"_"+str("%.2f" % float(D))+"_WM.png")
+
+	file_wm = open(str(N)+"_"+str(E)+"_"+str("%.2f" % float(D))+"_WM.cnf", "w")
+	file_wm.write('p cnf ')			#header
+	file_wm.write('%s ' % N)
+	file_wm.write('%s ' % len(Literals))#! should be the count of all clauses
+	file_wm.write('\n')				#header vege
+
+	print("\nTo file: ", end='')
+	for i in Literals:
+		if i != 0.1:
+			file_wm.write('%s ' % str(i))
+			print(str(i) + ' ', end='')
+		else:
+			file_wm.write('%s\n' % 0)
+	print()
+
+	# Fekete és fehér hozzárendelés
+	for n in range(1, N+1):
+		file_wm.write('%s ' % n)
+	file_wm.write('%s\n' % 0)
+	for n in range(1, N+1):
+		file_wm.write('%s ' % -n)
+	file_wm.write('%s\n' % 0)
+	file_wm.close()
 
 def main():
 	edges = []
@@ -142,9 +177,15 @@ def main():
 	edges.append((2,3))
 	edges.append((2,4))
 	edges.append((3,4))
+	# Todo 4. node-ra csekkolni a neighbors-t. Ugye ebbe csak befele mennek élek. Teszt: mit tekint szomszédnak?
 
 	# SYNASC2020_submission_77_v20.pdf Fig. 3. example:
 	# a=1, b=2, c=3, d=4
+	#! Only this example should generate BW SAT problem, since it is strongly connected.
+	""" Theorem 1. Let D be a communication graph. Let WM be
+	the weak model of D. Then WM is a Black-and-White SAT
+	problem iff D is strongly connected.
+ 	"""
 	# edges.append((1,2))
 	# edges.append((2,1))
 	# edges.append((2,3))
@@ -154,8 +195,7 @@ def main():
 
 	g = nx.DiGraph(edges)
 	
-	weak_model_gen(g)
-	# cl = []
-	# weak_model_to_cnf_file(cl)
+	Literals = weak_model_gen(g)
+	weak_model_to_cnf_file(g, Literals)
 
 main()
