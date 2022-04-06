@@ -1,0 +1,15 @@
+Egy node az egység.
+Minden scc-nél a maximális scc-re törekszünk.
+
+Expanded Strong Model
+Cím: Általánosított strong modell.
+Ha felderítjük a gráfban az scc-ket akkor minden scc-hez lehet külön egy egy modellt generálni. Ez lehet akár strong modell is, de akár bármi más is. De vigyázat, ehhez nem kell hozzáadni a scc node-jait tartalmazó fekete, illetve fehér klózt. Majd csak a legvégén kell hozzáadni a teljes hosszú fekete és a fehér klózokat. Tegyük fel, hogy a gráf 2 scc-ből áll. Az [1, 8, 13]- ból és a [2 7 5]-ből.Iléyenkor legenerálom az 1 8 13-hoz tartozó strong modellt, majd a [2 7 5]-höz tartózót. Tegyük fel, h az elsőből vezet él a másodikba, mindegy honnan, mennyi. Ezen élek helyett egyetlen klózt generálunk a [-1 -8 -13 2 7 5]. Figyelem, ha egy scc egy node-ból áll, akkor az ő strong modellje üres, tehát egy klózt sem generálunk belőle.
+
+Ezzel a módszerrel azt mérjük, hogy ha sok él vezet az első scc-ből a másodikba, akkor csak ezen sok klóz helyett, csak egyet generálunk.
+Sajnos ez így rossz. 
+
+Minden scc-hez legenerálom a saját modelljét. Ezek után egyszerüsítjük a feladatot, úgy hogy minden scc-t egy node-nak tekintek, és ebből is generálok modellt. Úgy hogy az első scc áll az 1, -13-ból a második scc 2, 7 ,15 ből. És az elsőből megy él a másikba. MINDEGY melyik két node közt, egy vagy több, a lényeg, h össze van kötve, és csak egy irányba, akkor ebből azt a klózt kell generálni: -1, -8, -13, 2, 7, 15
+Azaz, ahonnan indul, az a negatív, ahova megy az a pozitív. Ez az erős modell kiterjesztése, arra az esetre, ha felhasználjuk az scc információt.
+Ellenőrzés: Legenerálom ezzel a klóz set-et. És az eredeti SM generátorral is. Elvileg ugyan azt az eredményt fogja generálni.
+
+Ha egy scc egy node-ból áll, akkor 

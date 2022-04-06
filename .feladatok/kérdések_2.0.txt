@@ -1,0 +1,10 @@
+Weak modell .cnf-be mi kell?
+
+-Topológiai rendezés sorrendjében? (akkor pl copyGraph, és miközben a klózokat állítjuk elő, közben a topo_sort(copyGraph)-al sorrenben rakni ki a klózokat)
+
+Az egész filet próbáljam meg működésre bírni, feljavítani, kicsinosítani, vagy csak tűzoltás?
+
+ha az egész gráf sc, akkor ne dobjon hibát. pipa.
+de nincs meg az összes klóz halmaz, ami kéne?
+
+weak modellel kérdések. Nem egyszrű körök nincsenek leírva minden esetben (a szakirodalomban).

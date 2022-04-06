@@ -1,9 +1,9 @@
-from itertools import tee, chain
+from itertools import tee, islice, chain
 import networkx as nx
 import pylab
 
 #**************************************************************************************************************
-#Weak Model elkepzeles
+# Weak Model elkepzeles
 #**************************************************************************************************************
 ''' define the weak model
 A semi-connected graph is a graph that for each pair of vertices u,v,
@@ -28,10 +28,20 @@ Egy félig összefüggő gráf olyan gráf, ami
 	félig összefüggő.
 	Side note: Az algráf minden éle legyen G-nek az éle, amivel össze van kötve = (v[i], v[i+1]).
 '''
+
+
+#**************************************************************************************************************
+# Strong Model
+#**************************************************************************************************************
 # source: https://stackoverflow.com/questions/1011938/loop-that-also-accesses-previous-and-next-values
 # original implementation by: https://stackoverflow.com/users/17160/nosklo
 # editor: https://stackoverflow.com/users/4495634/zaidrehman
-# and here is my modification:
+def previous_and_next(some_iterable):
+    prevs, items, nexts = tee(some_iterable, 3)
+    prevs = chain([None], prevs)
+    nexts = chain(islice(nexts, 1, None), [None]) # -1 -2 -3 1 0
+    return zip(prevs, items, nexts)
+# here is one of my modifications:
 def previous(some_iterable):
     prevs, items = tee(some_iterable, 2)
     prevs = chain([None], prevs)
@@ -39,22 +49,43 @@ def previous(some_iterable):
 	
 #Todo: csinálj teszteket a tesztelő file-al
 
+def strong_model_literal_gen(G):
+	clause = []
+	bw_clause = []
+	for i, j in G.edges():
+		clause.append(-i)
+		clause.append(j)
+		clause.append(0.1)
+	for i in G.nodes():
+		bw_clause.append(i)
+	for i in bw_clause:
+		clause.append(-i)
+	clause.append(0.1)
+	for i in bw_clause:
+		clause.append(i)
+	clause.append(0.1)
+	return clause
+
+
+#**************************************************************************************************************
+# Expanded Weak Model elkepzeles
+#**************************************************************************************************************
 #Todo Egészítsd ki a leírást példákkal
 # The model does not compute with self loops (because in our use it is not possible)
-def weak_model_gen(G):
-	"""Returns the weak model of a graph. 
+def expanded_strong_model_literal_gen(G):
+	"""Returns the expanded strong model of a graph. 
 
-	The weak model of a graph gives a list of literals.
+	The expanded strong model of a graph gives a list of literals.
 	Each clause is separated with the unique value 0.1.
 
 	Parameters
 	----------
-	G : Networkx DiGraph
+	G: Networkx DiGraph
 		A directed graph
 
 	Returns
 	-------
-	Clause : A single iterable list
+	Clause: A single iterable list
 		Every negative literal represents a cycle, and every positive 
 		literal is an exit point of it. A cycle does not include the 
 		same value twice.
@@ -62,7 +93,7 @@ def weak_model_gen(G):
 	OK = nx.is_strongly_connected(G)
 	if not OK:
 		print("Not strongly connected")
-		# print("Exited method: weak_model_gen, bad_args")
+		# print("Exited method: expanded_strong_model_literal_gen, bad_args")
 		# raise SystemExit
 
 	dagg = nx.condensation(G)
@@ -70,16 +101,12 @@ def weak_model_gen(G):
 	mem = nx.get_node_attributes(dagg, "members")
 	print("mapping: ",map)
 	print("members: ",mem)
-	# {eredeti : dagg} dictben lévő node
 	# mapping:  {5: 0, 4: 1, 1: 2, 2: 2, 3: 2}
 	# members:  {0: {5}, 1: {4}, 2: {1, 2, 3}}
-	# previndex [0],[1],[0],[1],[0],[   1   ]
+	# indecies:	[0] [1],[0] [1],[0] [   1   ]
 
-	#!  Nem ad vissza minden scc-t. Csak a legnagyobbakat.
 	# Todo: neighbors-t használva. nézze meg a csúcsokból kimutató nyilakat. Azok is literálok neg amiből, poz mindenhova, ahova mutat. 
 	# Todo  Ha van két csomópont közt él, akkor mindkettőt neg-el adom hozzá, és egyesével a szomszédait, kivéve a közös élen lévőt (self loop)
-	# mapping:  {1: 0, 2: 0, 3: 0, 4: 0}
-	# members:  {0: {1, 2, 3, 4}}
 	clause = []
 	edges = list(dagg.edges())
 	if len(edges) == 0:
@@ -91,19 +118,42 @@ def weak_model_gen(G):
 		print("Careful! All are negative literals.")
 		return(clause)
 	else:
+		# goes through every element in the form of:	number: {number}
 		for prev, curr in previous(mem.items()):
+			if len(curr[1]) > 1:
+				# goes through every element in the form of:	{number, number, ...}
+				for pre, cu in previous(curr[1]):
+					if pre == None:
+						firs = cu
+						continue
+					if (pre, cu) in G.edges():
+						clause.append(-pre)
+						clause.append(cu)
+						clause.append(0.1)
+					if (cu, pre) in G.edges():
+						clause.append(-cu)
+						clause.append(pre)
+						clause.append(0.1)
+					if (cu, firs) in G.edges() and pre != firs:
+						clause.append(-cu)
+						clause.append(firs)
+						clause.append(0.1)
+					if (firs, cu) in G.edges() and pre != firs:
+						clause.append(-firs)
+						clause.append(cu)
+						clause.append(0.1)
 			if prev == None:
 				continue
 			if (prev[0], curr[0]) in edges:
-				print("edge: prev to curr")
+				print("edge goes from previous to current")
 				for i in prev[1]:
 					clause.append(-i)
 				for i in curr[1]:
 					clause.append(i)
 				clause.append(0.1)
 
-			elif (curr[0], prev[0]) in edges:
-				print("edge: curr to prev")
+			if (curr[0], prev[0]) in edges:
+				print("edge goes from current to previous")
 				for i in curr[1]:
 					clause.append(-i)
 				for i in prev[1]:
@@ -125,18 +175,58 @@ def weak_model_gen(G):
 def simple_cycles(G):
 	print("not in use") """
 	
-def weak_model_to_cnf_file(G, Literals):
+def model_to_picture():
+	""" Unfinnished method! """
+	print("Nothing")
+""" 	N = G.number_of_nodes()
+	E = G.number_of_edges()
+	D = nx.density(G)
+
+	pylab.title("Weak Model's Starting Graph")
+	nx.draw(G, with_labels = True)
+	pylab.savefig(str(N)+"_"+str(E)+"_"+str("%.2f" % float(D))+"_WM.png") """
+
+def model_to_cnf_file(G, Literals, Title):
+	"""Creates the cnf model of a graph, and puts it in a file.
+
+	By the original graph, the list of literals and the type of model we want
+	it creates a cnf file. 
+	It gives the file name by node count _ edge count _ density _ type or title .cnf
+
+	Parameters
+	----------
+	G: Networkx DiGraph
+		A directed graph
+
+	Literals: List
+		A list of every literal in the graph. For separation of clauses 
+		it uses the value 0.1
+
+	Title: string
+		This differates the files.		
+
+	Returns
+	-------
+	None: It creates a file next to the .py, in wich you called this function
+
+	Notes
+	-----
+	If you give the same parameters to this method, it will override 
+	the previous file with the same name.
+
+	"""
 	N = G.number_of_nodes()
 	E = G.number_of_edges()
 	D = nx.density(G)
-	pylab.title("Weak Model's Starting Graph")
-	nx.draw(G, with_labels = True)
-	pylab.savefig(str(N)+"_"+str(E)+"_"+str("%.2f" % float(D))+"_WM.png")
+	C = 2 # BB and WW clauses.
+	for i in Literals:
+		if i == 0.1:
+			C += 1
 
-	file_wm = open(str(N)+"_"+str(E)+"_"+str("%.2f" % float(D))+"_WM.cnf", "w")
+	file_wm = open(str(N)+"_"+str(E)+"_"+str("%.2f" % float(D))+"_"+Title+".cnf", "w")
 	file_wm.write('p cnf ')			#header
 	file_wm.write('%s ' % N)
-	file_wm.write('%s ' % len(Literals))#! should be the count of all clauses
+	file_wm.write('%s ' % C)
 	file_wm.write('\n')				#header vege
 
 	print("\nTo file: ", end='')
@@ -146,16 +236,25 @@ def weak_model_to_cnf_file(G, Literals):
 			print(str(i) + ' ', end='')
 		else:
 			file_wm.write('%s\n' % 0)
+			print("0 ", end='')
 	print()
 
 	# Fekete és fehér hozzárendelés
 	for n in range(1, N+1):
-		file_wm.write('%s ' % n)
-	file_wm.write('%s\n' % 0)
-	for n in range(1, N+1):
 		file_wm.write('%s ' % -n)
 	file_wm.write('%s\n' % 0)
+	for n in range(1, N+1):
+		file_wm.write('%s ' % n)
+	file_wm.write('%s\n' % 0)
 	file_wm.close()
+
+def algo_check(G):
+	""" Tried to make the order topologicly sorted. Unfinished method! """
+	dagg = nx.condensation(G)
+	edges = dagg.edges()
+	wm = nx.topological_sort(dagg)
+	for ed in edges:
+		print("try", ed)
 
 def main():
 	edges = []
@@ -165,6 +264,8 @@ def main():
 	# edges.append((1,4))
 	# edges.append((3,2))
 	# edges.append((4,5))
+	# mapping:  {5: 0, 4: 1, 1: 2, 2: 2, 3: 2}
+	# members:  {0: {5}, 1: {4}, 2: {1, 2, 3}}
 
 	# edges.append((5,4))
 
@@ -177,7 +278,40 @@ def main():
 	edges.append((2,3))
 	edges.append((2,4))
 	edges.append((3,4))
-	# Todo 4. node-ra csekkolni a neighbors-t. Ugye ebbe csak befele mennek élek. Teszt: mit tekint szomszédnak?
+	# mapping:  {4: 0, 1: 1, 2: 1, 3: 1}
+	# members:  {0: {4}, 1: {1, 2, 3}}
+	######################################
+	# Általánosíotott SM:
+	######################################
+	""" 
+	Minden scc-ből legyen strong modell.
+	cnf dimacs file
+	kiterjesztett erős modell:
+	p cnf 4 ?
+ 	-1 2 0
+	-2 1 0
+	-1 3 0
+	-3 1 0
+	-2 3 0
+	-1 -2 -3 4 0
+	-1 -2 -3 -4 0
+	1 2 3 4 0
+	"""
+	""" erős modell:
+	p cnf 4 ?
+	-1 2 0
+	-2 1 0
+	-1 3 0
+	-3 1 0
+	-2 3 0
+	-2 4 0
+	-3 4 0
+	-1 -2 -3 -4 0
+	1 2 3 4 0
+	 """
+
+	# A 4. node-ba csak befele mennek élek. Nincs szomszédja.
+	# Todo Mennyi szomszédot ad vissza a 3. csúcs?
 
 	# SYNASC2020_submission_77_v20.pdf Fig. 3. example:
 	# a=1, b=2, c=3, d=4
@@ -192,10 +326,15 @@ def main():
 	# edges.append((3,2))
 	# edges.append((3,4))
 	# edges.append((4,1))
+	# mapping:  {1: 0, 2: 0, 3: 0, 4: 0}
+	# members:  {0: {1, 2, 3, 4}}
 
 	g = nx.DiGraph(edges)
-	
-	Literals = weak_model_gen(g)
-	weak_model_to_cnf_file(g, Literals)
+	# algo_check(g)
+	model_to_picture()
+	Literals = expanded_strong_model_literal_gen(g)
+	model_to_cnf_file(g, Literals, "ESM")
+	Literals = strong_model_literal_gen(g)
+	model_to_cnf_file(g, Literals, "SM")
 
 main()
