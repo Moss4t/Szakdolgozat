@@ -1,0 +1,36 @@
+Ha egy irányított gráf több SCC-ből áll, akkor a neki megfelelő modell mindig kielégíthető, akkor is, ha hozzáadjuk a fekete és a fehér klózokat. Ez a megállapítás független attól, hogy a gráf mely modelljét generáljuk le. Akkor is igaz, ha az erős, vagy ha a gyenge, vagy mondjuk a Balatonboglár modell segítségével generáltatjuk le a neki megfelelő SAT példányt.
+Ennek az az oka, hogy az elmélet szerint akkor és csak akkor keletkezik egy irányított gráfból UNSAT példány, ha az irányított gráf egy SCC-ből áll, azaz összefüggő, és hozzáadjuk a modelljéhez a fekete és a fehér klózokat.
+Több esetet is vizsgáltam, amikor az irányított gráf két SCC-ből áll. Ezeknek erős modelljét elkészítettem kézzel, illetve programmal is és a Wolfram Alpha® weboldalt használtam fel ezek vizsgálatára.
+A Wolfram Alpha®-t már bemutattam egy előző részben, így itt nem térek ki minden részletre a használatával kapcsolatban.
+A legegyszerűbb gráf, aminek erős modelljét vizsgáltam, két SCC-ből áll. Az első SCC az A, B változókból áll (számokkal: 1,2), a második SCC a C, D változókból (számokkal: 3, 4), úgy hogy az első SCC-ből megy él a másodikba (visszafelé természetesen nem megy él, mert akkor már egy SCC lenne az egész gráf). Azt találtam, hogy függetlenül attól, hogy az A-ból megy él C-be, azaz: A->C, vagy A->D, vagy B->C, vagy B->D, mind a 4 esetben az erős reprezentációnak megfelelő DNF formula ez volt:
+Wolfram Alpha link:
+https://www.wolframalpha.com/input?i=%28%28A%3D%3EB%29+and+%28B%3D%3EA%29+and+%28C%3D%3ED%29+and+%28D%3D%3EC%29+and+%28A%3D%3EC%29%29
+azaz:(A és B és C és D) vagy (nem A és nem B és nem C és nem D) vagy (nem A és nem B és C és D)
+Ezt kaptam mind a 4 esetben. Mint látható, az első megoldás a fekete klóz negáltja, a második a fehér klóz negáltja, amiket majd kizárunk a végső megoldások közül a fekete és a fehér klóz hozzáadásával, ahogy azt előírja az eredeti algoritmus Kusper Gábor és társainak cikkében.
+Ugyanakkor a harmadik megoldás nem tűnik el és ez megfelel az eredeti elméletnek, habár az eredeti elmélet nem magyarázza a harmadik megoldás alakját.
+Ha jól megnézzük, akkor ez a harmadik megoldás: (nem A és nem B és C és D), azaz az első SCC változói negatívan szerepelnek benne, a második SCC változói pozitívan.
+Megvizsgáltam több esetet is mind programmal generálva az erős modellt, mind kézzel és a fent leírtak mindig tökéletesen beigazolódottak.
+[egy programmal generált példa]
+Egy Wolfram Alpha® példa:
+https://www.wolframalpha.com/input?i=%28%28A%3D%3EB%29+and+%28B%3D%3EA%29+and+%28C%3D%3ED%29+and+%28D%3D%3EE%29+and+%28E%3D%3EC%29+and+%28A%3D%3EC%29%29
+
+
+
+Mivel a megfigyelésem többször is visszaigazolódott, ezért a következő sejtést fogalmaztam meg:
+Ha egy irányított gráf, nevezzük G, két SCC-ből áll, S1-ből és S2-ből, és ha S1-ből vezet legalább egy él S2-be, akkor függetlenül az élek számától, illetve, hogy konkrétan az élek mely S1-ben lévő node-ból, mely S2-ben lévő node-ba vezetnek, akkor G-nek a SAT modelljének pontosan ez az egy megoldása lesz, amennyiben a modellhez hozzáadjuk a fekete és a fehér klózokat is: |nem S1| és |S2|, ahol |nem S1| ez a formula: nem A1 és nem A2 és … és nem Ak, ahol S1 node-jai: A1, A2, …, Ak és |S2| ez a formula: B1 és B2 és … és Bm, ahol S2 node-jai: B1, B2, …, Bm.
+Sajnos a sejtésemet egyelőre nem sikerült bizonyítani, de az általam kipróbált minden példára működött. Akkor is ha az erős modellt generáltam, akkor is, ha a gyengét, akkor is ha bármely másikat, azaz szerintem ez egy fontos sejtés.
+Az általam kipróbált néhány eset:
+Példa1
+
+A fenti megfigyelésekből az az ötletem támadt, hogy az SCC-ket egy-egy node-dal helyettesítem, hogy kisebb bonyolultágú gráfokat kelljen kezelnem, amelyre az általam megírt kódok is gyorsabban futnak.
+Az első út, amit kipróbáltam, az az, hogyan lehet kiegészíteni a legenerált SAT modelleket úgy, hogy a fenti ismertetett tulajdonság megmaradjon, azaz a |nem S1| és |S2| megoldás maradjon, de az egyes SCC-ket már egy változó képviselje (azaz a DIMACS file-okban egy szám).
+Hosszas próbálkozás után, ezt kaptam:
+https://www.wolframalpha.com/input?i=%28%28A%3D%3EB%29+and+%28B%3D%3EA%29+and+%28A+or+B+%3D%3E+X%29++and+%28not+A+or+not+B+%3D%3E+not+X%29%29
+azaz: ((A=>B) and (B=>A) and (A or B => X)  and (not A or not B => not X))
+ahol az A, B változókból ál az SCC és az X változóval lehet helyettesíteni az SCC-t.
+A fenti kiegészítést úgy lehet megkapni, hogy az SCC fehér klóza implikálja az X literált, a fekete klóza pedig a nemX literált. Ezzel a kiegészítéssel az SCC-nek ugyanúgy csak két megoldása van, mint a kiegészítés előtt, a fekete és fehér megoldások, annyi kiegészítéssel, hogy mostmár szerepel bennük az X változó is. Azaz a két megoldás: (A és B és X), illetve (nem A és nem B és nem X)
+Ezzel a kiegészítéssel azt lehet nyerni, hogy ha van két SCC, mondjuk S1 és S2, és az S1-et az X-el egészítem ki és S2-t az Y-nal, akkor minden S1-ből S2-be menő élt egy klózzal tudok leírni: X=>Y, azaz (nemX vagy Y), ami kisebb SAT modellhez vezethet.
+Ráadásul a modellek általam vizsgált összes tulajdonsága megmarad
+Egy ettől is egyszerűbb megoldás ha az első SCC-t az 1-es számmal, azaz az A változóval, a másodikat a 2-es számmal, azaz a B változóval helyettesítem, azaz rendre egy-egy változót (de mindegyikhez másikat) rendelek az SCC-khez. Ebből generálok egy erős modellt, majd ennek az erős modellnek a megoldásaiban visszahelyetesítem az SCC-k eredeti változót a megolásban kapott előjelelel. így akár nagyon nagy, több ezres írányított gráfok megoldása is milisecudumok alatt lehetséges.
+Ehhez természetesen meg kell találni az összes SCC-t és a köztük lévő kapcsolatokat. Ezt így oldottam meg:
+python kód részletek elmagyarázva

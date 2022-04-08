@@ -9,3 +9,11 @@ Akkor jött, h ugyan azon a programnyelven, hogyan tudom a már meglévő részl
 Amikor kész.
 Kitekintés: a tovább fejlesztett részek felhasználási lehetiségei, hasznosságát, gyakorlati alkalmazási lehetőségeit hogyan lehet kiterjeszteni. (hálózati topológiákhoz, stb)
 Milyen prognyelv, milyen feltételek, gazdasági tényezők, személyi feltételek szükségesek, hogy maga ami a program elkészül, bevezethető legyen, piacra dobható legyen.
+
+kidolgozni
+python
+wolfram alpha
+tautológia
+cnf dnf
+
+Külön fejezetbe a kódokat bele írni, megszerkeszteni, és elmagyarázni, mi mit csinál. Saját kódodat szigorúan!

@@ -1,0 +1,6 @@
+\select@language {magyar} \contentsline {chapter}{Bevezetés}{3}{chapter*.2}%
+\select@language {magyar} \contentsline {chapter}{\numberline {1}Alap fogalmak}{4}{chapter.1}%
+\select@language {magyar} \contentsline {section}{\numberline {1.1}Szakirodalom}{4}{section.1.1}%
+\select@language {magyar} \contentsline {section}{\numberline {1.2}A Python programozási nyelvről}{7}{section.1.2}%
+\select@language {magyar} \contentsline {chapter}{Összegzés}{8}{chapter*.3}%
+\select@language {magyar} \contentsline {chapter}{Irodalomjegyz\'ek}{9}{chapter*.4}%
