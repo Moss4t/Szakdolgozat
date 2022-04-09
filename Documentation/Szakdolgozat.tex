@@ -35,12 +35,13 @@
 	
 	Megbeszéltük hol szorul fejlesztésre a SAT megoldó, amin tudok programozással javítani. Valamint a korábbi általuk írt angol nyelvű szakirodalmakkal elsajátíthatom az elméleti hátteret, felzárkózhatok a jelenlegi helyzethez és ezeken dolgozva könnyedén belerázódjak a szakdolgozatom megfogalmazásába. Így kezdtem el a munkámat.
 	
-	\chapter{Alap fogalmak}
+	\chapter{Az alapok}
 	
-	A munkámat azzal kezdtem, hogy szakirodalmakat olvastam, fordítottam és értelmeztem, amiket korábban témavezetőim írtak [RÉSZLETEZD az alapokat SZAKIRODALOM]. Anyagot gyűjtöttem és dolgoztam fel a SAT megoldókról. Ezekben megjelentek különböző fogalmak, mint a tautológia [RÉSZLETEZD az alapokat alfejezetben SZAKIRODALOM FOGALMAI] cnf, és dnf, valamint programozási nyelvek, mint a Python [RÉSZLETEZD az alapokat PYTHON] és a Wolfram Alpha [RÉSZLETEZD az alapokat WOLFRAM ALPHA].
-	
+	A munkámat azzal kezdtem, hogy szakirodalmakat olvastam, fordítottam és értelmeztem, amiket korábban témavezetőim írtak [RÉSZLETEZD az alapokat SZAKIRODALOM végén]. Anyagot gyűjtöttem és dolgoztam fel a SAT megoldókról. Ezekben megjelentek különböző fogalmak, mint a tautológia [RÉSZLETEZD az alapokat alfejezetben SZAKIRODALOM FOGALMAI] cnf, és dnf, valamint programozási nyelvek, mint a Python [RÉSZLETEZD az alapokat PYTHON] és a Wolfram Alpha [RÉSZLETEZD az alapokat WOLFRAM ALPHA].
+		
 	\section{Szakirodalom}
-	Szakirodalom fogalmai, definíciói:
+
+	Alapfogalmak, definíciók:
 	
 	\begin{definicio}
 		Atomi formula, röviden atom:  Azt mondjuk, hogy egy szimbólum atomi formula, vagy atom, akkor és csak akkor, ha egy kifejezést jelöl. Ilyen atomok, az igaz és hamis ítéletváltozók. Szimbólumuk általában az \emph{I} és \emph{H} betűk magyarul, de szoktuk használni az angol megfelelőjét is a \emph{T} és \emph{F} betűket.
@@ -98,10 +99,10 @@
 		Diszjunkció: Azt mondjuk, hogy formális összekötő diszjunkció, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy ha mindkét oldalán negatív literál van, akkor negatív literált állít elő, különben pozitív literált. Jele: $\vee$
 	\end{definicio}
 	\begin{definicio} % megjegyzésbe kiemelni az angol megfelelőket? CNF DNF
-		Konjunktív normál forma, röviden KNF, angolul conjunctive normal form, mint CNF: Azt mondjuk, hogy logikai formula konjunktív normál forma, akkor és csak akkor, ha egy vagy több klózt egymáshoz kötünk konjunkcióval.
+		Konjunktív normál forma, röviden KNF, angolul conjunctive normal form, röviden CNF: Azt mondjuk, hogy logikai formula konjunktív normál forma, akkor és csak akkor, ha egy vagy több klózt egymáshoz kötünk konjunkcióval.
 	\end{definicio}
 	\begin{definicio}
-		Diszjunktív normál forma, röviden DNF, angolul disjunctive normal form, mint DNF: Azt mondjuk, hogy logikai formula diszjunktív normál forma, akkor és csak akkor, ha egy vagy több klózt egymáshoz kötünk diszjunkcióval.
+		Diszjunktív normál forma, röviden DNF, angolul disjunctive normal form, röviden DNF: Azt mondjuk, hogy logikai formula diszjunktív normál forma, akkor és csak akkor, ha egy vagy több klózt egymáshoz kötünk diszjunkcióval.
 	\end{definicio}
 	\begin{definicio}
 		Interpretáció: Adott ítéletváltozóknak egy véges sok, nem üres V halmaza.
@@ -111,10 +112,10 @@
 		Logikai törvény, más néven tautológia: Azt mondjuk, hogy az F formula logikai törvény, vagy tautológia, akkor és csak akkor, ha F minden interpretációjában igaz.
 	\end{definicio}
 	\begin{definicio}
-		Logikai ellent mondás, angolul contradiction, unsatisfiable: Azt mondjuk, hogy az F formula logikai ellentmondás, akkor és csak akkor, ha F minden interpretációjában hamis.
+		Logikai ellent mondás, angolul contradiction, unsatisfiable, röviden UNSAT: Azt mondjuk, hogy az F formula logikai ellentmondás, akkor és csak akkor, ha F minden interpretációjában hamis.
 	\end{definicio}
 	\begin{definicio}
-		Kielégíthető, angolul satisfiable: Azt mondjuk, hogy az F formula kielégíthető, akkor és csak akkor, ha F legalább egy interpretációjában igaz.
+		Kielégíthető, angolul satisfiable, röviden SAT: Azt mondjuk, hogy az F formula kielégíthető, akkor és csak akkor, ha F legalább egy interpretációjában igaz.
 	\end{definicio}
 	\begin{definicio}
 		Hamissá tehető, angolul falseable: Azt mondjuk, hogy az F formula hamissá tehető, akkor és csak akkor, ha F legalább egy interpretációjában hamis. 
@@ -124,35 +125,44 @@
 		Hamissá tehető ellentéte a logikai törvény, mivel ha valami nem hamissá tehető, akkor abból következik, hogy logikai törvény.
 	\end{megjegyzes}
 
+	Igazság tábla: Oszloponként tartalmazza az összes atomot, ami a formulánkban van, és az utolsó oszlopban a formulát is. Soronként minden atomhoz értéket rendel (minden lehetséges sorrendben), és a formulába behelyettesítve kiszámítja a formula értékét. Az eredményét az utolsó oszlopban láthatjuk.
+	
+	Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulákat, és igazság táblákat, amelyek minden lehetséges esetre igaz értéket adnak eredményül.
 
-	\begin{itemize}	
-		\item Igazság tábla: Oszloponként tartalmazza az összes atomot, ami a formulánkban van, és az utolsó oszlopban a formulát is. Soronként minden atomhoz értéket rendel (minden lehetséges sorrendben), és a formulába behelyettesítve kiszámítja a formula értékét. Az eredményét az utolsó oszlopban láthatjuk.
-		\item Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulákat, és igazság táblákat, amelyek minden lehetséges esetre igaz értéket adnak eredményül.
-	\end{itemize}
-
-	részletet beilleszteni a szakirodalom fordításaimból.
-
-
+	\emph{részletet illeszd be a szakirodalom fordításaidból!}
+	
+	\section{WolframAlpha válasz motor}
+	A Wolfram általános, több paradigmás programozási nyelv az alapja. Ami a hangsúlyt a szimbolikus számításra, a funkcionális programozásra, a szabályalapú programozásra helyezi, valamint képes tetszőleges struktúrákat és adatokat alkalmazni. Ezekre az alapokra épül a WolframAlpha tudás számító és válasz motor. Képes közvetlenül válaszolni a tényszerű kérdésekre azáltal, hogy külső forrásból származó adatokból számítja ki a választ.
+	
+	Mi arra tudjuk használni, hogy beviteli mezőbe logikai formulát adunk át neki. Válasznak vissza adja megformázva, amit beírtunk, annak igazság tábláját, normál formáit, logikai áramkörét, Venn diagrammját és az igazság sűrűségét.
+	
+	Így könnyen leellenőrizhető, hogy a logikai formula amit beírtunk az tautológia-e. Ezt az igazságtábla utolsó oszlopából láthatjuk.
+	
 	\section{A Python programozási nyelvről}
-	részletezés
-	\cite[102.~oldal]{Fazekas}
+	A Python egy magas-szintű programozási nyelv, ami a funkcionális, az objektumorientált, az imperatív és a procedurális programozási paradigmákat támogatja. Azaz egy olyan több paradigmás nyelv, ami függvényeket, eljárásokat, metódusokat, változókat, használ, ezekkel változtatja meg az állapotát. Bár dinamikusan típusos nyelv, mégis mégis hibát dob a nem jól definiált műveletek használatára. Például nem lehet hozzá adni számot szöveghez viszont dinamikus, mert a változóknak csak nevük van, és ha véletlenül ugyan azzal a névvel egy másik típust akarunk használni, azt felül írja, és az utoljára értékül kapott típust használja. Fontos a szintaxisra nézve, hogy minden behúzás jelentős, mivel ezeket használja a kód részek csoportosítására. Hivatkozás, angolul reference számolást és kör észlelő szemétgyűjtés, angolul garbage collection (GC) amit alkalmaz a memória visszaigényléséhez. Széleskörű az alap könyvtár készlete, azaz sok importálható osztály van, amit más már megírt előttünk. Ez annak köszönhető, hogy nyújthatóvá tették modulokon keresztül az egész nyelvet. Ezen kívül dinamikus név meghatározást használ, ami a késői kötésnek, vagy lusta kiértékelésnek köszönhetően a program futása közben köti össze a neveket és a metódusokat. Funkcionális függvényei is vannak, mint a filter, map és reduce, implementálva vannak fejlett listák, angolul list coomprehension, szótárak, halmazok, és generátor, valamint iterátor kifejezések. Két alap könyvtára van a functools és az itertools. Utóbbit én is használom a programomban, de ezen kívül még a gráfokhoz kidolgozott NetworkX és Pylab könyvtárakat is használom.
 	
-	szöveg
-	\cite{Fazekas,Tomacs}
+	\chapter{Kutatás}
+	\section{célja, alap, kiindulás modellek}
+	\section{eléréséhez mit csináltam}
+	\section{célja}
 	
-	\begin{tetel}
-		Tétel szövege.
-	\end{tetel}
+	\chapter{Szoftver}
+	\section{Amiből kiindultam}
+	A munka, amihez én is hozz teszem a részemet, egy saját készítésű SAT megoldó a CSFLOCK-ról szól. Ez ugyan egy Java-ban írt program, amihez én is hozzá tudok tenni, hiszen a bemeneti formátum, amivel dolgozik, az egy .cnf fájl. Ilyen fájlokat generálnak a graph\_cnf\_GEN nevű programok. Ezek különböző verziókban készültek el, ahogyan előre haladtunk.
 	
-	\begin{proof}
-		Bizonyítás szövege.
-	\end{proof}
+	\section{Ahova eljutottam}
 	
-
-	
+%	\begin{tetel}
+%		Tétel szövege.
+%	\end{tetel}
+%	
+%	\begin{proof}
+%		Bizonyítás szövege.
+%	\end{proof}
 
 	
 	\chapter*{Összegzés}
+	honnan hova jutottam, mi lett az eredmény. További fejlesztési lehetőségek
 	\addcontentsline{toc}{chapter}{Összegzés}
 
 	
@@ -160,10 +170,6 @@
 		\addcontentsline{toc}{chapter}{\bibname}
 		\bibitem{am}
 		\textsc{ICAI2020, AM2020 - Agria Média}: ...
-		\bibitem{Fazekas}
-		\textsc{Fazekas István}: \emph{Valószínűségszámítás}, Debreceni Egyetem, Debrecen, 2004.
-		\bibitem{Tomacs}
-		\textsc{Tómács Tibor}: \emph{A valószínűségszámítás alapjai}, Líceum Kiadó, Eger, 2005.
 	\end{thebibliography}
 	
 	% Aláírt, szkennelt nyilatkozat beillesztése a szakdolgozat végére
