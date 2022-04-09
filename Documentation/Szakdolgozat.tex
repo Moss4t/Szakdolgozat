@@ -31,13 +31,13 @@
 	\addcontentsline{toc}{chapter}{Bevezetés}
 	A szakdolgozati szemináriumon, amikor hallottam Kusper Gábor tanár úr magyarázatát a kutatásról, annak eredményeiről, céljáról, felhasználásáról. és már akkor nagyon megtetszett a téma. A SAT megoldó széles körű felhasználásáról beszélgettünk. Korábbi előadásokon, gyakorlatokon is voltak tanáraim, akik ezt a témát felvetették, és már akkoriban meghozták a kedvemet hozzá. Amikor választanom kellett, nem volt nagy kérdés, hogy ez egy számomra érdekes téma, amivel szívesen dolgozok, és lehetőséget ad a fejlődésre.
 
-	Szaktársammal, Rajna Franciskával csak mi ketten érdeklődtünk ebben a témában, úgyhogy mindenki örömmel beszélte meg a részleteket és közös megegyezéssel találtuk ki melyik ágát dolgozza ki a témának. Pozitív és energikus első benyomás után örömmel kezdtünk a munkának. Bíró Csaba és Balla Tamás tanár urakkal dolgoztunk a témával kapcsolatos házi TDK-hoz hasonló előadásokon és kutatásokon (\cite[ICAI2020, AM2020]{am}) vettünk részt. Az egyik alkalommal egy plakátot is készítettünk, ezekkel megalapozva egy lendületes kezdést.
+	Szaktársammal, Rajna Franciskával csak mi ketten érdeklődtünk ebben a témában, úgyhogy mindenki örömmel beszélte meg a részleteket és közös megegyezéssel találtuk ki melyik ágát dolgozza ki a témának. Pozitív és energikus első benyomás után örömmel kezdtünk a munkának. Bíró Csaba és Balla Tamás tanár urakkal dolgoztunk a témával kapcsolatos házi TDK-hoz hasonló előadásokon és kutatásokon \cite{am} vettünk részt. Az egyik alkalommal egy plakátot is készítettünk, ezekkel megalapozva egy lendületes kezdést.
 	
 	Megbeszéltük hol szorul fejlesztésre a SAT megoldó, amin tudok programozással javítani. Valamint a korábbi általuk írt angol nyelvű szakirodalmakkal elsajátíthatom az elméleti hátteret, felzárkózhatok a jelenlegi helyzethez és ezeken dolgozva könnyedén belerázódjak a szakdolgozatom megfogalmazásába. Így kezdtem el a munkámat.
 	
 	\chapter{Az alapok}
 	
-	A munkámat azzal kezdtem, hogy szakirodalmakat olvastam, fordítottam és értelmeztem, amiket korábban témavezetőim írtak [RÉSZLETEZD az alapokat SZAKIRODALOM végén]. Anyagot gyűjtöttem és dolgoztam fel a SAT megoldókról. Ezekben megjelentek különböző fogalmak, mint a tautológia [RÉSZLETEZD az alapokat alfejezetben SZAKIRODALOM FOGALMAI] cnf, és dnf, valamint programozási nyelvek, mint a Python [RÉSZLETEZD az alapokat PYTHON] és a Wolfram Alpha [RÉSZLETEZD az alapokat WOLFRAM ALPHA].
+	A munkámat azzal kezdtem, hogy szakirodalmakat olvastam, fordítottam és értelmeztem, amiket korábban témavezetőim írtak, ez \apageref{szakirodalom}.~oldalon olvasható. Anyagot gyűjtöttem és dolgoztam fel a SAT megoldókról. Ezekben megjelentek különböző definíciók, mint \aref{tautologia}.~definíció a tautológia, \aref{cnf}.~definíció a \textsc{cnf}, és \aref{dnf}.~definíció a \textsc{dnf}, valamint programozási nyelvek, mint a Python \aref{python-programnyelv}.~szakaszban és a Wolfram Alpha \aref{wolframalpha}.~szakaszban.
 		
 	\section{Szakirodalom}
 
@@ -75,7 +75,8 @@
 			\item negatív literál: ha B pozitív literál, akkor $\neg B $ negatív literál.
 			\item és formális összekötő: ha $ B \wedge \neg B $, akkor $\wedge$ egy és formális összekötő.
 			\item vagy formális összekötő: ha $ B \vee \neg B $, akkor $\vee$ egy vagy formális összekötő.
-		\end{enumerate}	
+		\end{enumerate}
+		Pozitív vagy negatív literál is feltűnhet benne, de sohasem egyszerre. Az is lehetséges, hogy valamelyik változó egyik formában sem tűnik fel benne.
 	\end{definicio}
 	\begin{megjegyzes}
 		Létezik konjunktív és diszjunktív klóz is. Ezeket később részletezem.
@@ -98,17 +99,17 @@
 	\begin{definicio}
 		Diszjunkció: Azt mondjuk, hogy formális összekötő diszjunkció, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy ha mindkét oldalán negatív literál van, akkor negatív literált állít elő, különben pozitív literált. Jele: $\vee$
 	\end{definicio}
-	\begin{definicio} % megjegyzésbe kiemelni az angol megfelelőket? CNF DNF
-		Konjunktív normál forma, röviden KNF, angolul conjunctive normal form, röviden CNF: Azt mondjuk, hogy logikai formula konjunktív normál forma, akkor és csak akkor, ha egy vagy több klózt egymáshoz kötünk konjunkcióval.
+	\begin{definicio}\label{cnf} % megjegyzésbe kiemelni az angol megfelelőket? CNF DNF
+		Konjunktív normál forma, röviden \textsc{knf}, angolul conjunctive normal form, röviden \textsc{cnf}: Azt mondjuk, hogy logikai formula konjunktív normál forma, akkor és csak akkor, ha egy vagy több klózt egymáshoz kötünk konjunkcióval.
 	\end{definicio}
-	\begin{definicio}
-		Diszjunktív normál forma, röviden DNF, angolul disjunctive normal form, röviden DNF: Azt mondjuk, hogy logikai formula diszjunktív normál forma, akkor és csak akkor, ha egy vagy több klózt egymáshoz kötünk diszjunkcióval.
+	\begin{definicio}\label{dnf}
+		Diszjunktív normál forma, angolul disjunctive normal form, röviden \textsc{dnf}: Azt mondjuk, hogy logikai formula diszjunktív normál forma, akkor és csak akkor, ha egy vagy több klózt egymáshoz kötünk diszjunkcióval.
 	\end{definicio}
 	\begin{definicio}
 		Interpretáció: Adott ítéletváltozóknak egy véges sok, nem üres V halmaza.
 		Azt mondjuk, hogy a J hozzárendelés az F formula egy interpretációja, akkor és csak akkor, ha F minden atomjához vagy az igaz, vagy a hamis értéket rendeljük, de csak az egyiket.
 	\end{definicio}
-	\begin{definicio}
+	\begin{definicio}\label{tautologia}
 		Logikai törvény, más néven tautológia: Azt mondjuk, hogy az F formula logikai törvény, vagy tautológia, akkor és csak akkor, ha F minden interpretációjában igaz.
 	\end{definicio}
 	\begin{definicio}
@@ -125,25 +126,72 @@
 		Hamissá tehető ellentéte a logikai törvény, mivel ha valami nem hamissá tehető, akkor abból következik, hogy logikai törvény.
 	\end{megjegyzes}
 
-	Igazság tábla: Oszloponként tartalmazza az összes atomot, ami a formulánkban van, és az utolsó oszlopban a formulát is. Soronként minden atomhoz értéket rendel (minden lehetséges sorrendben), és a formulába behelyettesítve kiszámítja a formula értékét. Az eredményét az utolsó oszlopban láthatjuk.
+	Igazság tábla: Oszloponként tartalmazza az összes atomot, ami a formulánkban van, és az utolsó oszlopban magát a formulát is. Soronként minden atomhoz értéket rendel, minden lehetséges sorrendben, és a formulába behelyettesítve kiszámítja a formula értékét. Az eredményét az utolsó oszlopból olvashatjuk ki.
 	
-	Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulákat, és igazság táblákat, amelyek minden lehetséges esetre igaz értéket adnak eredményül.
+	Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulákat, és igazság táblákat, amelyek minden lehetséges esetre igaz értéket adnak eredményül. Az eredményekből könnyebben átláthatjuk, ha tautológiát kapunk.
+	
+	SAT probléma: A logikai kielégíthetőség egy olyan probléma, ami azt határozza meg, hogy létezik olyan interpretációja egy logikai formulának, ami kielégíti az adott logikai formulát.
+	
+	SAT megoldó, angolul SAT solver: Hosszú, és bonyolult SAT problémák megoldására képes.
 
-	\emph{részletet illeszd be a szakirodalom fordításaidból!}
+	\subsection{A tanáraim ajánlása}\label{szakirodalom}
+	\begin{definicio}
+		Egy irányított gráf teljes, akkor és csak akkor, ha minden pár külön álló csúcsokból össze van kötve egy pár egyedi éllel (eggyel minden irányba). Egy irányított gráf erősen összetett, vagy erősen irányított gráf, akkor és csak akkor, ha van út minden csúcsból minden más csúcsba. Vegyük figyelembe, hogy a teljes gráf egyben erős is. És azt is, hogy az erősen irányított gráf tartalmaz egy kört, ami tartalmaz minden csúcsot \cite{synasc2020}.
+	\end{definicio}
+
+	\begin{definicio}
+		Erősen összetett gráf, más néven erős gráf: Azt mondjuk, hogy egy gráf erős gráf, akkor és csak akkor, ha van út minden pár csúcs között.
+	\end{definicio}
 	
-	\section{WolframAlpha válasz motor}
+	\begin{definicio}
+		Erősen összetett komponens, angolul strongly connected component, röveiden SCC: Azt mondjuk, hogy egy algráf erősen összetett komponens, akkor és csak akkor, ha egy irányított gráf maximális erősen összekötött algráfja. 
+	\end{definicio}
+	
+	\begin{definicio}
+		Fekete hozzárendelés, más néven fekete klóz: Azt mondjuk, hogy egy klóz fekete klóz, akkor és csak akkor, ha a gráf minden csúcsának negáltja megtalálható benne.
+	\end{definicio}
+	
+	\begin{definicio}
+		Fehér hozzárendelés, más néven fehér klóz: Azt mondjuk, hogy egy klóz fehér klóz, akkor és csak akkor, ha a gráf minden csúcsa megtalálható benne.
+	\end{definicio}
+
+	
+	
+	\section{WolframAlpha válasz motor}\label{wolframalpha}
 	A Wolfram általános, több paradigmás programozási nyelv az alapja. Ami a hangsúlyt a szimbolikus számításra, a funkcionális programozásra, a szabályalapú programozásra helyezi, valamint képes tetszőleges struktúrákat és adatokat alkalmazni. Ezekre az alapokra épül a WolframAlpha tudás számító és válasz motor. Képes közvetlenül válaszolni a tényszerű kérdésekre azáltal, hogy külső forrásból származó adatokból számítja ki a választ.
 	
 	Mi arra tudjuk használni, hogy beviteli mezőbe logikai formulát adunk át neki. Válasznak vissza adja megformázva, amit beírtunk, annak igazság tábláját, normál formáit, logikai áramkörét, Venn diagrammját és az igazság sűrűségét.
 	
 	Így könnyen leellenőrizhető, hogy a logikai formula amit beírtunk az tautológia-e. Ezt az igazságtábla utolsó oszlopából láthatjuk.
 	
-	\section{A Python programozási nyelvről}
+	\section{A Python programozási nyelvről}\label{python-programnyelv}
 	A Python egy magas-szintű programozási nyelv, ami a funkcionális, az objektumorientált, az imperatív és a procedurális programozási paradigmákat támogatja. Azaz egy olyan több paradigmás nyelv, ami függvényeket, eljárásokat, metódusokat, változókat, használ, ezekkel változtatja meg az állapotát. Bár dinamikusan típusos nyelv, mégis mégis hibát dob a nem jól definiált műveletek használatára. Például nem lehet hozzá adni számot szöveghez viszont dinamikus, mert a változóknak csak nevük van, és ha véletlenül ugyan azzal a névvel egy másik típust akarunk használni, azt felül írja, és az utoljára értékül kapott típust használja. Fontos a szintaxisra nézve, hogy minden behúzás jelentős, mivel ezeket használja a kód részek csoportosítására. Hivatkozás, angolul reference számolást és kör észlelő szemétgyűjtés, angolul garbage collection (GC) amit alkalmaz a memória visszaigényléséhez. Széleskörű az alap könyvtár készlete, azaz sok importálható osztály van, amit más már megírt előttünk. Ez annak köszönhető, hogy nyújthatóvá tették modulokon keresztül az egész nyelvet. Ezen kívül dinamikus név meghatározást használ, ami a késői kötésnek, vagy lusta kiértékelésnek köszönhetően a program futása közben köti össze a neveket és a metódusokat. Funkcionális függvényei is vannak, mint a filter, map és reduce, implementálva vannak fejlett listák, angolul list coomprehension, szótárak, halmazok, és generátor, valamint iterátor kifejezések. Két alap könyvtára van a functools és az itertools. Utóbbit én is használom a programomban, de ezen kívül még a gráfokhoz kidolgozott NetworkX és Pylab könyvtárakat is használom.
 	
 	\chapter{Kutatás}
-	\section{célja, alap, kiindulás modellek}
-	\section{eléréséhez mit csináltam}
+	\section{Amiből kiindultam}
+	
+	
+	Egy élet úgy írunk le, hogy a csomópont, amiből kiindul az él, azt megjelöljük egy negatív literállal, amelyik csomópontba mutat az él, azt pedig egy pozitív literállal. Ezt egy klózban lehet tárolni.
+	
+	Egy kört úgy írunk le, hogy minden csomópont, ami szerepel benne, azt egy negatív literállal jelöljük és egy klózba írjuk, úgy hogy mindegyik csak egyszer szerepeljen. Amennyiben a körből kifelé mutat él, az összeset a klóz végére fűzzük.
+	
+	Erős modell: A legegyszerűbb modell. Csak az éleket tartalmazza csomópont páronként. A végére illesztve a fekete és a fehér klózokal.
+		
+	Balaton boglár modell: Az alap ötlete, hogy nem köröket ír le, hanem 3as csoportosításban a csomópontokat, amik közt van út. Ezzel csak annyi a baj, hogy ezzel még nem tudunk 3-SAT problémából irányított gráfot generálni.
+	
+	Egyszerűsített Balatonboglár: Ha kevesebb klózból álló erősen összetett irányított gráfot készítünk, akkor egy fekete-fehér 3-SAT modellt kapunk.
+
+	Gyenge modell: Egy kört úgy írunk le benne, hogy az összes körben szereplő csomópontot megjelöljük egy negatív literállal, annak kilépési pontjait pedig pozitív literálként. Egy gyenge modellben az összes klózban legalább egy negatív és legalább egy pozitív literálnak kell lennie. Egy csomópont csak akkor van leírva a modellben, ha van kimenő él belőle. Egy kör csak akkor van leírva a modellben, ha van kilépési pontja \cite{sat-solving-50}.
+	
+	Ahogyan azt a szakdolgozati jelentkezésembe is beleírtam, a tanárom arra kért hogy a gráfok gyenge modelljét vizsgáljam, és azokkal dolgozzak. Munkám során azonban félre értettem pár dolgot, így a gyenge modelltől elkanyarodtam az erős felé, és ott értelmeztem egy összefoglalt lépés sorozatot. Ennek eredménye, hogy egy általánosított erős modell generáló szoftvert írtam.
+
+	\section{Kiterjesztett erős modell}
+	Ezt úgy értem el, hogy ha egy irányított gráf több SCC-ből áll, akkor a neki megfelelő modell mindig kielégíthető, akkor is, ha hozzáadjuk a fekete és a fehér klózokat. Ez a megállapítás független attól, hogy a gráf, melyik modelljét generáljuk le. Akkor is igaz, ha az erős, vagy ha a gyenge, vagy mondjuk a Balatonboglár modell segítségével generáljuk le a neki megfelelő SAT példányt.
+	
+	Ennek az az oka, hogy az elmélet szerint akkor és csak akkor keletkezik irányított gráfból UNSAT példány, ha az irányított gráf egy SCC-ből áll, azaz összefüggő, és hozzáadjuk a modelljéhez a fekete és a fehér klózokat.
+	
+	Több esetet is vizsgáltam, amikor azt irányított gráf két SCC-ből áll. Ezeknek az erős modelljét elkészítettem kézzel, illetve programmal is és a WolframAlpha weboldalát használtam fel ezek vizsgálatára.
+	
 	\section{célja}
 	
 	\chapter{Szoftver}
@@ -161,15 +209,19 @@
 %	\end{proof}
 
 	
-	\chapter*{Összegzés}
+	\chapter*{Összegzés}\addcontentsline{toc}{chapter}{Összegzés}
 	honnan hova jutottam, mi lett az eredmény. További fejlesztési lehetőségek
-	\addcontentsline{toc}{chapter}{Összegzés}
+	
 
 	
 	\begin{thebibliography}{2}
 		\addcontentsline{toc}{chapter}{\bibname}
-		\bibitem{am}
-		\textsc{ICAI2020, AM2020 - Agria Média}: ...
+		\bibitem[ICAI2020, AM2020]{am}
+		\textsc{ICAI2020, AM2020 - Agria Média}: \dots
+		\bibitem[SYNASC2020]{synasc2020}
+		\textsc{SYNASC2020 submission 77 v20}: \dots
+		\bibitem{sat-solving-50}
+		\textsc{SAT solving 50}:
 	\end{thebibliography}
 	
 	% Aláírt, szkennelt nyilatkozat beillesztése a szakdolgozat végére
