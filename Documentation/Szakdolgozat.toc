@@ -1,6 +1,15 @@
 \select@language {magyar} \contentsline {chapter}{Bevezetés}{3}{chapter*.2}%
-\select@language {magyar} \contentsline {chapter}{\numberline {1}Alap fogalmak}{4}{chapter.1}%
+\select@language {magyar} \contentsline {chapter}{\numberline {1}Az alapok}{4}{chapter.1}%
 \select@language {magyar} \contentsline {section}{\numberline {1.1}Szakirodalom}{4}{section.1.1}%
-\select@language {magyar} \contentsline {section}{\numberline {1.2}A Python programozási nyelvről}{7}{section.1.2}%
-\select@language {magyar} \contentsline {chapter}{Összegzés}{8}{chapter*.3}%
-\select@language {magyar} \contentsline {chapter}{Irodalomjegyz\'ek}{9}{chapter*.4}%
+\select@language {magyar} \contentsline {subsection}{\numberline {1.1.1}A tanáraim ajánlása}{7}{subsection.1.1.1}%
+\select@language {magyar} \contentsline {section}{\numberline {1.2}WolframAlpha válasz motor}{7}{section.1.2}%
+\select@language {magyar} \contentsline {section}{\numberline {1.3}A Python programozási nyelvről}{8}{section.1.3}%
+\select@language {magyar} \contentsline {chapter}{\numberline {2}Kutatás}{9}{chapter.2}%
+\select@language {magyar} \contentsline {section}{\numberline {2.1}Amiből kiindultam}{9}{section.2.1}%
+\select@language {magyar} \contentsline {section}{\numberline {2.2}Kiterjesztett erős modell}{10}{section.2.2}%
+\select@language {magyar} \contentsline {section}{\numberline {2.3}célja}{10}{section.2.3}%
+\select@language {magyar} \contentsline {chapter}{\numberline {3}Szoftver}{11}{chapter.3}%
+\select@language {magyar} \contentsline {section}{\numberline {3.1}Amiből kiindultam}{11}{section.3.1}%
+\select@language {magyar} \contentsline {section}{\numberline {3.2}Ahova eljutottam}{11}{section.3.2}%
+\select@language {magyar} \contentsline {chapter}{Összegzés}{12}{chapter*.3}%
+\select@language {magyar} \contentsline {chapter}{Irodalomjegyz\'ek}{13}{chapter*.4}%

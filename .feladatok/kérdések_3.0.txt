@@ -4,5 +4,7 @@ A TeXstudio eléggé akadozik, jó lenne áttérni VScode-ra.
 ------------------------------------------------------------------
 írni pár sort a wolfram alpha-ról. √
 Példákat rakj még bele.
+Amnikor megy a rework, vagy átvizsgálás az egészen, akkor papíron jegyzetelj, dolgozd ki a részleteket.
+
 
 (még nem olvastam át amit tanárúr küldött) Az jó, ha a Fig 1.ről a 4. csúcsot úgy akarom bekötni, hogy az eredeti csomópontok amik mennek bele, valamelyiket külön leírni, mondjuk -3 4 0. De választani kéne, hogy mi alapján válasszon sok csomópont közül. Az amelyik szomszédos csomópontja több, vagy kevesebb szomszéddal rendelkezik?

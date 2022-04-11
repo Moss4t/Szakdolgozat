@@ -46,9 +46,11 @@
 	\begin{definicio}
 		Atomi formula, röviden atom:  Azt mondjuk, hogy egy szimbólum atomi formula, vagy atom, akkor és csak akkor, ha egy kifejezést jelöl. Ilyen atomok, az igaz és hamis ítéletváltozók. Szimbólumuk általában az \emph{I} és \emph{H} betűk magyarul, de szoktuk használni az angol megfelelőjét is a \emph{T} és \emph{F} betűket.
 	\end{definicio}
+
 	\begin{definicio}
 		Literál: Azt mondjuk, hogy egy szimbólum literál, akkor és csak akkor, ha egy atom, vagy annak negáltja.
 	\end{definicio}
+
 	\begin{definicio}		
 		Jól formázott formula, röviden formula: Azt mondjuk, hogy egy szimbólum sorozat jól formázott formula, vagy formula, akkor és csak akkor, ha F formula a következő alakok egyikében van:
 		\begin{enumerate}[label=\textit{(\alph*)}]
@@ -61,6 +63,7 @@
 		\end{enumerate}
 		Minden formula a fenti esetek véges sokszori alkalmazásával áll elő.
 	\end{definicio}
+
 	\begin{definicio}
 		Formula: Adott ítéletváltozónak egy véges, nem üres V halmaza.
 		\begin{enumerate}
@@ -68,59 +71,79 @@
 			\item Negáció: ha A formula, akkor $\neg A $ is formula.
 		\end{enumerate}
 	\end{definicio}
+
 	\begin{definicio}
-		Klóz, angolul clause: Azt mondjuk, hogy egy formula klóz, akkor és csak akkor, ha adott literáloknak és formális összekötőknek egy véges, nem üres, egynél több elemű W halmaza.
+		Operátor: Azt mondjuk, hogy egy szimbólum operátor, akkor és csak akkor, ha egy Formulán, klózon, vagy literálon módosítást végez, oly módon, hogy kiinduló állapotát megváltoztatja, megfelelő elő feltételek mellett.
+	\end{definicio}
+
+	\begin{definicio}
+		Klóz, angolul clause: Azt mondjuk, hogy egy formula klóz, akkor és csak akkor, ha adott literáloknak és operátoroknak egy véges, nem üres, egynél több elemű W halmaza.
 		\begin{enumerate}
 			\item pozitív literál: ha $ B\in W $, és B egy pozitív literál.
 			\item negatív literál: ha B pozitív literál, akkor $\neg B $ negatív literál.
-			\item és formális összekötő: ha $ B \wedge \neg B $, akkor $\wedge$ egy és formális összekötő.
-			\item vagy formális összekötő: ha $ B \vee \neg B $, akkor $\vee$ egy vagy formális összekötő.
+			\item és operátor: ha $ B \wedge \neg B $, akkor $\wedge$ egy és operátor.
+			\item vagy operátor: ha $ B \vee \neg B $, akkor $\vee$ egy vagy operátor.
+			\item össze éselés: Két klózt össze éselünk, ha két klóz közé és operátor
 		\end{enumerate}
 		Pozitív vagy negatív literál is feltűnhet benne, de sohasem egyszerre. Az is lehetséges, hogy valamelyik változó egyik formában sem tűnik fel benne.
 	\end{definicio}
+
 	\begin{megjegyzes}
 		Létezik konjunktív és diszjunktív klóz is. Ezeket később részletezem.
 		Diszjunktív klóz: Azt mondjuk, hogy $ l_{i} $ szimbólumok egy klózt alkotnak, akkor és csak akkor, ha minden $ l_{i} $ literál: $ l_{1}\vee\dots\vee l_{n} $
 		Konjunktív klóz: Azt mondjuk, hogy $ l_{i} $ szimbólumok egy klózt alkotnak, akkor és csak akkor, ha minden $ l_{i} $ literál: $ l_{1}\wedge\dots\wedge l_{n} $
 	\end{megjegyzes}
+
 	\begin{definicio}
-		Implikáció: Azt mondjuk hogy formális összekötő implikáció, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy az összes bal oldali értékből pozitív literált állít elő, kivéve, ha a bal oldalán pozitív, a jobb oldalán negatív literál van.
+		Implikáció: Azt mondjuk hogy egy operátor implikáció, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy az összes bal oldali értékből pozitív literált állít elő, kivéve, ha a bal oldalán pozitív, a jobb oldalán negatív literál van.
 		Mivel a negatív értékből nem következik a pozitív érték. Jelölése: $ A \implies B $
 	\end{definicio}
+
 	\begin{definicio}
-		Ekvivalencia: Azt mondjuk, hogy formális összekötő ekvivalencia, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy ha mindkét oldalán ugyan az a pólusú literál van, akkor pozitív literált állít elő, kivéve, ha eltérnek a pólusok.
+		Ekvivalencia: Azt mondjuk, hogy egy operátor ekvivalencia, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy ha mindkét oldalán ugyan az a pólusú literál van, akkor pozitív literált állít elő, kivéve, ha eltérnek a pólusok.
 	\end{definicio}
+
 	\begin{megjegyzes}
 		Pólus alatt a negatív vagy pozitív jelzőt értjük.
 	\end{megjegyzes}
+
 	\begin{definicio}
-		Konjukció: Azt mondjuk, hogy formális összekötő konjukció, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy ha mindkét oldalán pozitív literál van, akkor és csak akkor pozitív literált állít elő, különben negatív literált. Jele: $\wedge$
+		Konjukció: Azt mondjuk, hogy egy operátor konjukció, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy ha mindkét oldalán pozitív literál van, akkor és csak akkor pozitív literált állít elő, különben negatív literált. Jele: $\wedge$
 	\end{definicio}
+
 	\begin{definicio}
-		Diszjunkció: Azt mondjuk, hogy formális összekötő diszjunkció, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy ha mindkét oldalán negatív literál van, akkor negatív literált állít elő, különben pozitív literált. Jele: $\vee$
+		Diszjunkció: Azt mondjuk, hogy egy operátor diszjunkció, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy ha mindkét oldalán negatív literál van, akkor negatív literált állít elő, különben pozitív literált. Jele: $\vee$
 	\end{definicio}
+
 	\begin{definicio}\label{cnf} % megjegyzésbe kiemelni az angol megfelelőket? CNF DNF
 		Konjunktív normál forma, röviden \textsc{knf}, angolul conjunctive normal form, röviden \textsc{cnf}: Azt mondjuk, hogy logikai formula konjunktív normál forma, akkor és csak akkor, ha egy vagy több klózt egymáshoz kötünk konjunkcióval.
 	\end{definicio}
+
 	\begin{definicio}\label{dnf}
 		Diszjunktív normál forma, angolul disjunctive normal form, röviden \textsc{dnf}: Azt mondjuk, hogy logikai formula diszjunktív normál forma, akkor és csak akkor, ha egy vagy több klózt egymáshoz kötünk diszjunkcióval.
 	\end{definicio}
+
 	\begin{definicio}
 		Interpretáció: Adott ítéletváltozóknak egy véges sok, nem üres V halmaza.
 		Azt mondjuk, hogy a J hozzárendelés az F formula egy interpretációja, akkor és csak akkor, ha F minden atomjához vagy az igaz, vagy a hamis értéket rendeljük, de csak az egyiket.
 	\end{definicio}
+
 	\begin{definicio}\label{tautologia}
 		Logikai törvény, más néven tautológia: Azt mondjuk, hogy az F formula logikai törvény, vagy tautológia, akkor és csak akkor, ha F minden interpretációjában igaz.
 	\end{definicio}
+
 	\begin{definicio}
 		Logikai ellent mondás, angolul contradiction, unsatisfiable, röviden UNSAT: Azt mondjuk, hogy az F formula logikai ellentmondás, akkor és csak akkor, ha F minden interpretációjában hamis.
 	\end{definicio}
+
 	\begin{definicio}
 		Kielégíthető, angolul satisfiable, röviden SAT: Azt mondjuk, hogy az F formula kielégíthető, akkor és csak akkor, ha F legalább egy interpretációjában igaz.
 	\end{definicio}
+
 	\begin{definicio}
 		Hamissá tehető, angolul falseable: Azt mondjuk, hogy az F formula hamissá tehető, akkor és csak akkor, ha F legalább egy interpretációjában hamis. 
 	\end{definicio}
+
 	\begin{megjegyzes}
 		Kielégítő ellentéte a logikai ellentmondás, mivel ha valami nem kielégíthető, akkor abból következik, hogy logikai ellentmondás.
 		Hamissá tehető ellentéte a logikai törvény, mivel ha valami nem hamissá tehető, akkor abból következik, hogy logikai törvény.
@@ -154,8 +177,6 @@
 	\begin{definicio}
 		Fehér hozzárendelés, más néven fehér klóz: Azt mondjuk, hogy egy klóz fehér klóz, akkor és csak akkor, ha a gráf minden csúcsa megtalálható benne.
 	\end{definicio}
-
-	
 	
 	\section{WolframAlpha válasz motor}\label{wolframalpha}
 	A Wolfram általános, több paradigmás programozási nyelv az alapja. Ami a hangsúlyt a szimbolikus számításra, a funkcionális programozásra, a szabályalapú programozásra helyezi, valamint képes tetszőleges struktúrákat és adatokat alkalmazni. Ezekre az alapokra épül a WolframAlpha tudás számító és válasz motor. Képes közvetlenül válaszolni a tényszerű kérdésekre azáltal, hogy külső forrásból származó adatokból számítja ki a választ.
@@ -170,7 +191,6 @@
 	\chapter{Kutatás}
 	\section{Amiből kiindultam}
 	
-	
 	Egy élet úgy írunk le, hogy a csomópont, amiből kiindul az él, azt megjelöljük egy negatív literállal, amelyik csomópontba mutat az él, azt pedig egy pozitív literállal. Ezt egy klózban lehet tárolni.
 	
 	Egy kört úgy írunk le, hogy minden csomópont, ami szerepel benne, azt egy negatív literállal jelöljük és egy klózba írjuk, úgy hogy mindegyik csak egyszer szerepeljen. Amennyiben a körből kifelé mutat él, az összeset a klóz végére fűzzük.
@@ -183,14 +203,21 @@
 
 	Gyenge modell: Egy kört úgy írunk le benne, hogy az összes körben szereplő csomópontot megjelöljük egy negatív literállal, annak kilépési pontjait pedig pozitív literálként. Egy gyenge modellben az összes klózban legalább egy negatív és legalább egy pozitív literálnak kell lennie. Egy csomópont csak akkor van leírva a modellben, ha van kimenő él belőle. Egy kör csak akkor van leírva a modellben, ha van kilépési pontja \cite{sat-solving-50}.
 	
-	Ahogyan azt a szakdolgozati jelentkezésembe is beleírtam, a tanárom arra kért hogy a gráfok gyenge modelljét vizsgáljam, és azokkal dolgozzak. Munkám során azonban félre értettem pár dolgot, így a gyenge modelltől elkanyarodtam az erős felé, és ott értelmeztem egy összefoglalt lépés sorozatot. Ennek eredménye, hogy egy általánosított erős modell generáló szoftvert írtam.
+	TODO ezt még ki kell egészíteni, és a chapter tetejétől végig olvasni (rework needed)
+	Ahogyan azt a szakdolgozati jelentkezésembe is beleírtam, a tanárom arra kért hogy a gráfok gyenge modelljét vizsgáljam, és azokkal dolgozzak. Munkám során azonban félre értettem pár dolgot, így a gyenge modelltől elkanyarodtam az erős felé, és ott értelmeztem egy összefoglalt lépés sorozatot. Ennek eredménye, hogy egy általánosított erős modell generáló szoftvert írtam. Lásd \aref{esm}.~fejezetben.
+	
+	Amit félre értettem, hogy én az SCC-ket írtam össze és azok kilépési pontjait tettem bele egy klózba. A weak modell pedig úgy ír le egy kört, hogy a gráf teljes hosszú klóz halmazából éseli össze a klózokat, oly módon, hogy leírja az éleket és a köröket. Tehát én egy SCC elemeit és kilépési pontjait néztem, a gyenge modellnél pedig a teljes hosszú klózokat kell össze éselni 
 
-	\section{Kiterjesztett erős modell}
+	TODO példa: \textit{teljes hosszú klóz halmaz} kiemelni a 6os 7es sort \textit{kép} kiemelni az a-ból kimenő éleket \textit{gyenge modellje} előtte leírni milyen körök vannak benne, utána leírni hogy a 6os és 7es klózok az eredeti halmazból adják a-nak a kimenő éleit \cite[a 24.~oldalon]{sat-solving-50}.
+
+	\section{Kiterjesztett erős modell}\label{esm}
 	Ezt úgy értem el, hogy ha egy irányított gráf több SCC-ből áll, akkor a neki megfelelő modell mindig kielégíthető, akkor is, ha hozzáadjuk a fekete és a fehér klózokat. Ez a megállapítás független attól, hogy a gráf, melyik modelljét generáljuk le. Akkor is igaz, ha az erős, vagy ha a gyenge, vagy mondjuk a Balatonboglár modell segítségével generáljuk le a neki megfelelő SAT példányt.
 	
 	Ennek az az oka, hogy az elmélet szerint akkor és csak akkor keletkezik irányított gráfból UNSAT példány, ha az irányított gráf egy SCC-ből áll, azaz összefüggő, és hozzáadjuk a modelljéhez a fekete és a fehér klózokat.
 	
 	Több esetet is vizsgáltam, amikor azt irányított gráf két SCC-ből áll. Ezeknek az erős modelljét elkészítettem kézzel, illetve programmal is és a WolframAlpha weboldalát használtam fel ezek vizsgálatára.
+	
+	
 	
 	\section{célja}
 	
