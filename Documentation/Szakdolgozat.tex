@@ -88,6 +88,16 @@
 		Pozitív vagy negatív literál is feltűnhet benne, de sohasem egyszerre. Az is lehetséges, hogy valamelyik változó egyik formában sem tűnik fel benne.
 	\end{definicio}
 
+	\begin{definicio}
+		Klóz, angolul clause: Azt mondjuk, hogy egy formula klóz, akkor és csak akkor, ha adott literáloknak és formális összekötőknek egy véges, nem üres, egynél több elemű W halmaza.
+		\begin{enumerate}
+			\item pozitív literál: ha $ B\in W $, és B egy pozitív literál.
+			\item negatív literál: ha B pozitív literál, akkor $\neg B $ negatív literál.
+			\item és formális összekötő: ha $ B \wedge \neg B $, akkor $\wedge$ egy és formális összekötő.
+			\item vagy formális összekötő: ha $ B \vee \neg B $, akkor $\vee$ egy vagy formális összekötő.
+		\end{enumerate}	
+	\end{definicio}
+	
 	\begin{megjegyzes}
 		Létezik konjunktív és diszjunktív klóz is. Ezeket később részletezem.
 		Diszjunktív klóz: Azt mondjuk, hogy $ l_{i} $ szimbólumok egy klózt alkotnak, akkor és csak akkor, ha minden $ l_{i} $ literál: $ l_{1}\vee\dots\vee l_{n} $
@@ -238,8 +248,6 @@
 	
 	\chapter*{Összegzés}\addcontentsline{toc}{chapter}{Összegzés}
 	honnan hova jutottam, mi lett az eredmény. További fejlesztési lehetőségek
-	
-
 	
 	\begin{thebibliography}{2}
 		\addcontentsline{toc}{chapter}{\bibname}
