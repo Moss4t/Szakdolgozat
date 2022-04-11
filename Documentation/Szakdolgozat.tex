@@ -7,7 +7,7 @@
 \PassOptionsToPackage{defaults=hu-min}{magyar.ldf}
 \usepackage[magyar]{babel}
 \usepackage{mathtools,amssymb,amsthm,pdfpages}
-\usepackage{enumitem}
+\usepackage{enumitem, url}
 \footnotestyle{rule=fourth}
 
 \newtheorem{tetel}{Tétel}[chapter]
@@ -73,34 +73,27 @@
 	\end{definicio}
 
 	\begin{definicio}
-		Operátor: Azt mondjuk, hogy egy szimbólum operátor, akkor és csak akkor, ha egy Formulán, klózon, vagy literálon módosítást végez, oly módon, hogy kiinduló állapotát megváltoztatja, megfelelő elő feltételek mellett.
+		Operátor: Azt mondjuk, hogy egy szimbólum operátor, akkor és csak akkor, ha egy Formulán, klózon, vagy literálon módosítást végez, oly módon, hogy kiinduló állapotát megváltoztatja, megfelelő elő feltételek mellett. Azaz két ítéletváltozó értékéből, azokat értelmezve egy harmadik értéket eredményez.
 	\end{definicio}
-
+	
 	\begin{definicio}
 		Klóz, angolul clause: Azt mondjuk, hogy egy formula klóz, akkor és csak akkor, ha adott literáloknak és operátoroknak egy véges, nem üres, egynél több elemű W halmaza.
+
+		Klózban értelmezve,
 		\begin{enumerate}
 			\item pozitív literál: ha $ B\in W $, és B egy pozitív literál.
 			\item negatív literál: ha B pozitív literál, akkor $\neg B $ negatív literál.
 			\item és operátor: ha $ B \wedge \neg B $, akkor $\wedge$ egy és operátor.
 			\item vagy operátor: ha $ B \vee \neg B $, akkor $\vee$ egy vagy operátor.
-			\item össze éselés: Két klózt össze éselünk, ha két klóz közé és operátor
 		\end{enumerate}
-		Pozitív vagy negatív literál is feltűnhet benne, de sohasem egyszerre. Az is lehetséges, hogy valamelyik változó egyik formában sem tűnik fel benne.
-	\end{definicio}
-
-	\begin{definicio}
-		Klóz, angolul clause: Azt mondjuk, hogy egy formula klóz, akkor és csak akkor, ha adott literáloknak és formális összekötőknek egy véges, nem üres, egynél több elemű W halmaza.
-		\begin{enumerate}
-			\item pozitív literál: ha $ B\in W $, és B egy pozitív literál.
-			\item negatív literál: ha B pozitív literál, akkor $\neg B $ negatív literál.
-			\item és formális összekötő: ha $ B \wedge \neg B $, akkor $\wedge$ egy és formális összekötő.
-			\item vagy formális összekötő: ha $ B \vee \neg B $, akkor $\vee$ egy vagy formális összekötő.
-		\end{enumerate}	
+		Pozitív vagy negatív literál is feltűnhet egy klózban, de sohasem egyszerre. Az is lehetséges, hogy valamelyik változó egyik formában sem tűnik fel egy klózban, hiszen egyszerűsíthetünk: $ B \wedge\neg B \equiv\emptyset $.
 	\end{definicio}
 	
 	\begin{megjegyzes}
-		Létezik konjunktív és diszjunktív klóz is. Ezeket később részletezem.
+		Létezik konjunktív és diszjunktív klóz is. Vegyes egy klóz tartalma, ha vagy, valamint és operátorokat is tartalmaz.
+	
 		Diszjunktív klóz: Azt mondjuk, hogy $ l_{i} $ szimbólumok egy klózt alkotnak, akkor és csak akkor, ha minden $ l_{i} $ literál: $ l_{1}\vee\dots\vee l_{n} $
+		
 		Konjunktív klóz: Azt mondjuk, hogy $ l_{i} $ szimbólumok egy klózt alkotnak, akkor és csak akkor, ha minden $ l_{i} $ literál: $ l_{1}\wedge\dots\wedge l_{n} $
 	\end{megjegyzes}
 
@@ -110,7 +103,7 @@
 	\end{definicio}
 
 	\begin{definicio}
-		Ekvivalencia: Azt mondjuk, hogy egy operátor ekvivalencia, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy ha mindkét oldalán ugyan az a pólusú literál van, akkor pozitív literált állít elő, kivéve, ha eltérnek a pólusok.
+		Ekvivalencia: Azt mondjuk, hogy egy operátor ekvivalencia, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy ha mindkét oldalán ugyan az a pólusú literál van, akkor pozitív literált állít elő, kivéve, ha eltérnek a pólusok. Jele: $ \equiv $
 	\end{definicio}
 
 	\begin{megjegyzes}
@@ -118,16 +111,16 @@
 	\end{megjegyzes}
 
 	\begin{definicio}
-		Konjukció: Azt mondjuk, hogy egy operátor konjukció, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy ha mindkét oldalán pozitív literál van, akkor és csak akkor pozitív literált állít elő, különben negatív literált. Jele: $\wedge$
+		És operátor, más néven konjukció: Azt mondjuk, hogy egy operátor konjukció, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy ha mindkét oldalán pozitív literál van, akkor és csak akkor pozitív literált állít elő, különben negatív literált. Jele: $\wedge$
 	\end{definicio}
 
 	\begin{definicio}
-		Diszjunkció: Azt mondjuk, hogy egy operátor diszjunkció, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy ha mindkét oldalán negatív literál van, akkor negatív literált állít elő, különben pozitív literált. Jele: $\vee$
+		Vagy operátor, más néven diszjunkció: Azt mondjuk, hogy egy operátor diszjunkció, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy ha mindkét oldalán negatív literál van, akkor negatív literált állít elő, különben pozitív literált. Jele: $\vee$
 	\end{definicio}
 
 	\begin{definicio}\label{cnf} % megjegyzésbe kiemelni az angol megfelelőket? CNF DNF
 		Konjunktív normál forma, röviden \textsc{knf}, angolul conjunctive normal form, röviden \textsc{cnf}: Azt mondjuk, hogy logikai formula konjunktív normál forma, akkor és csak akkor, ha egy vagy több klózt egymáshoz kötünk konjunkcióval.
-	\end{definicio}
+	\end{definicio} % példákat cnfre, dnf-re
 
 	\begin{definicio}\label{dnf}
 		Diszjunktív normál forma, angolul disjunctive normal form, röviden \textsc{dnf}: Azt mondjuk, hogy logikai formula diszjunktív normál forma, akkor és csak akkor, ha egy vagy több klózt egymáshoz kötünk diszjunkcióval.
@@ -177,7 +170,7 @@
 	\end{definicio}
 	
 	\begin{definicio}
-		Erősen összetett komponens, angolul strongly connected component, röveiden SCC: Azt mondjuk, hogy egy algráf erősen összetett komponens, akkor és csak akkor, ha egy irányított gráf maximális erősen összekötött algráfja. 
+		Erősen összetett komponens, más néven erős komponens, angolul strongly connected component, röveiden SCC: Azt mondjuk, hogy egy algráf erősen összetett komponens, akkor és csak akkor, ha egy irányított gráf maximális erősen összekötött algráfja. 
 	\end{definicio}
 	
 	\begin{definicio}
@@ -223,13 +216,66 @@
 	\section{Kiterjesztett erős modell}\label{esm}
 	Ezt úgy értem el, hogy ha egy irányított gráf több SCC-ből áll, akkor a neki megfelelő modell mindig kielégíthető, akkor is, ha hozzáadjuk a fekete és a fehér klózokat. Ez a megállapítás független attól, hogy a gráf, melyik modelljét generáljuk le. Akkor is igaz, ha az erős, vagy ha a gyenge, vagy mondjuk a Balatonboglár modell segítségével generáljuk le a neki megfelelő SAT példányt.
 	
-	Ennek az az oka, hogy az elmélet szerint akkor és csak akkor keletkezik irányított gráfból UNSAT példány, ha az irányított gráf egy SCC-ből áll, azaz összefüggő, és hozzáadjuk a modelljéhez a fekete és a fehér klózokat.
+	Ennek az az oka, hogy az elmélet szerint akkor és csak akkor keletkezik irányított gráfból UNSAT példány, ha az irányított gráf egy SCC-ből áll, azaz erősen összefüggő, és hozzáadjuk a modelljéhez a fekete és a fehér klózokat.
 	
-	Több esetet is vizsgáltam, amikor azt irányított gráf két SCC-ből áll. Ezeknek az erős modelljét elkészítettem kézzel, illetve programmal is és a WolframAlpha weboldalát használtam fel ezek vizsgálatára.
+	Több esetet is vizsgáltam, amikor azt irányított gráf két SCC-ből áll. Ezeknek az erős modelljét elkészítettem kézzel, illetve programmal is, valamint a WolframAlpha weboldalát használtam fel ezek vizsgálatára.
+	%részletezd az Alpha működését is a korábbi részben. A pythonét is.
+	A WolframAlpha-t már kifejtettem a \ref{wolframalpha}.~fejezetben, így erre itt nem térnék ki minden részlete, a használatával kapcsolatban.
 	
+	A legegyszerűbb gráf, aminek erős modelljét vizsgáltam, két SCC-ből áll. Az első SCC az A és a B változókból áll (számokkal kifejezve: 1, 2), a második SCC a C, valamint a D változókból (számokkal kifejezve: 3, 4), oly módon, hogy az első SCC-ből megy él a másodikba. Visszafelé természetesen nem megy él, hiszen akkor az egész gráfunkból egy nagy SCC lenne, amiről tudjuk, hogy egy fekete-fehér SAT probléma. Kutatásom során, azt találtam, hogy függetlenül attól, hogy az A-ból megy él C-be, azaz $ A \rightarrow C $, vagy A-ból megy él D-be: $A \rightarrow D$, vagy B-ből megy él C-be: $B\rightarrow C$, vagy B-ből megy él D-be: $B\rightarrow D$, mind a négy esetben az erős reprezentációnak megfelelő DNF formula a következő volt:
+	
+	WolframAlpha link: \url{https://www.wolframalpha.com/input?i=%28%28A%3D%3EB%29+and+%28B%3D%3EA%29+and+%28C%3D%3ED%29+and+%28D%3D%3EC%29+and+%28A%3D%3EC%29%29}
+	\[ (A\wedge B\wedge C\wedge D)\vee (\neg A\wedge\neg B\wedge C\wedge D)\vee (\neg A\wedge\neg B\wedge\neg C\wedge\neg D) \]
+	Azaz: (A és B és C és D), vagy (nem A és nem B és nem C és nem D) vagy (nem A és nem B és C és D)
+	
+	Ezt kaptam mind a négy esetben. Mint látható az első megoldás a fekete klóz negáltja, a második a fehér klóz negáltja, amiket majd kizárunk a végső megoldások közül a fekete és fehér klózok hozzá adásával, ahogy azt előírja az eredeti algoritmus Kusper Gábor és társainak cikkében.
+	
+	Ugyanakkor a harmadik megoldás nem tűnik el, és ez megfelel az eredeti értelmének, habár az eredeti elmélet nem magyarázza meg a harmadik megoldás alakját. Ha jól megnézzük, akkor ez a harmadik megoldás: (nem A és nem B és C és D), azaz az első SCC változói negatívan szerepelnek benne, a második SCC változói pedig pozitívan. Megvizsgáltam több esetet is, az erős modellt legeneráltam programmal, illetve kézzel is, és a fent leírtak mindig tökéletesen beigazolódtak.
+TODO programmal generált verziót beilleszteni
+	Ez pedig egy WolframAlpha-val készült példa:
+	
+	Bemeneti adatok:
+	\[ ((A\implies B)\wedge(B\implies A)\wedge(C\implies D)\wedge(D\implies E)\wedge(E\implies C)\wedge(A\implies C)) \]
+	DNF:
+	\[ (A\wedge B\wedge C\wedge D\wedge E)\vee (\neg A\wedge\neg B\wedge C\wedge D\wedge E)\vee (\neg A\wedge\neg B\wedge\neg C\wedge\neg D\wedge\neg E) \]
+	
+	Mivel a megfigyelésem többször is visszaigazolódott, ezért a következő sejtést fogalmaztam meg:
+	
+TODO csomópont/node elmagyarázása, definíciója.
+	Ha minden irányított gráf, nevezetesen G, két SCC-ből áll, $ S_1 $-ből, és $ S_2 $-ből, akkor ha $ S_1 $-ből legalább egy él vezet $ S_2 $-be, akkor függetlenül az élek számától, illetve, hogy konkrétan az élek melyik $ S_1 $-ben lévő csomópontból, melyik $ S_2 $-ben lévő csomópontba vezetnek, akkor G-nek a SAT modelljének pontosan ez az egy megoldása lesz, amennyiben a modellhez hozzáadjuk a fekete és a fehér klózokat is: $ \neg S_1\wedge S_2 $, ahol $ \neg S_1 $ ez a formula: $\neg A_1 \wedge \neg A_2\wedge\dots\wedge\neg A_k$, ahol $ S_1 $ csomópontjai: $ A_1,A_2,\dots,A_k $, és $ S_2 $ ez a formula: $ B_1\wedge B_2\wedge\dots\wedge B_m $, ahol $ S_2 $ csomópontjai: $ B_1,B_2,\dots,B_m $.
+	
+	Sajnos a sejtésemet egyelőre nem sikerült bizonyítani, de az általam kipróbált minden példára működött, akkor is, ha az az erős modellt generáltam, akkor is ha a gyengét, akkor is, ha bármely másikat, azaz szerintem ez egy fontos sejtés.
+	
+	*Első példa képekkel*
+	\subsection{Első példa}
+	A fenti megfigyelésből az az ötletem támadt, hogy az összes SCC-t egy-egy csomóponttal helyettesítem, azért hogy kisebb bonyolultságú gráfokat kelljen kezelnem, amelyre az általam megírt kódok is gyorsabban futnak.
+
+	Az első út, amit kipróbáltam, az az, hogy hogyan lehet kiegészíteni a legenerált SAT modelleket, oly módon, hogy a fenti ismertetett tulajdonság megmaradjon, azaz $\neg S_1$ és $ S_2 $ megoldás maradjon, de minden egyes SCC-t egy darab változó képviseljen. Ez egy DIMACS fájlban, azt jelenti, hogy nem az SCC-ben szereplő minden csomópontot írom bele számok ként, hanem csak egy számmal jelölöm el azt.
+	
+	Hosszas próbálkozás után, ezt kaptam:
+	
+	Bemeneti adatok:
+	\[ (A\implies B)\wedge(B\implies A)\wedge(A\vee B \implies X)\wedge(\neg A\vee\neg B\implies\neg X) \]
+
+	DNF:
+	\[ (A\wedge B\wedge X)\vee(\neg A\wedge\neg B\wedge\neg X) \]	
+	Azaz: ((A=>B) és (B=>A) és (A vagy B => X) és (nem A vagy nem B => nem X)), ahol az A, és B változókból áll az SCC, valamint X változóval lehet helyettesíteni az SCC-t.
+	
+	A fenti kiegészítést. úgy lehet megkapni, hogy az SCC fehér klóza implikálja az $ X $ literált, a fekete klóza pedig a $ \neg X $	literált. Ezzel a kiegészítéssel az SCC-nek ugyanúgy csak két megoldása van, mint a kiegészítés előtt. A két megoldása a fekete és a fehér hozzárendelése, annyi kiegészítéssel, hogy most már szerepel bennük az X ítéletváltozó is. Azaz a két megoldás: $ (A \wedge B \wedge X) $, valamint $ (\neg A \wedge \neg B \wedge \neg X) $
+	
+	Ezzel a kiegészítéssel azt lehet nyerni. hogy ha van két SCC, mondjuk $ S_1 $ és $ S_2 $, ekkor $ S_1 $-et az $ X $-el egészítem ki és $ S_2 $-t az $ Y $-al, akkor minden élt, ami $ S_1 $-ből $ S_2 $-be megy, azt le tudom írni egy darab klózzal: $ (X\implies Y) $, azaz $ (\neg X\vee Y) $, ami kisebb SAT modellhez vezethet.
+
+	Ráadásul a modellek általam vizsgált összes tulajdonsága megmarad
+	
+	Egy ettől is egyszerűbb megoldás, ha az első SCC-t az 1-es számmal, azaz az $ A $ változóval, a másodikat pedig a 2-es számmal, azaz a B változóval helyettesítem. Azaz rendre egy-egy változót (de mindegyikhez különbözőt) rendelek az erős komponensekhez. Ebből generálok egy erős modellt, majd ennek az erős modellnek a megoldásaimban visszahelyettesítem az SCC-k eredeti változóit a megoldásban kapott előjellel. Így akár nagyon nagy, több ezres irányított gráfok megoldása is milliszekundumok alatt lehetséges.
+	
+	Ehhez természetesen meg kell találni az összes SCC-t és a köztük lévő kapcsolatokat, amit a következőképpen oldottam meg.
+	
+	\section{Kiterjesztett erős modell Python megoldásai}
 	
 	
 	\section{célja}
+	
 	
 	\chapter{Szoftver}
 	\section{Amiből kiindultam}
