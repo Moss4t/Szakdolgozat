@@ -1,11 +1,31 @@
 Mi történik, ha nem tudom leadni időben a szakdolgozatomat?
 
 A TeXstudio eléggé akadozik, jó lenne áttérni VScode-ra.
+
+Pénteken meeting
 ------------------------------------------------------------------
-írni pár sort a wolfram alpha-ról. √
+írni pár sort a wolfram alpha-ról, drawio-ról.
 Példákat rakj még bele.
 Amikor megy a rework, vagy átvizsgálás az egészen, akkor papíron jegyzetelj, dolgozd ki a részleteket.
 Nézd át, hogy inkább tételről vagy definícióról van szó.
+Ctrl + R: minta
 
+definíció: új fogalom (fekete-fehér)
+tetel: új állítás (valami fekete-fehér)
 
-(még nem olvastam át amit tanárúr küldött) Az jó, ha a Fig 1.ről a 4. csúcsot úgy akarom bekötni, hogy az eredeti csomópontok amik mennek bele, valamelyiket külön leírni, mondjuk -3 4 0. De választani kéne, hogy mi alapján válasszon sok csomópont közül. Az amelyik szomszédos csomópontja több, vagy kevesebb szomszéddal rendelkezik?
+-általános ábrákat is készítsek.
+
+-tesztelés során sok hibába futottam, amiket javítani kellett. (outputok)
+ott most rosszul van megszerkesztve a thesis?
+
+scc-k egy node-al való helyettesítésére én világítotam rá.
+
+-fordításra hivatkozz az elején.
+
+írd bele nyugodtan
+-fig. 1. és fig. 2.- bonyolult körök.
+
+-github linket ne felejtsd bele
+
+-(még nem olvastam át amit tanárúr küldött) Az jó, ha a Fig 1.ről a 4. csúcsot úgy akarom bekötni, hogy az eredeti csomópontok amik mennek bele, valamelyiket külön leírni, mondjuk -3 4 0. De választani kéne, hogy mi alapján válasszon sok csomópont közül. Az amelyik szomszédos csomópontja több, vagy kevesebb szomszéddal rendelkezik?
+SOLVED - Egy teljes csomóponttal helyettesítem, benne volt abba amit kitaláltunk, mivel működik.
