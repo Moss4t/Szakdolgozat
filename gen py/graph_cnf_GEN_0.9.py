@@ -51,19 +51,19 @@ def previous(some_iterable):
 
 def strong_model_literal_gen(G):
 	clause = []
-	bw_clause = []
+	# bw_clause = []
 	for i, j in G.edges():
 		clause.append(-i)
 		clause.append(j)
 		clause.append(0.1)
-	for i in G.nodes():
-		bw_clause.append(i)
-	for i in bw_clause:
-		clause.append(-i)
-	clause.append(0.1)
-	for i in bw_clause:
-		clause.append(i)
-	clause.append(0.1)
+	# for i in G.nodes():
+	# 	bw_clause.append(i)
+	# for i in bw_clause:
+	# 	clause.append(-i)
+	# clause.append(0.1)
+	# for i in bw_clause:
+	# 	clause.append(i)
+	# clause.append(0.1)
 	return clause
 
 
@@ -95,11 +95,16 @@ def expanded_strong_model_literal_gen(G):
 		print("Not strongly connected")
 		# print("Exited method: expanded_strong_model_literal_gen, bad_args")
 		# raise SystemExit
+	subG = G
+	for v in subG:
+		if subG.has_edge(v, v):
+			yield [v]
+			subG.remove_edge(v, v)
 
-	dagg = nx.condensation(G)
-	map = dagg.graph["mapping"]
+	dagg = nx.condensation(subG)
+	#map = dagg.graph["mapping"]
 	mem = nx.get_node_attributes(dagg, "members")
-	print("mapping: ",map)
+	#print("mapping: ",map)
 	print("members: ",mem)
 	# mapping:  {5: 0, 4: 1, 1: 2, 2: 2, 3: 2}
 	# members:  {0: {5}, 1: {4}, 2: {1, 2, 3}}
@@ -259,25 +264,25 @@ def algo_check(G):
 def main():
 	edges = []
 	# Geeks for Geeks graph example:
-	# edges.append((2,1))
-	# edges.append((1,3))
-	# edges.append((1,4))
-	# edges.append((3,2))
-	# edges.append((4,5))
+	edges.append((2,1))
+	edges.append((1,3))
+	edges.append((1,4))
+	edges.append((3,2))
+	edges.append((4,5))
+	edges.append((5,4))
 	# mapping:  {5: 0, 4: 1, 1: 2, 2: 2, 3: 2}
 	# members:  {0: {5}, 1: {4}, 2: {1, 2, 3}}
 
-	# edges.append((5,4))
 
 	# SYNASC2020_submission_77_v20.pdf Fig. 1. example:
 	# a=1, b=2, c=3, d=4
-	edges.append((1,2))
-	edges.append((2,1))
-	edges.append((1,3))
-	edges.append((3,1))
-	edges.append((2,3))
-	edges.append((2,4))
-	edges.append((3,4))
+	# edges.append((1,2))
+	# edges.append((2,1))
+	# edges.append((1,3))
+	# edges.append((3,1))
+	# edges.append((2,3))
+	# edges.append((2,4))
+	# edges.append((3,4))
 	# mapping:  {4: 0, 1: 1, 2: 1, 3: 1}
 	# members:  {0: {4}, 1: {1, 2, 3}}
 	######################################
@@ -329,9 +334,17 @@ def main():
 	# mapping:  {1: 0, 2: 0, 3: 0, 4: 0}
 	# members:  {0: {1, 2, 3, 4}}
 
+	#from thesis work
+	# edges.append((1,2))
+	# edges.append((2,1))
+	# edges.append((1,3))
+	# edges.append((3,4))
+	# edges.append((4,5))
+	# edges.append((5,3))
+
 	g = nx.DiGraph(edges)
 	# algo_check(g)
-	model_to_picture()
+	# model_to_picture()
 	Literals = expanded_strong_model_literal_gen(g)
 	model_to_cnf_file(g, Literals, "ESM")
 	Literals = strong_model_literal_gen(g)
