@@ -64,7 +64,7 @@
 	\section{Fogalmak, definíciók a kommunikációs gráf felépítésének elemei}\label{sec-alap-fogalmak}
 	
 	\begin{definicio}
-		Atomi formula, röviden atom: Azt mondjuk, hogy egy szimbólum atomi formula, vagy atom, akkor és csak akkor, ha egy kifejezést jelöl. Ilyen atomok, az igaz és hamis ítéletváltozók. Szimbólumuk általában az \emph{I} és \emph{H} betűk magyarul, de szoktuk használni az angol megfelelőjét is a \emph{T} és \emph{F} betűket, a ,,true'' és a ,,false'' ítéletváltozókhoz.
+		Atomi formula, röviden atom: Azt mondjuk, hogy egy szimbólum atomi formula, vagy atom, akkor és csak akkor, ha egy kifejezést jelöl. Ilyen atomok, az igaz és hamis értékek. Szimbólumuk általában az \emph{I} és \emph{H} betűk magyarul, de szoktuk használni az angol megfelelőjét is a \emph{T} és \emph{F} betűket, a ,,true'' és a ,,false'' atomokhoz.
 	\end{definicio}
 
 	\begin{definicio}
@@ -72,9 +72,8 @@
 		Egy \emph{literál} egy Boolean változó, amit pozitív literálnak, vagy a negáltját a Boolean változó negatív literáljának nevezzük. 
 	\end{definicio}
 
-	\begin{tetel}
-		Literál: $ a,\neg a,b,\neg b,\dots $ literál, mivel egy ítéletváltozó egy Boolean értéket vehet fel, vagy annak egy negáltját.
-	\end{tetel}
+	Példa a literálra: $ a,\neg a,b,\neg b,\dots $ literál, mivel egy atom csak egy Boolean értéket vehet fel, vagy annak egy negáltját.
+	
 
 	\begin{definicio}		
 		Jól formázott formula, röviden formula: Azt mondjuk, hogy egy szimbólumsorozat jól formázott formula, vagy formula, akkor és csak akkor, ha F formula a következő alakok egyikében van:
@@ -89,61 +88,41 @@
 		Minden formula a fenti esetek véges sokszori alkalmazásával áll elő.
 	\end{definicio}
 
-	\begin{definicio}
-		Formula: Adott ítéletváltozónak egy véges, nem üres V halmaza.
+	\begin{megjegyzes}
+		Logikai operátor: A logika nyelvének része a logikai összekötő jelek, vagy más néven logikai operátorok. Mi a következő logikai operátorokat használjuk:
 		\begin{enumerate}
-			\item Ítéletváltozó: ha $ A\in V $, akkor A formula.
-			\item Negáció: ha A formula, akkor $\neg A $ is formula.
+			\item Implikáció, jele: $ \implies $
+			\item Ekvivalencia, jele: $ \equiv $
+			\item Konjunkció, jele: $ \wedge $
+			\item Diszjunkció, jele: $ \vee $
 		\end{enumerate}
-	\end{definicio}
+	\end{megjegyzes}
 
 	\begin{definicio}
-		Operátor: Azt mondjuk, hogy egy szimbólum operátor, akkor és csak akkor, ha egy Formulán, klózon, vagy literálon módosítást végez, oly módon, hogy kiinduló állapotát megfelelő előfeltételek mellett megváltoztatja. Azaz két ítéletváltozó értékéből egy harmadik értéket képez.
+		Interpretáció: Adott atomoknak egy véges sok, nem üres V halmaza.
+		Azt mondjuk, hogy a J hozzárendelés az F formula egy interpretációja, akkor és csak akkor, ha F minden atomjához vagy az igaz, vagy a hamis értéket rendeljük, de ezek közül csak az egyiket.
 	\end{definicio}
 	
 	\begin{definicio}
-		Klóz, angolul clause: Azt mondjuk, hogy egy formula klóz, akkor és csak akkor, ha adott literáloknak és operátoroknak egy véges, nem üres, és egynél több elemű W halmaza.
-
-		Klózban értelmezve,
+		Klóz, angolul clause: A klóz literálok halmaza, amelyet úgy interpretálunk, hogy a halmazban lévő minden literál diszjunkciója. Például:
 		\begin{enumerate}
-			\item pozitív literál: ha $ B\in W $, és B egy pozitív literál.
-			\item negatív literál: ha B pozitív literál, akkor $\neg B $ negatív literál.
-			\item ,,és'' operátor: ha $ B \wedge \neg B $, akkor $\wedge$ egy ,,és'' operátor.
-			\item ,,vagy'' operátor: ha $ B \vee \neg B $, akkor $\vee$ egy ,,vagy'' operátor.
+			\item $ \{a,\neg b\} $
+			\item $ \{a,b,c\} $
+			\item $ \{a\} $
 		\end{enumerate}
-		Pozitív vagy negatív literál is feltűnhet egy klózban, de sohasem egyszerre. Az is lehetséges, hogy valamelyik változó egyik formában sem tűnik fel egy klózban, hiszen egyszerűsíthetünk: $ B \wedge\neg B \equiv\emptyset $.
-		
-		Egy \emph{klóz} literálok halmaza. Egy \emph{klózhalmaz}, pedig egy halmaz klóz. Egy \textsc{SAT} \emph{probléma} is egy klózhalmaz. Egy \emph{hozzárendelés} egy literál halmaz. Egy klózban, hozzárendelésben egy változó feltűnhet pozitív, vagy negatív literálként, de mindkettőként egyszerre nem, vagy lehet, hogy egyáltalán nem fordul elő\cite{am}.
 	\end{definicio}
 	
 	\begin{megjegyzes}
-		Létezik konjunktív és diszjunktív klóz is. Vegyes egy klóz tartalma, ha ,,vagy'', valamint ,,és'' operátorokat is tartalmaz.
+		Habár a definíció megengedi, hogy egy klózon belül valamely változó 
+		megjelenjen negatív és pozitív változóként is, azaz $ {a,\neg a} $, viszont az ilyen klózokat nem használjuk, mert mindig igazak.
+		
+		Létezik konjunktív és diszjunktív klóz is. Vegyes egy klóz tartalma, ha ,,vagy'', valamint ,,és'' logikai operátorokat is tartalmaz.
 	
 		Diszjunktív klóz: Azt mondjuk, hogy $ l_{i} $ szimbólumok egy klózt alkotnak, akkor és csak akkor, ha minden $ l_{i} $ literál: $ l_{1}\vee\dots\vee l_{n} $
 		
+		%hozzárendelés a szakirodalomban
 		Konjunktív klóz: Azt mondjuk, hogy $ l_{i} $ szimbólumok egy klózt alkotnak, akkor és csak akkor, ha minden $ l_{i} $ literál: $ l_{1}\wedge\dots\wedge l_{n} $
 	\end{megjegyzes}
-
-	\begin{definicio}
-		Implikáció: Azt mondjuk, hogy egy operátor implikáció, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy az összes bal oldali értékből pozitív literált állít elő, kivéve, ha a bal oldalán pozitív, a jobb oldalán negatív literál van.
-		Mivel a negatív értékből nem következik a pozitív érték. Jelölése: $ A \implies B $
-	\end{definicio}
-
-	\begin{definicio}
-		Ekvivalencia: Azt mondjuk, hogy egy operátor ekvivalencia, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, úgy hogyha mindkét oldalán ugyanaz a pólusú literál van, akkor pozitív literált állít elő, kivéve, ha a pólusok eltérnek. Jele: $ \equiv $
-	\end{definicio}
-
-	\begin{megjegyzes}
-		Pólus alatt a negatív vagy pozitív jelzőt értjük.
-	\end{megjegyzes}
-
-	\begin{definicio}
-		,,És'' operátor, más néven konjunkció: Azt mondjuk, hogy egy operátor konjunkció, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogyha mindkét oldalán pozitív literál van, akkor és csak akkor állít elő pozitív literált, különben negatív lesz a végeredmény. Jele: $\wedge$
-	\end{definicio}
-
-	\begin{definicio}
-		,,Vagy'' operátor, más néven diszjunkció: Azt mondjuk, hogy egy operátor diszjunkció, akkor és csak akkor, ha mindkét oldalán van egy literál, és egy harmadik literált állít elő a kettő értékéből, oly módon, hogy ha mindkét oldalán negatív literál van, akkor állít elő negatív literált, különben pozitív literál lesz a végeredmény. Jele: $\vee$
-	\end{definicio}
 
 	\begin{definicio}\label{def-cnf}
 		Konjunktív normál forma, röviden \textsc{KNF}, angolul conjunctive normal form, röviden \textsc{CNF}: Azt mondjuk, hogy logikai formula konjunktív normál forma, akkor és csak akkor, ha egy vagy több klózt egymáshoz kötünk konjunkcióval.
@@ -160,11 +139,6 @@
 	\begin{tetel}
 		Diszjunktív normál forma: $ (A\wedge B)\vee(B\wedge A) $ egy diszjunktív normál forma, mivel a klózokon belül konjunkció, a klózok között pedig diszjunkció található.
 	\end{tetel}
-
-	\begin{definicio}
-		Interpretáció: Adott ítéletváltozóknak egy véges sok, nem üres V halmaza.
-		Azt mondjuk, hogy a J hozzárendelés az F formula egy interpretációja, akkor és csak akkor, ha F minden atomjához vagy az igaz, vagy a hamis értéket rendeljük, de ezek közül csak az egyiket.
-	\end{definicio}
 
 	\begin{definicio}\label{def-tautologia}
 		Logikai törvény, más néven tautológia: Azt mondjuk, hogy az F formula logikai törvény, vagy tautológia, akkor és csak akkor, ha F minden interpretációjában igaz.
@@ -194,7 +168,7 @@
 	\begin{proof}\label{biz-tautologia}
 		Tautológia: 
 			
-		Legyen $ a $ egy ítélet változó, akkor a következő formula eredménye mindig igaz lesz: $ a\vee\neg a $
+		Legyen $ a $ egy atom, akkor a következő formula eredménye mindig igaz lesz: $ a\vee\neg a $
 		
 		\begin{tabular}{|c|c|}
 			\hline
@@ -206,7 +180,7 @@
 			\hline
 		\end{tabular}
 	
-		Legyen $ x $ és $ y $ egy-egy ítéletváltozó, akkor a következő formula eredménye mindig igaz lesz: $ x=y\vee x\ne y $
+		Legyen $ x $ és $ y $ egy-egy atom, akkor a következő formula eredménye mindig igaz lesz: $ x=y\vee x\ne y $
 		
 		\begin{tabular}{|c|c|c|}
 			\hline
@@ -249,7 +223,6 @@
 	\begin{definicio}
 		Fehér hozzárendelés, más néven fehér klóz: Azt mondjuk, hogy egy klóz fehér klóz, akkor és csak akkor, ha a gráf minden csúcsa megtalálható benne.
 	\end{definicio}
-% todo csomópont/node elmagyarázása, definíciója. Az első definíció.
 
  	\section{Gráf alakzatok létrehozása}
 
@@ -537,7 +510,7 @@ A program további részében egy másik függvényben megjelennek a fájlba ír
 	\[ (A\wedge B\wedge X)\vee(\neg A\wedge\neg B\wedge\neg X) \]	
 	Azaz: ((A=>B) és (B=>A) és (A vagy B => X) és ($ \neg A $ vagy $ \neg B $ => $ \neg X $)), ahol az A, és B változókból áll az \textsc{SCC}, valamint X változóval lehet helyettesíteni az \textsc{SCC}-t.
 	
-	A fenti kiegészítést úgy lehet megkapni, hogy az \textsc{SCC} fehér klóza implikálja az $ X $ literált, a fekete klóza pedig a $ \neg X $ literált. Ezzel a kiegészítéssel az \textsc{SCC}-nek ugyanúgy csak két megoldása van, mint a kiegészítés előtt. A két megoldás, a fekete és a fehér hozzárendelése, annyi kiegészítéssel, hogy most már szerepel bennük az X ítéletváltozó is. Azaz a két megoldás: $ (A \wedge B \wedge X) $, valamint $ (\neg A \wedge \neg B \wedge \neg X) $
+	A fenti kiegészítést úgy lehet megkapni, hogy az \textsc{SCC} fehér klóza implikálja az $ X $ literált, a fekete klóza pedig a $ \neg X $ literált. Ezzel a kiegészítéssel az \textsc{SCC}-nek ugyanúgy csak két megoldása van, mint a kiegészítés előtt. A két megoldás, a fekete és a fehér hozzárendelése, annyi kiegészítéssel, hogy most már szerepel bennük az X atom is. Azaz a két megoldás: $ (A \wedge B \wedge X) $, valamint $ (\neg A \wedge \neg B \wedge \neg X) $
 	
 	Ezzel a kiegészítéssel azt lehet nyerni. hogy ha van két \textsc{SCC}, mondjuk $ S_1 $ és $ S_2 $, ekkor $ S_1 $-et az $ X $-el egészítem ki és $ S_2 $-t az $ Y $-al, akkor minden élt, ami $ S_1 $-ből $ S_2 $-be megy, azt le tudom írni egy darab klózzal: $ (X\implies Y) $, azaz $ (\neg X\vee Y) $, ami kisebb \textsc{SAT} modellhez vezethet.
 	
@@ -812,5 +785,5 @@ for prev, curr in previous(mem.items()):
 \end{thebibliography}
 	
 	% Aláírt, szkennelt nyilatkozat beillesztése a szakdolgozat végére
-	\includepdf[pagecommand={\thispagestyle{empty}}]{nyilatkozat.pdf}
+	%\includepdf[pagecommand={\thispagestyle{empty}}]{nyilatkozat.pdf}
 \end{document}

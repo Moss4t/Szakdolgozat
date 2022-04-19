@@ -1,0 +1,24 @@
+﻿1.3 az példa
+Például literál:
+
+ítéletváltozó = atom
+1.5 definició törlés
+
+1.6 megjegyzés: a logika nyelvének része a logikai összekötő jelek, vagy más néven logikai operátorok. Mi a következő logikai operátorokat használjuk. Impl. jel, És jele vagy jele. 
+
+1.7**
+v1- definíció klóz: literálok diszjunkciója, ahol megengedett, hogy a klóz egyetlen egy literálból álljon. Példák 1, (a V \neg b) 2, (a V b V c) 3, (a) több példa is.
+
+v2- A klóz literálok halmaza, amelyet úgy interpretálunk, hogy a halmazban lévő literálok diszjunkciója. Példa 1, {a, \neg b} 2, {a, b, c} 3, {a}
+
+Megjegyzés: Habár a definíció megengedi, hogy egy klózon belül valamely változó megjelenjen negatív és pozitív változóként is, azaz a és \neg a
+Az ilyen klózokat nem használjuk, mert mindig igazak
+**
+
+
+---------------------
+több példa: táblázatok? Normál formákat?
+
+Mivel azt mondjuk hogy a klóz literálok diszjunkciója, ezért töröljük a kon és disz klózokat a 1.8~. megjegyzésből? Vagy átírhatom hozzáremdelésre a kon-t, ahogy azt később is tettem.
+
+cnf ESM-hez írva lett. De olyat kéne generáljon? Jó ahogy leírtam?
