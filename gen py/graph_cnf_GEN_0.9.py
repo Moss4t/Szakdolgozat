@@ -37,17 +37,17 @@ Egy félig összefüggő gráf olyan gráf, ami
 # original implementation by: https://stackoverflow.com/users/17160/nosklo
 # editor: https://stackoverflow.com/users/4495634/zaidrehman
 def previous_and_next(some_iterable):
-    prevs, items, nexts = tee(some_iterable, 3)
-    prevs = chain([None], prevs)
-    nexts = chain(islice(nexts, 1, None), [None]) # -1 -2 -3 1 0
-    return zip(prevs, items, nexts)
+	prevs, items, nexts = tee(some_iterable, 3)
+	prevs = chain([None], prevs)
+	nexts = chain(islice(nexts, 1, None), [None]) # -1 -2 -3 1 0
+	return zip(prevs, items, nexts)
 # here is one of my modifications:
 def previous(some_iterable):
-    prevs, items = tee(some_iterable, 2)
-    prevs = chain([None], prevs)
-    return zip(prevs, items)
+	prevs, items = tee(some_iterable, 2)
+	prevs = chain([None], prevs)
+	return zip(prevs, items)
 	
-#Todo: csinálj teszteket a tesztelő file-al
+#Todo: csinálj teszteket a tesztelő file-al. Csinálj még több tesztet, hogy biztosan jól működjön.
 
 def strong_model_literal_gen(G):
 	clause = []
@@ -70,8 +70,6 @@ def strong_model_literal_gen(G):
 #**************************************************************************************************************
 # Expanded Weak Model elkepzeles
 #**************************************************************************************************************
-#Todo Egészítsd ki a leírást példákkal
-# The model does not compute with self loops (because in our use it is not possible)
 def expanded_strong_model_literal_gen(G):
 	"""Returns the expanded strong model of a graph. 
 
@@ -89,100 +87,121 @@ def expanded_strong_model_literal_gen(G):
 		Every negative literal represents a cycle, and every positive 
 		literal is an exit point of it. A cycle does not include the 
 		same value twice.
+
+	Example
+	-------
+	DiGraph's edges: 
+		((1,2),(2,1),
+		(1,3),
+		(3,4),(4,3),(5,3),(5,4),(4,5),(3,5))
+	Literals generated:
+		-1 -2 6
+		-3 -4 -5 7
+		-6 7
+	
+	Note
+	----
+	There can't be any self loops, like (1,1). It will be deleted.
 	"""
-	OK = nx.is_strongly_connected(G)
-	if not OK:
-		print("Not strongly connected")
-		# print("Exited method: expanded_strong_model_literal_gen, bad_args")
-		# raise SystemExit
+	
+	""" szükségtelen, hiszen minden node-ot csak egyszer rak bele egy scc-be. A self loop így értelmét veszti.
 	subG = G
 	for v in subG:
 		if subG.has_edge(v, v):
 			yield [v]
-			subG.remove_edge(v, v)
+			subG.remove_edge(v, v) """
+	
+	dagG = condensation(G, None, G.number_of_nodes() + 1)
 
-	dagg = nx.condensation(subG)
-	#map = dagg.graph["mapping"]
-	mem = nx.get_node_attributes(dagg, "members")
-	#print("mapping: ",map)
+	mem = nx.get_node_attributes(dagG, "members")
 	print("members: ",mem)
-	# mapping:  {5: 0, 4: 1, 1: 2, 2: 2, 3: 2}
 	# members:  {0: {5}, 1: {4}, 2: {1, 2, 3}}
-	# indecies:	[0] [1],[0] [1],[0] [   1   ]
-
-	# Todo: neighbors-t használva. nézze meg a csúcsokból kimutató nyilakat. Azok is literálok neg amiből, poz mindenhova, ahova mutat. 
-	# Todo  Ha van két csomópont közt él, akkor mindkettőt neg-el adom hozzá, és egyesével a szomszédait, kivéve a közös élen lévőt (self loop)
+	# indecies:	[0] [1],[0] [1],[0] [	1	]
 	clause = []
-	edges = list(dagg.edges())
-	if len(edges) == 0:
-		# go through nodes add every node as negative literal. Mark it, so later it will be known.
-		for i in mem.values():
-			while i:
-				clause.append(-i.pop())
+	if len(dagG.edges()) == 0:
+		for cycle in mem.items[1]:
+			clause.append(-cycle)
+		#clause.append(mem.items[0])
+		#érdekes. Kell külön átvinni, hogy egy scc-vel helyettesítek? Vagy ha csak 1 scc van, akkor annak elemei + f-f klóz és kész. Vagy csak a f-f klózok, hiszen az az egyedüli megoldás
 		clause.append(0.1)
-		print("Careful! All are negative literals.")
-		return(clause)
+		return clause
 	else:
-		# goes through every element in the form of:	number: {number}
-		for prev, curr in previous(mem.items()):
-			if len(curr[1]) > 1:
-				# goes through every element in the form of:	{number, number, ...}
-				for pre, cu in previous(curr[1]):
-					if pre == None:
-						firs = cu
-						continue
-					if (pre, cu) in G.edges():
-						clause.append(-pre)
-						clause.append(cu)
-						clause.append(0.1)
-					if (cu, pre) in G.edges():
-						clause.append(-cu)
-						clause.append(pre)
-						clause.append(0.1)
-					if (cu, firs) in G.edges() and pre != firs:
-						clause.append(-cu)
-						clause.append(firs)
-						clause.append(0.1)
-					if (firs, cu) in G.edges() and pre != firs:
-						clause.append(-firs)
-						clause.append(cu)
-						clause.append(0.1)
+		for prev, current in previous(mem.items()):
+			for cycle in current[1]:
+				clause.append(-cycle)
+			clause.append(current[0])
+			clause.append(0.1)
 			if prev == None:
 				continue
-			if (prev[0], curr[0]) in edges:
-				print("edge goes from previous to current")
-				for i in prev[1]:
-					clause.append(-i)
-				for i in curr[1]:
-					clause.append(i)
+			if (prev[0], current[0]) in dagG.edges():
+				clause.append(-prev[0])
+				clause.append(current[0])
 				clause.append(0.1)
-
-			if (curr[0], prev[0]) in edges:
-				print("edge goes from current to previous")
-				for i in curr[1]:
-					clause.append(-i)
-				for i in prev[1]:
-					clause.append(i)
+			elif (current[0], prev[0]) in dagG.edges():
+				clause.append(-current[0])
+				clause.append(prev[0])
 				clause.append(0.1)
+		return clause
 
-	print("Before sort:",dagg.nodes)
-	print(dagg.edges())
-	copy_dagg = nx.topological_sort(dagg)
-	print("After sort:",list(copy_dagg))
-	
-	return(clause)
-	# todo nodeokat rendezni, és a fileba sorrendben kiírni.
-	# élekkel az eredetihez kötni a dagg elemei szerint. Utána a sorrend a dagg csúcsait rendezi. Ez alapján lehet a fileba a sorrnedet kiírni.
+def condensation(G, scc=None, offset=0):
+	"""Returns the condensation of G.
+	The condensation of G is the graph with each of the strongly connected
+	components contracted into a single node.
+	Parameters
+	----------
+	G : NetworkX DiGraph
+		A directed graph.
+	scc: list or generator (optional, default=None)
+		Strongly connected components. If provided, the elements in
+		`scc` must partition the nodes in `G`. If not provided, it will be
+		calculated as scc=nx.strongly_connected_components(G).
+	Returns
+	-------
+	C : NetworkX DiGraph
+		The condensation graph C of G. The node labels are integers
+		corresponding to the index of the component in the list of
+		strongly connected components of G. C has a graph attribute named
+		'mapping' with a dictionary mapping the original nodes to the
+		nodes in C to which they belong. Each node in C also has a node
+		attribute 'members' with the set of original nodes in G that
+		form the SCC that the node in C represents.
+	Raises
+	------
+	NetworkXNotImplemented
+		If G is undirected.
+	Notes
+	-----
+	After contracting all strongly connected components to a single node,
+	the resulting graph is a directed acyclic graph.
+	"""
+	if scc is None:
+		scc = nx.strongly_connected_components(G)
+	mapping = {}
+	members = {}
+	C = nx.DiGraph()
+	#Nm = G.number_of_nodes()
+	#?component az ami meghatározza, hanyadik scc, ezt kell átírni Node + num_scc
+	# Add mapping dict as graph attribute
+	C.graph["mapping"] = mapping
+	if len(G) == 0:
+		return C
+	for i, component in enumerate(scc, offset):
+		members[i] = component
+		mapping.update((n, i) for n in component)
+	number_of_components = i + 1
+	C.add_nodes_from(range(number_of_components))
+	C.add_edges_from(
+		(mapping[u], mapping[v]) for u, v in G.edges() if mapping[u] != mapping[v]
+	)
+	# Add a list of members (ie original nodes) to each node (ie scc) in C.
+	nx.set_node_attributes(C, members, "members")
+	return C
 
-""" 
-# Todo nehezebb? simple-el sccket kigyűjteni, azokat klózokba. Majd a maradék elemeket is.
-# Todo: Ebbe bele rakni a klóz halmazok gyártását?
-def simple_cycles(G):
-	print("not in use") """
-	
+
 def model_to_picture():
 	""" Unfinnished method! """
 	print("Nothing")
+#todo
 """ 	N = G.number_of_nodes()
 	E = G.number_of_edges()
 	D = nx.density(G)
@@ -192,7 +211,7 @@ def model_to_picture():
 	pylab.savefig(str(N)+"_"+str(E)+"_"+str("%.2f" % float(D))+"_WM.png") """
 
 def model_to_cnf_file(G, Literals, Title):
-	"""Creates the cnf model of a graph, and puts it in a file.
+	"""Creates the cnf model of a graph, adds the black and white clauses to the end of it, and puts it all in a file.
 
 	By the original graph, the list of literals and the type of model we want
 	it creates a cnf file. 
@@ -252,14 +271,6 @@ def model_to_cnf_file(G, Literals, Title):
 		file_wm.write('%s ' % n)
 	file_wm.write('%s\n' % 0)
 	file_wm.close()
-
-def algo_check(G):
-	""" Tried to make the order topologicly sorted. Unfinished method! """
-	dagg = nx.condensation(G)
-	edges = dagg.edges()
-	wm = nx.topological_sort(dagg)
-	for ed in edges:
-		print("try", ed)
 
 def main():
 	edges = []
@@ -350,4 +361,6 @@ def main():
 	Literals = strong_model_literal_gen(g)
 	model_to_cnf_file(g, Literals, "SM")
 
+	#!golden rule: Always define new nodes with the next lowest real number, for the reason of correct .cnf output!
+	#Adding nodes and edges like so ((13,17),(17,14),(14,6),(14,13),(6,1)) is FORBIDDEN!
 main()
