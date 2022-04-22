@@ -1,15 +1,15 @@
-V halmazig törlés.
+-V halmazig törlés.
 
-cnf: Azt mondjuk, hogy egy logikai formula konjuktív normál formában van, akkor és csak akkor, ha egy vagy több klózból áll, amelyet konjunkcióval kötünk össze.
+-cnf: Azt mondjuk, hogy egy logikai formula konjuktív normál formában van, akkor és csak akkor, ha egy vagy több klózból áll, amelyet konjunkcióval kötünk össze.
 
-CNF példa legyen tagadás kell bele
-DNF példa tahadás legyen benne
+-CNF példa legyen tagadás kell bele
+-DNF példa tahadás legyen benne
 
-Bizonyítás = példa igazságtáblára
+-Bizonyítás = példa igazságtáblára
 
 = egyenló <=>
-tautológiánál (x<=>y) V \neg(x<=>y)
+-tautológiánál (x<=>y) V \neg(x<=>y)
 
 1.17 - 18 helyett
 
-17: Gráfot szedd ki ide. Aztán lehet csomópont és él meghatározása.
+-17: Gráfot szedd ki ide. Aztán lehet csomópont és él meghatározása.

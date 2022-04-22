@@ -118,13 +118,8 @@ def expanded_strong_model_literal_gen(G):
 	# members:  {0: {5}, 1: {4}, 2: {1, 2, 3}}
 	# indecies:	[0] [1],[0] [1],[0] [	1	]
 	clause = []
-	if len(dagG.edges()) == 0:
-		for cycle in mem.items[1]:
-			clause.append(-cycle)
-		#clause.append(mem.items[0])
-		#érdekes. Kell külön átvinni, hogy egy scc-vel helyettesítek? Vagy ha csak 1 scc van, akkor annak elemei + f-f klóz és kész. Vagy csak a f-f klózok, hiszen az az egyedüli megoldás
-		clause.append(0.1)
-		return clause
+	if len(dagG) == 0:
+		return dagG
 	else:
 		for prev, current in previous(mem.items()):
 			for cycle in current[1]:
@@ -179,8 +174,6 @@ def condensation(G, scc=None, offset=0):
 	mapping = {}
 	members = {}
 	C = nx.DiGraph()
-	#Nm = G.number_of_nodes()
-	#?component az ami meghatározza, hanyadik scc, ezt kell átírni Node + num_scc
 	# Add mapping dict as graph attribute
 	C.graph["mapping"] = mapping
 	if len(G) == 0:
