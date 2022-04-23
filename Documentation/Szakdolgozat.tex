@@ -188,7 +188,7 @@ Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulá
 
 \textsc{SAT} probléma: A logikai kielégíthetőség egy olyan probléma, ami azt határozza meg, hogy létezik olyan interpretációja egy logikai formulának, ami kielégíti az adott logikai formulát.
 
-\textsc{SAT} megoldó, angolul \textsc{SAT} solver: \textsc{SAT} problémák megoldására képes. Eredményül egy igaz vagy hamis értéket ad, ami annyit jelent, hogy a kapott probléma kielégíthatő-e vagy sem. Ha kielégíthető, megadj egy interpretációt is, amiben a formula igaz.
+\textsc{SAT} megoldó, angolul \textsc{SAT} solver: \textsc{SAT} problémák megoldására képes. Eredményül egy igaz vagy hamis értéket ad, ami annyit jelent, hogy a kapott probléma kielégíthető-e vagy sem. Ha kielégíthető, megad egy interpretációt is, amiben a formula igaz.
 
 \subsection{Tanáraim útmutatása a szakirodalom terén} \label{ssec-graf-alapok}
 \begin{definicio}
@@ -468,7 +468,7 @@ A program további részében egy másik függvényben megjelennek a fájlba ír
 		\label{abra-sajatpelda-eredeti-5-9graf}
 	\end{figure}
 
-	\begin{table}[h!]
+	\begin{table}[!ht]
 		\centering
 		\begin{tabular}{cccccccc}
 		p & cnf & 7 & 5 & & & &  \\
@@ -575,6 +575,7 @@ if find_cycle(g):
 	A program ezen sorainak vizsgálata alatt azt feltételeztem, hogy nem megoldható feladat az előző, és a felette lévő kódrészletekben a find\_cycle() függvény futtatása során háromféle érték visszaadása. A cic változó értéke a megtalált körök, valamint egy Boolean érték (kör találása esetén), majd egy harmadik esetben annak a körnek a hosszát megadni, vagy hogy mennyi kör van a ,,g'' irányított gráfban. Ezeket a kódrészleteket kezdetben még nem tudtam átfordítani, emiatt úgy döntöttem, hogy külön fájlban, új verzió számmal elkezdem a nulláról felépíteni a projektet. A teljes kód átdolgozásáig hosszú út vezet, viszont a következő részben arról írok, amit a kód átfordítása során megértettem és kiviteleztem, hogy futtatás során a program érthetően és hiba nélkül működjön.
 	
 	\section{A kiterjesztett erős modell Python megoldásai}
+	\subsection{A legelső megvalósítás}
 	
 	Nagyon sok verzión ment át a kód, mielőtt idáig eljutott, de végül úgy működik, ahogyan azt elgondoltam és most láthatjuk. Ezért kapott új verzió számot is az átdolgozott rész. Használtam előre megírt könyvtárakat is, amik nagyban segítették a munkámat.
 
@@ -584,7 +585,7 @@ import networkx as nx
 import pylab
 	\end{lstlisting}
 
-	Sorban, ahogyan felhasználtam őket: indexeléshez és pontosabb lista bejáráshoz használom az első sor könyvtárait. A \texttt{NetworkX} könyvtár a legfontosabb munkám során, hiszen minden ami a gráfokhoz kapcsolódik, azt ebből merítettem. Használata közben a fejlesztők felé jeleztem saját github repository-jukba írt issue-val \cite{link-github-issue}, hogy néhány példával egészítsék ki a condensation függvényük leírását, ami nagyban megkönnyítheti a kód pontos használatának a megértését. Ez a könyvtár segít gráfot építeni, módosítani, keresni benne, csomópontokat rendezni és még sok más hasznos osztályt és függvényt is tartalmaz, de ezekről majd később beszélek részletesen. Nem szabad megfeledkeznünk az utolsó sorról sem, ami a gráfok fájlba írását segíti. Rengeteg matematikai műveletet tartalmaz és segít kezelni, formázni a gráfunkat, hogy képeket, és .cnf fájlokat készíthessünk belőle.
+	Sorban, ahogyan felhasználtam őket: indexeléshez és pontosabb lista bejáráshoz használom az első sor könyvtárait. A \texttt{NetworkX} könyvtár a legfontosabb munkám során, hiszen minden ami a gráfokhoz kapcsolódik, azt ebből merítettem. Használata közben a fejlesztők felé jeleztem saját github repository-jukba írt issue-val \cite{git-issue-for-examples}, hogy néhány példával egészítsék ki a condensation függvényük leírását, ami nagyban megkönnyítheti a kód pontos használatának a megértését. Ez a könyvtár segít gráfot építeni, módosítani, keresni benne, csomópontokat rendezni és még sok más hasznos osztályt és függvényt is tartalmaz, de ezekről majd később beszélek részletesen. Nem szabad megfeledkeznünk az utolsó sorról sem, ami a gráfok fájlba írását segíti. Rengeteg matematikai műveletet tartalmaz és segít kezelni, formázni a gráfunkat, hogy képeket, és .cnf fájlokat készíthessünk belőle.
 	
 	A következő részletben a fő elemet láthatjuk. Ebben indítom, el az összes folyamatot és módosítom a bemeneti gráfot.
 	
@@ -609,7 +610,7 @@ main()
 	\end{lstlisting}
 
 	
-	Kell egy üres lista, amihez különleges módon adom hozzá az éleket. Az éleknek megfelelő számokat a \texttt{NetworkX} fejlesztői egy konvenció alapján adják át \cite{link-github-issue}, legalábbis ebből a korábban említett issue-ból ezt sejtem. Ebben a következő használatot javasolják:
+	Kell egy üres lista, amihez különleges módon adom hozzá az éleket. Az éleknek megfelelő számokat a \texttt{NetworkX} fejlesztői egy konvenció alapján adják át \cite{git-issue-for-examples}, legalábbis ebből a korábban említett issue-ból ezt sejtem. Ebben a következő használatot javasolják:
 	
 	\begin{lstlisting}
 edges = []
@@ -688,7 +689,7 @@ for prev, curr in previous(mem.items()):
 	
 	Ezek után a fájlba a határoló karakter segítésével, egy másik metódussal, a megfelelő \textsc{DIMACS} formátumban írom ki a lista elemeit.
 
-	\begin{table}[h!]
+	\begin{table}[!ht]
 		\centering
 		\begin{tabular}{ccccc}
 		p & cnf & 4 & 8 &   \\
@@ -704,13 +705,10 @@ for prev, curr in previous(mem.items()):
 		\caption{A \textsc{DIMACS} formátumú .cnf fájl első verziója}
 	\end{table}
 	
-	%\subsection{A legelső megvalósítás}
-	% 3.2 tartalma
-	%\subsection{A második megvalósítás}
-	% ami itt jün
 	\subsection{Az első verzió egy továbbfejlesztett megoldása}
 	
-	Ahogyan azt korábban bemutattam a helyes eredmény \az{\ref{table-esm-cnf}}.~táblázatban látható. Ez alapján azt vettem észre, hogy szükséges módsoításokat végezzek. Előszőször is hatékonyabbá és érthetőbbé tettem azt az esetet, amikor csak egy elemből áll a leegyszerűsített gráf.
+	Ahogyan azt korábban bemutattam a helyes eredmény \az{\ref{table-esm-cnf}}.~táblázatban látható. Ez alapján azt vettem észre, hogy módosításokat kell végrehajtanom. Előszőször is hatékonyabbá és érthetőbbé tettem azt az esetet, amikor csak egy elemből áll a leegyszerűsített gráf.
+	
 	\begin{lstlisting}
 clause = []
 if len(dagG.edges()) == 0:
@@ -721,16 +719,18 @@ if len(dagG.edges()) == 0:
 	return clause
 	\end{lstlisting}
 	
-	Itt fontos, hogy egy változót kihagytam és csak egy ciklusmag van, amivel erőforrást spóroltam. A kikommentelt részletet még miközben írtam átgondoltam, hogy ha csak egy SCC van, akkor nem kell hozzáadni a klózhoz azt, amivel az egészet helyettesíteném. Még további teszteket igényel, hogy kipuhatoljuk milyen eredményekkel jár, ha ez az eset fut le. Legvalósínűbb megoldásnak a NetworkX megoldását találom, miszerint a 0 hosszú/nagyságú/méretű/élű,egyszerűsített gráf esetén, csak lépjen ki a metódusból.
+	Itt fontos, hogy egy változót kihagytam és csak egy ciklusmag van, ezzel erőforrást spóroltam. A kikommentelt részletet még miközben írtam átgondoltam, hogy ha csak egy SCC van, akkor nem kell hozzáadni a klózhoz azt, amivel az egészet helyettesíteném. Még további teszteket igényel, hogy kipuhatoljam milyen eredményekkel jár, ha ez az eset fut le. Legvalószínűbb megoldásnak a NetworkX megoldását találom, miszerint a 0 hosszú/nagyságú/méretű/élű egyszerűsített gráf esetén a program csak lépjen ki a metódusból.
 	
-	A \ref{kod-nx-condensation}.kódrészletben a 2. sorában egy apró ám hasznos változást vezettem be. Az említett NetworkX-es condensation függvényt kiegészítettem egy 3. opcionális paraméterrel, ami egyszerűen a számozás kezdetét határozza meg. Azaz honnan indítsa az új SCC-ket helyettesítő csomópontok számozását. Egy kis kutatás és utánanézés kellett hozzá, hogy az eredeti függvényt ki tudjam egészíteni a megfelelő módon. A válasz megepően rövid volt a korábbi elképzeléseimhez képest:
+	\Az{\ref{kod-nx-condensation}}.~kódrészletben a 2.~sorában egy apró, ám hasznos változást vezettem be. Az említett NetworkX-es condensation függvényt kiegészítettem egy harmadik, opcionális paraméterrel, ami egyszerűen a számozás kezdetét határozza meg, azaz honnan indítsa az új SCC-ket helyettesítő csomópontok számozását. Még egy kicsit kutatnom kellett hozzá, hogy az eredeti függvényt ki tudjam egészíteni a megfelelő módon. A válasz meglepően rövid volt a korábbi elképzeléseimhez képest:
 
 \begin{lstlisting}
 	#dagG = condensation(G)
 	dagG = condensation(G, None, G.number_of_nodes() + 1)
 \end{lstlisting}
 
-	Alapértelmezésben, ahogy eddig is 0-tól indul a számozás, ha nem adunk át értéket. Ez az extra paraméter ahhoz kell, hogy a condensation függvényben amikor az SCC-ket számoljuk, akkor az enumerate függvény honnan kezdje a számozást.
+	A kikommentelt rész, ahogy eredetileg meghívtam. Az új függvényhívásban a None érték, csak a paraméterek átadásának helyes sorrendje miatt kell. Ahogyan a következő kódrészletben is látjuk alapértelmezésben is a None érték adódik át.
+
+	Kezdetben, ahogy eddig is, 0-tól indul a számozás, ha nem adunk át értéket. Ez az extra paraméter ahhoz kell, hogy a condensation függvényben amikor az SCC-ket számoljuk, akkor az enumerate függvény honnan kezdje a számozást.
 
 \begin{lstlisting}
 def condensation(G, scc=None, offset=0):
@@ -756,8 +756,10 @@ def condensation(G, scc=None, offset=0):
 	nx.set_node_attributes(C, members, "members")
 	return C	
 \end{lstlisting}
-	Így elég volt csak az offset változót a jó helyre hozzátennem.Habár ez elég egyszerűnek tűnik, ennek megértése és átlátása alapos értelmezést és odafigyelést igényel. Ebből a NetworkX csapatának egy külön issue-t/pull-request-et is küldtem. %\cite[]{link-github-contribution}
-	%todo Csináld meg a hivatkozást. Nézzem át/írjam le résletesebben a kódot
+
+	Így elég volt csak az offset változót a jó helyre hozzátennem. Habár ez elég egyszerűnek tűnik, ennek megértése és átlátása alapos értelmezést és odafigyelést igényel. Ebből a NetworkX csapatához intéztem egy külön kérdést, egy beszélgetés formájában \cite{git-issue-for-offset}.
+
+	Az eltolást, mint harmadik paraméter úgy adom át, hogy lehetőleg a csomópontok számát meghaladja. Egy kisebb konvenció, hogy amikor irányított gráfot írunk le, akkor a legkisebb természetes számtól kezdjük a csomópontok számozását és a következőnek elemnek a számát is ugyan így, a következő legkisebb természetes számtól kezdjük. Erre a javaslatra az előtte lévő mondatból következtettem, hiszen függvénnyel így lehet pontos eredményt generálni.
 
 	\section{Célok a jövőben, variációk a fejlesztésre}
 	
@@ -837,9 +839,14 @@ def condensation(G, scc=None, offset=0):
 	\bibitem{link-wolframalpha}A WolframAlpha weboldalas elérhetősége:
 	\\\url{https://www.wolframalpha.com}
 	
-	\bibitem{link-github-issue}Az általam elindított issue GitHub-on
-	\\\url{https://github.com/networkx/networkx/discussions/5446}, amiből kiindult beszélgetés, és az issue:
-	\\\url{https://github.com/networkx/networkx/issues/5449}		
+	\bibitem{git-issue-for-examples}Az általam elindított példákra való kérés GitHub-on itt található:
+	\\\url{https://github.com/networkx/networkx/discussions/5446}, amiből a következő issue indult ki:
+	\\\url{https://github.com/networkx/networkx/issues/5449}	
+	
+	\bibitem{git-issue-for-offset}Az általam elindított plussz paraméter témájú beszélgetés GitHub-on itt található:
+	\\\url{https://github.com/networkx/networkx/discussions/5570}%, amiből kiindult az issue:
+	%\\\url{https://github.com/networkx/networkx/issues/5449}
+
 	\bibitem{dc}Discord weboldala:
 	\\\url{https://discord.com}
 \end{thebibliography}
