@@ -47,43 +47,38 @@
 	
 \chapter*{Bevezetés}
 	\addcontentsline{toc}{chapter}{Bevezetés}
-	Már a szakdolgozati szemináriumon, amikor hallottam Dr.~Kusper Gábor tanár úr magyarázatát a kutatásáról, annak eredményeiről, céljáról, felhasználásáról, nagyon megtetszett a téma.
-	A \textsc{SAT} megoldó széles körű felhasználásáról beszélgettünk.
-	Korábbi előadásokon, gyakorlatokon is voltak tanáraim, akik ezt a témát felvetették, és már akkoriban is felkeltette az érdeklődésemet.
-	Amikor a szakdolgozatomhoz témát kellett választanom, nem volt kérdés, hogy számomra mi az érdekes téma, mi az amivel szívesen foglalkozom, és ami lehetőséget ad a fejlődésre is.
+	Már a szakdolgozati szemináriumon, amikor hallottam Dr.~Kusper Gábor tanár úr magyarázatát a kutatásáról, annak eredményeiről, céljáról, felhasználásáról, nagyon megtetszett a téma. A \textsc{SAT} megoldó széles körű felhasználásáról beszélgettünk. Korábbi előadásokon, gyakorlatokon is voltak tanáraim, akik ezt a témát felvetették, és már akkoriban is felkeltette az érdeklődésemet. Amikor a szakdolgozatomhoz témát kellett választanom, nem volt kérdés, hogy számomra mi az érdekes téma, mi az amivel szívesen foglalkozom, és ami lehetőséget ad a fejlődésre is.
 
 	Szaktársammal, Rajna Franciskával csak mi ketten érdeklődtünk ez iránt a téma iránt, így mindenki örömmel beszélte át a részleteket és közös megegyezéssel találtuk ki, hogy ki melyik ágát dolgozza fel a témának.
-	Pozitív és energikus első benyomás után örömmel kezdtünk a munkának. Biró Csaba és Balla Tamás tanár urakkal dolgoztunk a témával kapcsolatos házi TDK-hoz hasonló előadásokon és kutatásokon \cite{am} vettünk részt. Az egyik alkalommal egy plakátot is készítettünk, ezekkel megalapozva egy lendületes kezdést.
+	Pozitív és energikus első benyomás után örömmel kezdtünk a munkának. Biró Csaba és Balla Tamás tanár urakkal dolgoztunk a témával kapcsolatos házi \textsc{TDK}-hoz hasonló előadásokon és kutatásokon~\cite{am} vettünk részt. Az egyik alkalommal egy plakátot is készítettünk, ezekkel megalapozva egy lendületes kezdést.
 	
 	Megbeszéltük hol szorul fejlesztésre a \textsc{SAT} megoldó, melyik az a része, amin programozással tudok javítani. Tanáraim korábbi angol nyelvű publikációiból, azok általam magyarra fordított részeiből sikerült eljutni a megoldandó feladat megközelítéséhez. Ezek adtak eszközt a kezembe szakdolgozatom elkészítéséhez.
 		
 \chapter{Az alapok}
 	
-A munkámat tehát azzal kezdtem, hogy szakirodalmakat olvastam, fordítottam és értelmeztem, amiket korábban témavezetőim írtak, ez \az{\pageref{ssec-fogalmak}}.~és a \az{\pageref{sec-szakirodalom-forditas}}.~oldalon olvasható.
-Anyagot gyűjtöttem és dolgoztam fel a \textsc{SAT} megoldókról.
-Ezekben megjelentek különböző definíciók, mint \ref{def-tautologia}.~definíció a tautológia, \az{\ref{def-cnf}}.~definíció a \textsc{CNF}, és \az{\ref{def-dnf}}.~definíció a \textsc{DNF}, valamint programozási nyelv, mint a Python \az{\ref{kif-python-programnyelv}}.~szakaszban és a WolframAlpha válasz motor \az{\ref{kif-wolframalpha-hasznalata}}.~szakaszban. Az alábbiakban ezeket részletezem a szakdolgozatom megértéséhez.
+	A munkámat tehát azzal kezdtem, hogy szakirodalmakat olvastam, fordítottam és értelmeztem, amiket korábban témavezetőim írtak, ez \az{\pageref{ssec-fogalmak}}.~és a \az{\pageref{sec-szakirodalom-forditas}}.~oldalon olvasható. Anyagot gyűjtöttem és dolgoztam fel a \textsc{SAT} megoldókról. Ezekben megjelentek különböző definíciók, mint \ref{def-tautologia}.~definíció a tautológia, \az{\ref{def-cnf}}.~definíció a \textsc{CNF}, és \az{\ref{def-dnf}}.~definíció a \textsc{DNF}, valamint programozási nyelv, mint a Python \az{\ref{kif-python-programnyelv}}.~szakaszban és a WolframAlpha válasz motor \az{\ref{kif-wolframalpha-hasznalata}}.~szakaszban. Az alábbiakban ezeket részletezem a szakdolgozatom megértéséhez.
 	
-\section{Fogalmak, definíciók a kommunikációs gráf felépítésének elemei}\label{sec-alap-fogalmak}
+\section{Logikai fogalmak, definíciók}\label{sec-alap-fogalmak}
 
 \begin{definicio}
-	Atomi formula, röviden atom: Azt mondjuk, hogy egy szimbólum atomi formula, vagy atom, akkor és csak akkor, ha egy nem összetett kijelentést jelöl. Például a F szimbolum jelölheti ezt a kijelentést: Fúj a szél. Egy atom, pl. a fenti F atom, lehet igaz vagy hamis a két értékű 0.-ad rendű matematikai logikában. Az igaz értéket általában az \emph{I} szimbolum jelöli, míg a hamis értéke a \emph{H}, de szoktuk használni az angol megfelelőjét is a \emph{T} és \emph{F} betűket, amelyek a ,,true'' és a ,,false'' szavak kezdőbetűjéből jönnek.
+	Atomi formula, röviden atom: Azt mondjuk, hogy egy szimbólum atomi formula, vagy atom, akkor és csak akkor, ha egy nem összetett kijelentést jelöl. Például az \emph{F} szimbolum jelölheti ezt a kijelentést: Fúj a szél. Egy atom, pl. a fenti \emph{F} atom, lehet igaz vagy hamis a kétértékű nulladrendű matematikai logikában. Az igaz értéket általában az \emph{I} szimbolum jelöli, míg a hamis értéket a \emph{H}, de szoktuk használni az angol megfelelőjét is a \emph{T} és \emph{F} betűket, amelyek a ,,true'' és a ,,false'' szavak kezdőbetűjéből jönnek.
 \end{definicio}
 
 \begin{definicio}		
 	Jól formázott formula, röviden formula: Azt mondjuk, hogy egy szimbólumsorozat jól formázott formula, vagy formula, akkor és csak akkor, ha a szimbólumsorozat a következő alakok egyikében van:
 	\begin{enumerate}[label=\textit{(\alph*)}]
-		\item A, ahol A egy atom;
-		\item $ \neg A $, ahol A egy formula;
-		\item $ (A \wedge B) $, ahol A és B formulák;
-		\item $ (A \vee B) $, ahol A és B formulák;
-		\item $ (A \implies B) $, ahol A és B formulák;
-		\item $ (A \Leftrightarrow B) $, ahol A és B formulák.
+		\item $ A $, ahol \emph{A} egy atom;
+		\item $ \neg A $, ahol \emph{A} egy formula;
+		\item $ (A \wedge B) $, ahol \emph{A} és \emph{B} formulák;
+		\item $ (A \vee B) $, ahol \emph{A} és \emph{B} formulák;
+		\item $ (A \implies B) $, ahol \emph{A} és \emph{B} formulák;
+		\item $ (A \Leftrightarrow B) $, ahol \emph{A} és \emph{B} formulák.
 	\end{enumerate}
 	Minden formula a fenti esetek véges sokszori alkalmazásával áll elő.
 \end{definicio}
 
 \begin{megjegyzes}
-	Logikai operátor: A logika nyelvének része a logikai összekötő jelek, vagy más néven logikai operátorok. Mi a következő logikai operátorokat használjuk:
+	Logikai operátor: A logika nyelvének része a logikai összekötő jelek, vagy más néven logikai operátorok. A következő logikai operátorokat használom:
 	\begin{enumerate}
 		\item Negáció, jele: $ \neg $
 		\item Implikáció, jele: $ \implies $
@@ -94,70 +89,65 @@ Ezekben megjelentek különböző definíciók, mint \ref{def-tautologia}.~defin
 \end{megjegyzes}
 
 \begin{definicio}
-	Literál: Azt mondjuk, hogy egy formula literál, akkor és csak akkor, ha atom, vagy atom negáltja.
-	Egy \emph{literál} pozitív, ha atom, illetve negatív, ha atom negáltja. 
+	Literál: Azt mondjuk, hogy egy formula literál, akkor és csak akkor, ha atom, vagy atom negáltja. Egy \emph{literál} pozitív, ha atom, illetve negatív, ha atom negáltja. 
 \end{definicio}
 
-Példa a literálokra: $ a,\neg a,b,\neg b,\dots $, ahol $a$ egy pozitív literál, $\neg a$ egy negatív literal, stb.
+	Példa a literálokra: $ a,\neg a,b,\neg b,\dots $, ahol $a$ egy pozitív literál, $\neg a$ egy negatív literál, $b$ egy literál, $\neg b$ egy negatív literál, stb.
 
 \begin{definicio}
-	Interpretáció: Azt mondjuk, hogy egy J hozzárendelés egy F formula egy interpretációja, akkor és csak akkor, ha a J az F minden atomjához vagy az igaz, vagy a hamis értéket rendeli, de ezek közül csak az egyiket.
+	Interpretáció: Azt mondjuk, hogy egy \emph{J} hozzárendelés egy \emph{F} formula egy interpretációja, akkor és csak akkor, ha a \emph{J} az \emph{F} minden atomjához vagy az igaz, vagy a hamis értéket rendeli, de ezek közül csak az egyiket.
 \end{definicio}
 
 \begin{definicio}
 	Klóz, angolul clause: A klóz literálok halmaza, amelyet úgy interpretálunk, hogy a halmazban lévő literálok diszjunkciója. Például:
 	\begin{enumerate}
-		\item $ \{a,\neg b\} $, ami ezt a formulát jelöli: $a \vee \neg b$
+		\item $ \{a,\neg b\} $, ami ezt a formulát jelöli: $ a\vee\neg b$
 		\item $ \{a,b,c\} $
 		\item $ \{a\} $
 	\end{enumerate}
 \end{definicio}
 
 \begin{megjegyzes}
-	Habár a definíció megengedi, hogy egy klózon belül valamely atom
-	megjelenjen negatív és pozitív literálként is, például: $ {a,\neg a}$, 
-	viszont az ilyen klózokat nem használjuk, mert ezek mindig igazak.
+	Habár a definíció megengedi, hogy egy klózon belül valamely atom megjelenjen negatív és pozitív literálként is, például: $ {a,\neg a}$, viszont az ilyen klózokat nem használjuk, mert ezek mindig igazak.
 \end{megjegyzes}
 
 \begin{definicio}\label{def-cnf}
-	Konjunktív normál forma, röviden \textsc{KNF}, angolul conjunctive normal form, röviden \textsc{CNF}: Azt mondjuk, hogy egy logikai formula konjuktív normál formában van, akkor és csak akkor, ha egy vagy több klózból áll, amelyeket
-	konjunkcióval kötünk össze.
+	Konjunktív normál forma, röviden \textsc{KNF}, angolul conjunctive normal form, röviden \textsc{CNF}: Azt mondjuk, hogy egy logikai formula konjuktív normál formában van, akkor és csak akkor, ha egy vagy több klózból áll, amelyeket konjunkcióval kötünk össze.
 \end{definicio}
 
-Példa egy kojunktív normál formában lévő formulára: $ (A \vee B \vee C \vee X) \wedge (\neg A \vee \neg B \vee \neg C \vee X) \wedge (\neg A \vee B \vee \neg X) $. Ez egy KNF formula, mivel zárójelen belül diszjunkció köti össze a literálokat, a klózok között pedig konjunkció található.
+	Példa egy kojunktív normál formában lévő formulára: $ (A \vee B \vee C \vee X) \wedge (\neg A \vee \neg B \vee \neg C \vee X) \wedge (\neg A \vee B \vee \neg X) $. Ez egy \emph{KNF} formula, mivel zárójelen belül diszjunkció köti össze a literálokat, a klózok között pedig konjunkció található.
 
 \begin{definicio}\label{def-dnf}
 	Diszjunktív normál forma, angolul disjunctive normal form, röviden \textsc{DNF}: Azt mondjuk, hogy logikai formula diszjunktív normál forma, akkor és csak akkor, ha literálok konjunkciójának diszjunkciója.
 \end{definicio}
 
 
-	Példa egy DNF formulára: $ (A \wedge B \wedge C \wedge X) \vee (\neg A \wedge \neg B \wedge \neg C \wedge X) \vee (\neg A \wedge B \wedge \neg X) $. Ez egy DNF formula, mivel zárójelen belül konjunkció köti össze a literálokat, a klózok között pedig diszjunkció található.
+	Példa egy \textsc{DNF} formulára: $ (A \wedge B \wedge C \wedge X) \vee (\neg A \wedge \neg B \wedge \neg C \wedge X) \vee (\neg A \wedge B \wedge \neg X) $. Ez egy \textsc{DNF} formula, mivel zárójelen belül konjunkció köti össze a literálokat, a klózok között pedig diszjunkció található.
 
 
 \begin{definicio}\label{def-tautologia}
-	Logikai törvény, más néven tautológia: Azt mondjuk, hogy az F formula logikai törvény, vagy tautológia, akkor és csak akkor, ha F minden interpretációjában igaz.
+	Logikai törvény, más néven tautológia: Azt mondjuk, hogy az \emph{F} formula logikai törvény, vagy tautológia, akkor és csak akkor, ha \emph{F} minden interpretációjában igaz.
 \end{definicio}
 
 \begin{definicio}
-	Logikai ellentmondás, angolul contradiction, unsatisfiable formula, röviden UNSAT: Azt mondjuk, hogy az F formula logikai ellentmondás, akkor és csak akkor, ha F minden interpretációjában hamis.
+	Logikai ellentmondás, angolul contradiction, unsatisfiable formula, röviden \textsc{UNSAT}: Azt mondjuk, hogy az \emph{F} formula logikai ellentmondás, akkor és csak akkor, ha \emph{F} minden interpretációjában hamis.
 \end{definicio}
 
 \begin{definicio}
-	Kielégíthető, angolul satisfiable formula, röviden \textsc{SAT}: Azt mondjuk, hogy az F formula kielégíthető, akkor és csak akkor, ha F legalább egy interpretációjában igaz.
+	Kielégíthető, angolul satisfiable formula, röviden \textsc{SAT}: Azt mondjuk, hogy az \emph{F} formula kielégíthető, akkor és csak akkor, ha \emph{F} legalább egy interpretációjában igaz.
 \end{definicio}
 
 \begin{definicio}
-	Hamissá tehető, angolul falseable formula: Azt mondjuk, hogy az F formula hamissá tehető, akkor és csak akkor, ha F legalább egy interpretációjában hamis. 
+	Hamissá tehető, angolul falseable formula: Azt mondjuk, hogy az \emph{F} formula hamissá tehető, akkor és csak akkor, ha \emph{F} legalább egy interpretációjában hamis. 
 \end{definicio}
 
 \begin{megjegyzes}
-	Kielégítő ellentéte a logikai ellentmondás, mivel ha valami nem kielégíthető, akkor abból következik, hogy minden interpretációjában hamis, azaz logikai ellentmondás.
-	Hamissá tehető ellentéte a logikai törvény, mivel ha valami nem hamissá tehető, akkor abból következik, hogy minden interpretációjában igaz, azaz logikai törvény.
+	Kielégítő ellentéte a logikai ellentmondás, mivel ha valami nem kielégíthető, akkor abból következik, hogy minden interpretációjában hamis, azaz logikai ellentmondás. Hamissá tehető ellentéte a logikai törvény, mivel ha valami nem hamissá tehető, akkor abból következik, hogy minden interpretációjában igaz, azaz logikai törvény.
 \end{megjegyzes}
 
-Igazság tábla: Oszloponként tartalmazza az összes atomot, ami a formulánkban van, és az utolsó oszlopban magát a formulát is. Soronként minden atomhoz értéket rendel, minden lehetséges kombinációban, és a formulába behelyettesítve kiszámítja a formula értékét. Az eredményét az utolsó oszlopból olvashatjuk ki.
+	Igazság tábla: Oszloponként tartalmazza az összes atomot, ami a formulánkban van, és az utolsó oszlopban magát a formulát is. Soronként minden atomhoz értéket rendel, minden lehetséges kombinációban, és a formulába behelyettesítve kiszámítja a formula értékét. Az eredményét az utolsó oszlopból olvashatjuk ki.
 
-Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulákat, és igazság táblákat, amelyek minden lehetséges esetre igaz értéket adnak eredményül. Az eredményekből könnyebben átláthatjuk, ha tautológiát kapunk.
+	Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulákat, és igazság táblákat, amelyek minden lehetséges esetre igaz értéket adnak eredményül. Az eredményekből könnyebben átláthatjuk, ha tautológiát kapunk.
 
 \label{pelda-tautologia}
 	Példa tautológiára és igazság táblára: 
@@ -186,37 +176,53 @@ Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulá
 		\hline
 	\end{tabular}
 
-\textsc{SAT} probléma: A logikai kielégíthetőség egy olyan probléma, ami azt határozza meg, hogy létezik olyan interpretációja egy logikai formulának, ami kielégíti az adott logikai formulát.
+	\textsc{SAT} probléma: A logikai kielégíthetőség egy olyan probléma, ami azt határozza meg, hogy létezik olyan interpretációja egy logikai formulának, ami kielégíti az adott logikai formulát.
 
-\textsc{SAT} megoldó, angolul \textsc{SAT} solver: \textsc{SAT} problémák megoldására képes. Eredményül egy igaz vagy hamis értéket ad, ami annyit jelent, hogy a kapott probléma kielégíthető-e vagy sem. Ha kielégíthető, megad egy interpretációt is, amiben a formula igaz.
+	\textsc{SAT} megoldó, angolul \textsc{SAT} solver: \textsc{SAT} problémák megoldására képes. Eredményül egy igaz vagy hamis értéket ad, ami annyit jelent, hogy a kapott probléma kielégíthető-e vagy sem. Ha kielégíthető, megad egy interpretációt is, amiben a formula igaz.
 
-\subsection{Tanáraim útmutatása a szakirodalom terén} \label{ssec-graf-alapok}
+		\subsection{A kommunikációs gráf felépítésének elemei} \label{ssec-graf-alapok}
+%%%%%%%%A FENTI SUBSECTION CIM NEM JÓ! javítva
 \begin{definicio}
 	Azt a konstrukciót, hogy $\mathcal{D}=(\mathcal{V},\mathcal{E})$, irányított gráfnak nevezzük, ahol $ \mathcal{V} $ a csúcsok halmazát jelöli, $\mathcal{E}$ pedig az élek halmazát. Egy él csomópontok rendezett párja, az $(a,b)$ irányított élt úgy jelöljük az irányított gráfban, hogy $a \rightarrow b$, és azt is mondhatjuk hogy az $a$ gyermeke a $b$ csomópont. Ha $(a,b)$ eleme az $\mathcal{E}$ halmaznak, akkor azt mondjuk, hogy $(a,b)$ egy éle a $\mathcal{D}$ irányított gráfnak.
 \end{definicio}
+
 \begin{definicio}
-	Egy irányított gráf teljes, akkor és csak akkor, ha minden pár külön álló csúcsokból össze van kötve egy pár egyedi éllel (eggyel minden irányba). Egy irányított gráf erősen összetett, vagy erősen irányított gráf, akkor és csak akkor, ha van út minden csúcsból minden más csúcsba. Vegyük észre, hogy a teljes gráf egyben erős is; továbbá, az erősen irányított gráf tartalmaz egy kört, ami tartalmaz minden csúcsot \cite{am}.
+	Egy irányított gráf teljes, akkor és csak akkor, ha minden pár külön álló csúcsokból össze van kötve egy pár egyedi éllel (eggyel minden irányba). Egy irányított gráf erősen összetett, vagy erősen irányított gráf, akkor és csak akkor, ha van út minden csúcsból minden más csúcsba. Vegyük észre, hogy a teljes gráf egyben erős is; továbbá, az erősen irányított gráf tartalmaz egy kört, ami tartalmaz minden csúcsot~\cite{am}.
 \end{definicio}
 
 \begin{definicio}
 	Erősen összetett gráf, más néven erős gráf: Azt mondjuk, hogy egy gráf erős gráf, akkor és csak akkor, ha van út minden csúcs pár között.
 \end{definicio}
 	
-	\begin{definicio}
-		Erősen összetett komponens, más néven erős komponens, angolul strongly connected component, röveiden \textsc{SCC}: Azt mondjuk, hogy egy részgráf erősen összetett komponens, akkor és csak akkor, ha egy irányított gráfnak a legnagyobb, erősen összekötött részgráfja.
-	\end{definicio}
-	
-	\begin{definicio}
-		Fekete hozzárendelés, más néven fekete klóz: Azt mondjuk, hogy egy klóz fekete klóz, akkor és csak akkor, ha a gráf minden csúcsának a negáltja megtalálható benne.
-	\end{definicio}
-	
-	\begin{definicio}
-		Fehér hozzárendelés, más néven fehér klóz: Azt mondjuk, hogy egy klóz fehér klóz, akkor és csak akkor, ha a gráf minden csúcsa megtalálható benne.
-	\end{definicio}
+\begin{definicio}
+	Erősen összetett komponens, más néven erős komponens, angolul strongly connected component, röveiden \textsc{SCC}: Azt mondjuk, hogy egy részgráf erősen összetett komponens, akkor és csak akkor, ha erősen összetett és bármely további csomópontot hozzáadva az eredeti gráfból, a részgráf már nem erősen öszetett, más szóval, az SCC egy maximális erősen öszetett részgráf.
+\end{definicio}
 
- 	\section{Gráf alakzatok létrehozása}
+	Például $(a,b),(b,a)$ egy erősen összetett komponens, de $(a,b),(b,a),(a,c)$ már nem. Lásd \az{\ref{abra-sajatpelda-eredeti-5-9graf}}.~ábrán.
+	
+\begin{definicio}
+	Fekete klóz: Azt mondjuk, hogy egy klóz fekete klóz, akkor és csak akkor, ha egy irányított gráf minden csúcsának a negáltja megtalálható benne. 
+\end{definicio}
 
-	A drawio nevű weboldalon \cite{link-drawio} elérhető egy \textsc{XML} alapú képszerkesztő. Ez egy olyan webes grafikus felületet ad, ami gráfok, diagramok, uml-ek, use-case ábrák, képek és még sok más forma megszerkesztését teszi lehetővé. Ha akarjuk, le is tölthetjük ingyenesen az asztali alkalmazást, ami szélesebb körben, gyorsabban és precízebben működik, mint a webes felület. Gyorsabb a fájlok kezelése, szerkesztése is.
+\begin{megjegyzes}
+	Ez a definició feltételezi, hogy az irányított gráf csomópontjai atomi formulák, vagy minden csomóponot egy különbőző atommal címkéztünk fel.
+\end{megjegyzes}
+
+	Példa: $(\neg a,\neg b,\neg c,\neg d,\neg e)$, vagy \texttt{.cnf} fájlban: $-1\ -2\ -3\ -4\ -5$
+
+\begin{definicio}
+	Fehér klóz: Azt mondjuk, hogy egy klóz fehér klóz, akkor és csak akkor, ha egy irányított gráf minden csúcsa megtalálható benne.
+\end{definicio}
+
+\begin{megjegyzes}
+	Ez a definició feltételezi, hogy az irányított gráf csomópontjai atomi formulák, vagy minden csomóponot egy különbőző atommal címkéztünk fel.
+\end{megjegyzes}
+
+	Példa: $(a,b,c,d,e)$, vagy \texttt{.cnf} fájlban: $1\ 2\ 3\ 4\ 5$
+
+	\section{Gráf alakzatok létrehozása}
+
+	A drawio nevű weboldalon~\cite{link-drawio} elérhető egy \textsc{XML} alapú képszerkesztő. Ez egy olyan webes grafikus felületet ad, ami gráfok, diagramok, uml-ek, use-case ábrák, képek és még sok más forma megszerkesztését teszi lehetővé. Ha akarjuk, le is tölthetjük ingyenesen az asztali alkalmazást, ami szélesebb körben, gyorsabban és precízebben működik, mint a webes felület. Gyorsabb a fájlok kezelése, szerkesztése is.
 	
 	Rengeteg alapértelmezett alakzatot találunk benne, használata egyszerű, és könnyen elsajátíthatja a felhasználó. Körülbelül 3 éve hallottam erről az alkalmazásról, talán Troll Ede tanár úr mutatta be nekünk még a ,,Bevezetés az informatikába'' órán. Azóta rengeteg uml-t, use-case-t és egyéb hasznos dolgot szerkesztettem már meg, csakúgy, mint a jelenlegi dokumentumban található összes gráfot.
 	
@@ -224,7 +230,7 @@ Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulá
 	
 	A logikai formulák ellenőrzéséhez a WolframAlpha válasz motort választottam, melynek nyelve a Wolfram, ami egy általános, több paradigmás programozási nyelv. Ez a nyelv a hangsúlyt a szimbolikus számításra, a funkcionális programozásra, a szabályalapú programozásra helyezi, valamint képes tetszőleges struktúrákat és adatokat alkalmazni. Ezekre az alapokra épül a WolframAlpha tudásszámító és válasz motor. Képes közvetlenül válaszolni a tényszerű kérdésekre azáltal, hogy külső forrásból származó adatokból számítja ki a választ.
 	
-	Mi arra tudjuk használni, a saját weboldalán keresztül \cite{link-wolframalpha}, hogy a beviteli mezőben logikai formulát adunk át neki. Válasznak visszaadja megformázva, amit bevitelként adtunk, valamint annak igazság tábláját, normál formáit, logikai áramkörét, Venn diagramját és az igazságsűrűségét.
+	Mi arra tudjuk használni, a saját weboldalán keresztül~\cite{link-wolframalpha}, hogy a beviteli mezőben logikai formulát adunk át neki. Válasznak visszaadja megformázva, amit bevitelként adtunk, valamint annak igazság tábláját, normál formáit, logikai áramkörét, Venn diagramját és az igazságsűrűségét.
 	
 	Így könnyen leellenőrizhető, hogy a logikai formula, amit beírtunk az tautológia-e. Ezt az igazságtábla utolsó oszlopából állapíthatjuk meg.
 	
@@ -234,8 +240,8 @@ Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulá
 	A mi esetünkben a logikai képletek megformázása a legérdekesebb használati eset. Az alapműveletek jeleit átírja a saját nyelvén megformázott bemenetre, és ezt szövegesen is leírja. Ebben a felsorolásban a műveleti jeleket szó szerint kell beírni az idézőjelek közé:
 	\begin{itemize}
 		\item negálás $ = $ ,,not A'' példa: $ \neg A $, \textsc{Not A}
-		\item ,,vagy'' művelet $ = $ ,,A or B'' példa: $ A\vee B $, \textsc{A Or B}
-		\item ,,és'' művelet $ = $ ,,A and B'' példa: $ A\wedge B $, \textsc{A And B}
+		\item diszjunkció $ = $ ,,A or B'' példa: $ A\vee B $, \textsc{A Or B}
+		\item konjunkció $ = $ ,,A and B'' példa: $ A\wedge B $, \textsc{A And B}
 		\item implikáció $ = $ ,,A => B'' példa: $ A\Rightarrow B $, \textsc{A Implies B}
 		\item ekvivalencia $ = $ ,,A <=> B'' példa: $ A\Leftrightarrow B $, \textsc{A Equivalent B}
 	\end{itemize}
@@ -246,7 +252,7 @@ Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulá
 	Ezeket természetesen ingyenesen kapjuk, ha előfizetünk, akkor jobb minőségű, kinagyítható, szerkeszthető képleteket kapunk, nemcsak egy rögzített méretű képben megadott eredményt. Hosszabb eredmények esetén előfordul, hogy a minimális formákat sem adja eredményül, természetesen prémium felhasználóként ezeket akár kijelölhető szövegként is megkapjuk.
 	
 	\section{A Python programozási nyelvről}\label{kif-python-programnyelv}
-	A Python egy magas szintű programozási nyelv, ami a funkcionális, az objektumorientált, az imperatív és a procedurális programozási paradigmákat támogatja. Azaz egy olyan több paradigmás nyelv, ami függvényeket, eljárásokat, metódusokat, változókat, használ, ezekkel változtatja meg a program állapotát. Bár dinamikusan típusos nyelv, mégis hibát dob a nem jól definiált műveletek használatára. Például nem lehet hozzáadni számot szöveghez, viszont dinamikus, mert a változóknak csak nevük van, és ha véletlenül ugyanazzal a névvel egy másik típust akarunk használni, azt felülírja, és az utoljára értékül kapott típust használja. Fontos a szintaxisra nézve, hogy minden behúzás jelentős, mivel ezeket használja a kódrészek csoportosítására. Hivatkozás számolást (angolul reference counting) és körészlelő szemétgyűjtést (angolul garbage collection GC) alkalmaz a memória visszaigényléséhez. Széleskörű az alapkönyvtár készlete, azaz sok importálható osztály van, amit más már megírt előttünk. Ez annak köszönhető, hogy modulokon keresztül nyújthatóvá tették az egész nyelvet. Dinamikus névmeghatározást használ, ami a késői kötésnek, vagy lusta kiértékelésnek köszönhetően a program futása közben köti össze a neveket és a metódusokat. Funkcionális függvényei is vannak, mint a \texttt{filter}, \texttt{map} és \texttt{reduce}, implementálva vannak fejlett listák (angolul list comprehension), szótárak, halmazok, generátor, valamint iterátor kifejezések is. Két alapkönyvtára van a \texttt{functools} és az \texttt{itertools}. Utóbbit én is használom a programomban, de ezen kívül még a gráfokhoz kidolgozott \texttt{NetworkX} és \texttt{Pylab} könyvtárakat is használom.
+	A Python egy magas szintű programozási nyelv, ami a funkcionális, az objektumorientált, az imperatív és a procedurális programozási paradigmákat támogatja. Azaz egy olyan több paradigmás nyelv, ami függvényeket, eljárásokat, metódusokat, változókat, használ, ezekkel változtatja meg a program állapotát. Bár dinamikusan típusos nyelv, mégis hibát dob a nem jól definiált műveletek használatára. Például nem lehet hozzáadni számot szöveghez, viszont dinamikus, mert a változóknak csak nevük van, és ha véletlenül ugyanazzal a névvel egy másik típust akarunk használni, azt felülírja, és az utoljára értékül kapott típust használja. Fontos a szintaxisra nézve, hogy minden behúzás jelentős, mivel ezeket használja a kódrészek csoportosítására. Hivatkozás számolást (angolul reference counting) és körészlelő szemétgyűjtést (angolul garbage collection \textsc{GC}) alkalmaz a memória visszaigényléséhez. Széleskörű az alapkönyvtár készlete, azaz sok importálható osztály van, amit más már megírt előttünk. Ez annak köszönhető, hogy modulokon keresztül nyújthatóvá tették az egész nyelvet. Dinamikus névmeghatározást használ, ami a késői kötésnek, vagy lusta kiértékelésnek köszönhetően a program futása közben köti össze a neveket és a metódusokat. Funkcionális függvényei is vannak, mint a \texttt{filter}, \texttt{map} és \texttt{reduce}, implementálva vannak fejlett listák (angolul list comprehension), szótárak, halmazok, generátor, valamint iterátor kifejezések is. Két alapkönyvtára van a \texttt{functools} és az \texttt{itertools}. Utóbbit én is használom a programomban, de ezen kívül még a gráfokhoz kidolgozott \texttt{networkx} és \texttt{pylab} könyvtárakat is használom.
 	
 	Amikor először megnyitjuk a programot, akkor egy nagyon leegyszerűsített felhasználói felülettel találkozunk. Egyszerű benne az importálás, csak behúzásokkal van rendezve, nagyon tiszta a kódolási környezet. A nyelv megírásakor az volt a cél, hogy minél kevesebb időt kelljen a programkörnyezet kitalálásával tölteni, és a felhasználók munkájukat könnyen, átláthatóan végezhessék, szinte csak a célra kell fókuszálni, ahhoz hogy az adott problémát a programozási nyelvvel megoldhassuk. Kitűnően érvényesül a Python alapelve, ami a minél letisztultabb program struktúra létrehozása. Rengeteg kiegészítő könyvtára van, ami a széleskörű felhasználást segíti elő, azonban igazából a fájlok kezelésére, rövid, tömör kód megírására a legalkalmasabb. Használatával arra ösztönöz, hogy egy programrészletet ne gondoljunk túl, törekedjünk tiszta kód írására.
 	
@@ -256,19 +262,19 @@ Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulá
 	\Az{\ref{sec-alap-fogalmak}}.~fejezetben már kifejtettem a logika alapjait. Ebben a fejezetben \az{\cite[Kusper Gábor és társai]{am}}-nak cikkéből, valamint \az{\cite[Kusper Gábor diploma munkája]{sat-solving-50}} az, amiből konzulensem javaslatára szakirodalom részleteket fordítottam le magyar nyelvre.
 	
 	\label{ssec-fogalmak}
-	%todo nézd át a hivatkozásokat, legyenek értelmesebbek. 
+	%todo nézd át a hivatkozásokat, legyenek értelmesebbek.
 	% A fordításokat pláne nézd át!
 	A klózok itt literáljaik diszjunkciójaként vannak értelmezve. A hozzárendelések pedig literáljaik konjunkciójaként.
 	
-	Ha egy klóz vagy egy hozzárendelés pontosan \emph{k} literált tartalmaz, akkor \emph{k-klóznak}, vagy \emph{k-hozzárendelésnek} nevezzük. Egy 1-klózt \emph{egységnek}, egy 2-klózt \emph{bináris klóznak} nevezünk. Egy \emph{k-}\textsc{SAT} \emph{probléma} egy olyan klózhalmaz, ahol a klózoknak legfeljebb \emph{k} literálja van. Egy klóz a klózhalmazból, akkor és csak akkor egy \emph{teljes-hosszú klóz}, ha tartalmaz minden változót a klózhalmazból.
+	Ha egy klóz vagy egy hozzárendelés pontosan \emph{k} literált tartalmaz, akkor \emph{k-klóznak}, vagy \emph{k-hozzárendelésnek} nevezzük. Egy 1-klózt \emph{egységnek}, vagy angolul \emph{unit}-nak, egy 2-klózt \emph{bináris klóznak} nevezünk. Egy \emph{k-}\textsc{SAT} \emph{probléma} egy olyan klózhalmaz, ahol a klózoknak legfeljebb \emph{k} literálja van. Egy klóz a klózhalmazból, akkor és csak akkor egy \emph{teljes-hosszú klóz}, ha tartalmaz minden változót a klózhalmazból.
 	
 	Definiáljunk néhány kiegészítő függvényt. Ha $ C $ egy klóz, akkor legyen $ V(C) $ azon változók halmaza, ami feltűnik $ C $-ben, legyen $ N(C) $ a negatív literálok halmaza $ C $-ből, és legyen $ P(C) $ a pozitív literálok halmaza $ C $-ből. Tudjuk hogy $ C=N(C)\cup P(C)$, $V(N(C))\cap V(P(C))=\emptyset $, és $ P(C)=V(P(C)) $.
 	
 	Két intuitív fogalmat használunk: \textsc{NNP} klózt, és \textsc{NPP} klózt. Egy klóz akkor és csak akkor \textsc{NNP} klóz, ha pontosan egy pozitív literált tartalmaz. Egy klóz akkor és csak akkor \textsc{NPP} klóz, ha pontosan egy negatív literált tartalmaz.
 	
-	Ha $ a $ egy literál az $ S $ klózhalmazban, és $ \neg a $ literál nincs benne $ S $-ben, akkor azt mondjuk, hogy $ a $ egy tiszta literál $ S $-ben.
+	Ha $ a $ egy literál az $ S $ klózhalmazban, és $ \neg a $ literál nincs benne $ S $-ben, akkor azt mondjuk, hogy $ a $ egy tiszta literál $ S $-ben, angolul: pure literal.
 	
-	A negációja $ H $ halmaznak $ \neg H $-val van jelölve, ami azt jelenti, hogy $ H $ minden eleme negálva van. Vegyük figyelembe, hogy $ \neg\neg H=H $.
+	A negációja $ H $ halmaznak $ \neg H $-val van jelölve, ami azt jelenti, hogy $ H $ minden eleme negálva van. Vegyük észre, hogy $ \neg\neg H=H $.
 
 	Legyen $ V $ a változók halmaza egy klózhalmazból véve. Azt mondjuk, hogy $ WW $ a \emph{fehér klóz}, vagy a \emph{fehér hozzárendelés} a $ V $ változóira, akkor és csak akkor, ha $ WW=V $. Azt mondjuk, hogy $ BB $ a \emph{fekete klóz} vagy a \emph{fekete hozzárendelés}, $ V $ változóira, akkor és csak akkor, ha $ BB =\neg V$. Például ha $ V=\{a,b,c\} $, akkor $ WW=\{a,b,c\} $, és $ BB=\{\neg a,\neg b,\neg c\} $.
 	
@@ -276,15 +282,15 @@ Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulá
 	
 	Azt mondjuk, hogy $ S $ klózhalmaz \emph{magába foglalja} $ C $-t, akkor és csak akkor, ha $ S $-ben van olyan klóz, ami magába foglalja $ C $-t. Logikai jelölése: $ S $ \emph{magába foglalja} $ C \Leftrightarrow\exists D(D\in S\wedge D\subseteq C) $.
 	
-	Azt mondjuk, hogy $ C $ klózzal \emph{jár} $ S $ klózhalmaz, akkor és csak akkor, ha minden teljes hosszú klóz, amit magába foglal $ C $ azt $ S $ is magába foglalja. A logikai értelmezése ennek a fogalomnak a következő: $ C $-vel jár $ S $, akkor és csak akkor, ha $ C $ egy logikai következménye $ S $-nek. A magába foglalt klózokat is beleértve.
+	Azt mondjuk, hogy $ S $ klózhalmaz \emph{maga után von} egy $ C $ klózt, akkor és csak akkor, ha minden teljes hosszú klóz, amit magába foglal $ C $ azt $ S $ is magába foglalja. A logikai értelmezése ennek a fogalomnak a következő: $ S $ maga után vonja $ C $-t, akkor és csak akkor, ha $ C $ egy logikai következménye $ S $-nek. A magába foglalt klózokat is beleértve.
 
-	Azt mondjuk, hogy $ C $ klóz \emph{független} $ S $ klózhalmazban, akkor és csak akkor, ha $ C $-vel nem jár $ S\setminus\{C\} $. Egy teljes hosszú klóz független egy klózhalmazban, akkor és csak akkor, ha semmi nem foglalja magába.
+	Azt mondjuk, hogy $ C $ klóz \emph{független} $ S $ klózhalmazban, akkor és csak akkor, ha $ S\setminus\{C\} $ nem foglalja magába $ C $-t. Egy teljes hosszú klóz független egy klózhalmazban, akkor és csak akkor, ha semmi nem foglalja magába.
 
 	Azt mondjuk, hogy $ M $ hozzárendelés egy \emph{megoldás} $ S $ klózhalmazra nézve, akkor és csak akkor, ha minden $ C\in S $-re igaz, hogy $ M\cap C\ne \{\} $.
 
 	Azt mondjuk, hogy $ S $ klózhalmaz egy \emph{Fekete-Fehér} \textsc{SAT} \emph{probléma}, akkor és csak akkor, ha csak két megoldása van a fehér $ (WW) $ és a fekete $ (BB) $ hozzárendelés.
 
-	Azt mondjuk, hogy $ A $ és $ B $ klózhalmazok ekvivalensek, akkor és csak akkor, ha mindkettőnek ugyanaz a megoldás halmaza. Azt mondjuk, hogy $ A $ klózhalmazzal jár $ B $ klózhalmaz, akkor és csak akkor, ha $ A $-hoz tartozó megoldások halmaza tartalmazza a $ B $-hez tartozó megoldás halmazt, azaz $ A $-nak nem lehet más megoldása, csak $ B $. Ez a fogalom a következőképpen van jelölve: $ A\geq B $. Vegyük figyelembe, ha $ A $ magába foglalja $ B $ minden klózát, akkor $ A\geq B $.
+	Azt mondjuk, hogy $ A $ és $ B $ klózhalmazok ekvivalensek, akkor és csak akkor, ha mindkettőnek ugyanaz a megoldás halmaza. Azt mondjuk, hogy $ B $ klózhalmaz magába foglalja $ A $ klózhalmazt, akkor és csak akkor, ha $ A $-hoz tartozó megoldások halmaza tartalmazza a $ B $-hez tartozó megoldás halmazt, azaz $ A $-nak nem lehet más megoldása, csak $ B $. Ez a fogalom a következőképpen van jelölve: $ A\geq B $. Vegyük észre, ha $ A $ magába foglalja $ B $ minden klózát, akkor $ A\geq B $.
 
 	Azt mondjuk, hogy $ A $ erősebb $ B $-nél, akkor és csak akkor, ha $ A\geq B $ és $ A $ és $ B $ nem egyenlőek. Ez a fogalom a következőképpen van jelölve: $ A>B $.
 
@@ -292,16 +298,15 @@ Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulá
 	
 	Azt mondjuk, hogy $ \mathcal{D} $ egy kommunikációs gráf, akkor és csak akkor, ha minden $ a $-ra $ \mathcal{V} $-ben igaz, hogy $ (a,a) $ nincs benne $ \mathcal{E} $-ben, és ha $ x $ eleme $ \mathcal{V} $-nek, akkor $ \neg x $ nem lehet $ \mathcal{V} $ eleme. Szükségünk van erre a megszorításra, mert $ \mathcal{D} $-ből egy logikai formulát generálunk. Ha kommunikációs gráfokról beszélünk, akkor gyakran használjuk a csomópont kifejezést, a csúcs szinonimájaként.
 
-	Egy út $ a_1 $-től $ a_j $-ig a $ \mathcal{D} $ irányított gráfban olyan csúcsok sorrendje $ a_1,a_2,\dots,a_j $, ami minden egyes $ i\{1,\dots,j-1\} $-re igaz, hogy $ (a_i,a_(i+1)) $ egy éle $ \mathcal{D} $-nek. Egy út $ a_1 $-től $ a_j $-ig $ \mathcal{D} $ irányított gráfban egy kör, akkor és csak akkor, ha $ (a_j,a_1) $ egy éle $ \mathcal{D} $-nek. Az $ a_1,a_2,\dots,a_j,a_1 $ kört a $ (a_1,a_2,\dots,a_j ) $ rekord (angolul tuple) ábrázolja. Ez a rekord használható elemek halmazaként. Vegyük figyelembe, hogy a körnek ebben az ábrázolásában az első és az utolsó elem nem lehet ugyanaz a csúcs.
+	Egy út $ a_1 $-től $ a_j $-ig a $ \mathcal{D} $ irányított gráfban olyan csúcsok sorrendje $ a_1,a_2,\dots,a_j $, ami minden egyes $ i\{1,\dots,j-1\} $-re igaz, hogy $ (a_i,a_(i+1)) $ egy éle $ \mathcal{D} $-nek. Egy út $ a_1 $-től $ a_j $-ig $ \mathcal{D} $ irányított gráfban egy kör, akkor és csak akkor, ha $ (a_j,a_1) $ egy éle $ \mathcal{D} $-nek. Az $ a_1,a_2,\dots,a_j,a_1 $ kört a $ (a_1,a_2,\dots,a_j ) $ rekord (angolul tuple) ábrázolja. Ez a rekord használható elemek halmazaként. Vegyük észre, hogy a körnek ebben az ábrázolásában az első és az utolsó elem nem lehet ugyanaz a csúcs.
 
 	Ha van egy $ (a_1,a_2,\dots,a_n) $ körünk, akkor b egy kilépési pontja, akkor és csak akkor, ha valamennyi $ j\{1,2,\dots,n\} $-re igaz, hogy $ (a_j,b) $ egy él, és $ b\{a_1,a_2,\dots,a_n\} $ kilépési pontok.
 
-	Egy irányított gráf teljes, akkor és csak akkor, ha minden pár külön álló csúcsokból össze van kötve egy pár egyedi éllel (eggyel minden irányba). Egy irányított gráf erősen összetett, vagy erősen irányított gráf, akkor és csak akkor, ha van út minden csúcsból minden más csúcsba. Vegyük figyelembe, hogy a teljes gráf egyben erős is. Valamint azt is, hogy az erősen irányított gráf tartalmaz egy kört, ami tartalmaz minden csúcsot.
-	\cite[fordítás Kusper Gábor és társainak cikkjéből]{am}
+	Egy irányított gráf teljes, akkor és csak akkor, ha minden pár külön álló csúcsokból össze van kötve egy pár egyedi éllel (eggyel minden irányba). Egy irányított gráf erősen összetett, vagy erősen irányított gráf, akkor és csak akkor, ha van út minden csúcsból minden más csúcsba. Vegyük észre, hogy a teljes gráf egyben erős is. Valamint azt is, hogy az erősen irányított gráf tartalmaz egy kört, ami tartalmaz minden csúcsot~\cite[fordítás Kusper Gábor és társainak cikkjéből]{am}.
 
 	Erős modell: A legegyszerűbb modell, mely csak az éleket tartalmazza csomópont páronként, a végére illesztve a fekete és a fehér klózokat.
 	
-	Gyenge modell: Egy kört úgy írunk le benne, hogy az összes körben szereplő csomópontot megjelöljük egy negatív literállal, annak kilépési pontjait pedig pozitív literálként. Egy gyenge modellben az összes klózban legalább egy negatív és legalább egy pozitív literálnak kell lennie. Egy csomópont csak akkor van leírva a modellben, ha van belőle kimenő él. Egy kör csak akkor van leírva a modellben, ha van kilépési pontja \cite{sat-solving-50}.
+	Gyenge modell: Egy kört úgy írunk le benne, hogy az összes körben szereplő csomópontot megjelöljük egy negatív literállal, annak kilépési pontjait pedig pozitív literálként. Egy gyenge modellben az összes klózban legalább egy negatív és legalább egy pozitív literálnak kell lennie. Egy csomópont csak akkor van leírva a modellben, ha van belőle kimenő él. Egy kör csak akkor van leírva a modellben, ha van kilépési pontja~\cite{sat-solving-50}.
 	
 	Ahogyan azt a szakdolgozati jelentkezésembe is beleírtam, a konzulensemmel abban állapodtam meg, hogy a gráfok gyenge modelljét vizsgálom, és azokkal dolgozok. Ahogy elmélyültem a témában, úgy a gyenge modellt máshogy közelítettem meg, ezt a későbbiekben bővebben kifejtem. Számomra a feladat megértésénél körvonalazódott az egyszerűsített erős modell leírása, így ezt igyekeztem alaposan kidolgozni.
 	
@@ -309,9 +314,9 @@ Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulá
 	
 		\subsection{A gyenge modellben rejlő további lehetőségek}
 	
-	\cite[Kusper Gábor és társai cikkjéből]{am} először a teljes hosszú klózhalmazokat mutatom meg. Miközben fordítottam és tanulmányoztam a cikket, a fogalmakból kiderült számomra, hogy két képaláírásban nem szerepel a bonyolult kör leírása. A Fig.~1.~és a Fig.~2.~ábrák alatt a képleírás csak az egyszerű köröket írja le, míg a Fig.~3.~ábra alatt már megemlítik, hogy van egy bonyolult kör is benne. Ekkor vettem észre, hogy az alatta lévő definíció teljesen megfelel az első és második ábrán található nem egyszerű köröknek is.
-	 
-	 Az $ {a,b,c,d} $ változókon, egy index számmal (minden elnevezésnek a formája: index száma, teljes hosszú klóz):
+	\cite[Kusper Gábor és társai cikkjéből]{am} először a teljes hosszú klózhalmazokat mutatom meg. Miközben fordítottam és tanulmányoztam a cikket. A fogalmakból kiderült számomra, hogy két képaláírásban nem szerepel a bonyolult kör leírása. A Fig.~1.~és a Fig.~2.~ábrák alatt a képleírás csak az egyszerű köröket írja le, míg a Fig.~3.~ábra alatt már megemlítik, hogy van egy bonyolult kör is benne. Ekkor vettem észre, hogy az alatta lévő definíció teljesen megfelel az első és második ábrán található nem egyszerű köröknek is.
+	
+	Az $ {a,b,c,d} $ változókon, egy index számmal (minden elnevezésnek a formája: index száma, teljes hosszú klóz):
 	
 	\begin{equation}\label{eq-teljes-klozok}
 		\begin{split}
@@ -333,7 +338,7 @@ Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulá
 		\label{abra-synasc2020-4node7edge}
 	\end{figure}
 
-	Most az egyszerűség kedvéért elhagyjuk a nem egyszerű kört, és így megkapjuk az Fig.~1.-nek megfelelő \ref{abra-synasc2020-4node7edge} ábrán látható kommunikációs gráfot 3 körrel, mely a következő:
+	Most az egyszerűség kedvéért elhagyjuk a nem egyszerű kört, és így megkapjuk az Fig.~1.-nek megfelelő \ref{abra-synasc2020-4node7edge}.~ábrán látható kommunikációs gráfot 3 körrel, mely a következő:
 	\[ (a,b),(a,b,c),(a,c). \]
 	
 	Így ennek a gyenge modellje (miután minden egyes klóznak a magába foglalt teljes klózok indexeit kilistáztam \az{\eqref{eq-teljes-klozok}} képletből):
@@ -355,20 +360,20 @@ Logikai törvény, tautológia: Ezek segítségével felírhatunk olyan formulá
 
 	Ezt úgy értem el, hogy ha egy irányított gráf több \textsc{SCC}-ből áll, akkor a neki megfelelő modell mindig kielégíthető, akkor is, ha hozzáadjuk a fekete és a fehér klózokat. Ez a megállapítás független attól, hogy a gráf, melyik modelljét generáljuk le. Akkor is igaz, ha az erős, vagy ha a gyenge modell segítségével generáljuk le a neki megfelelő \textsc{SAT} példányt.
 	
-	Ennek az az oka, hogy az elmélet szerint akkor és csak akkor keletkezik irányított gráfból UNSAT példány, ha az irányított gráf egy \textsc{SCC}-ből áll, azaz erősen összefüggő, és hozzáadjuk a modelljéhez a fekete és a fehér klózokat.
+	Ennek az az oka, hogy az elmélet szerint akkor és csak akkor keletkezik irányított gráfból \textsc{UNSAT} példány, ha az irányított gráf egy \textsc{SCC}-ből áll, azaz erősen összefüggő, és hozzáadjuk a modelljéhez a fekete és a fehér klózokat.
 	
 	Több esetet is vizsgáltam, amikor azt irányított gráf két \textsc{SCC}-ből áll. Ezeknek az erős modelljét elkészítettem kézzel, illetve programmal is, valamint a WolframAlpha weboldalát használtam fel ezek vizsgálatára.
 	
 	A WolframAlpha-t már kifejtettem a \ref{kif-wolframalpha-hasznalata}.~fejezetben, így erre itt nem térnék ki minden részletére a használatával kapcsolatban.
 	 
-	A legegyszerűbb gráf, aminek az erős modelljét vizsgáltam, két \textsc{SCC}-ből áll. Az első \textsc{SCC} az A és a B változókból áll (számokkal kifejezve: 1, 2), a második \textsc{SCC} a C, valamint a D változókból (számokkal kifejezve: 3, 4), oly módon, hogy az első \textsc{SCC}-ből megy él a másodikba. Visszafelé természetesen nem megy él, hiszen akkor az egész gráfunkból egy nagy \textsc{SCC} lenne, amiről tudjuk, hogy egy fekete-fehér \textsc{SAT} probléma. Kutatásom során, azt találtam, hogy függetlenül attól, hogy az A-ból megy él C-be, azaz $ A \rightarrow C $, vagy A-ból megy él D-be: $A \rightarrow D$, vagy B-ből megy él C-be: $B\rightarrow C$, vagy B-ből megy él D-be: $B\rightarrow D$, mind a négy esetben az erős reprezentációnak megfelelő \textsc{DNF} formula következett:
+	A legegyszerűbb gráf, aminek az erős modelljét vizsgáltam, két \textsc{SCC}-ből áll. Az első \textsc{SCC} az $A$ és a $B$ változókból áll (számokkal kifejezve: 1, 2), a második \textsc{SCC} a $C$, valamint a $D$ változókból (számokkal kifejezve: 3, 4), oly módon, hogy az első \textsc{SCC}-ből megy él a másodikba. Visszafelé természetesen nem megy él, hiszen akkor az egész gráfunkból egy nagy \textsc{SCC} lenne, amiről tudjuk, hogy egy fekete-fehér \textsc{SAT} probléma. Kutatásom során, azt találtam, hogy függetlenül attól, hogy az $A$-ból megy él $C$-be, azaz $ A \rightarrow C $, vagy $A$-ból megy él $D$-be: $A \rightarrow D$, vagy $B$-ből megy él $C$-be: $B\rightarrow C$, vagy $B$-ből megy él $D$-be: $B\rightarrow D$, mind a négy esetben az erős reprezentációnak megfelelő \textsc{DNF} formula következett:
 	
 	\[ (A\wedge B\wedge C\wedge D)\vee (\neg A\wedge\neg B\wedge C\wedge D)\vee (\neg A\wedge\neg B\wedge\neg C\wedge\neg D) \]
-	Azaz: (A és B és C és D), vagy ($ \neg A $ és $ \neg B $ és $ \neg C $ és $ \neg D $) vagy ($ \neg A $ és $ \neg B $ és C és D)
+	Azaz: $(A$ és $B$ és $C$ és $D)$, vagy $( \neg A $ és $ \neg B $ és $ \neg C $ és $ \neg D )$ vagy $( \neg A $ és $ \neg B $ és $C$ és $D)$
 	
-	Ezt kaptam mind a négy esetben. Mint látható az első megoldás a fekete klóz negáltja, a második a fehér klóz negáltja, amiket majd kizárunk a végső megoldások közül a fekete és fehér klózok hozzá adásával, ahogy azt előírja az eredeti algoritmus Kusper Gábor és társainak cikkében\cite{am}.
+	Ezt kaptam mind a négy esetben. Mint látható az első megoldás a fekete klóz negáltja, a második a fehér klóz negáltja, amiket majd kizárunk a végső megoldások közül a fekete és fehér klózok hozzá adásával, ahogy azt előírja az eredeti algoritmus Kusper Gábor és társainak cikkében~\cite{am}.
 	
-	Ugyanakkor a harmadik megoldás nem tűnik el, és ez megfelel az eredeti elméletnek, habár az eredeti elmélet nem magyarázza meg a harmadik megoldás alakját. Ha jól megnézzük, akkor ez a harmadik megoldás: ($ \neg A $ és $ \neg B $ és C és D), azaz az első \textsc{SCC} változói negatívan szerepelnek benne, a második \textsc{SCC} változói pedig pozitívan. Megvizsgáltam több esetet is, az erős modellt legeneráltam programmal, illetve kézzel is, és a fent leírtak mindig tökéletesen beigazolódtak.
+	Ugyanakkor a harmadik megoldás nem tűnik el, és ez megfelel az eredeti elméletnek, habár az eredeti elmélet nem magyarázza meg a harmadik megoldás alakját. Ha jól megnézzük, akkor ez a harmadik megoldás: $( \neg A $ és $ \neg B $ és $C$ és $D)$, azaz az első \textsc{SCC} változói negatívan szerepelnek benne, a második \textsc{SCC} változói pedig pozitívan. Megvizsgáltam több esetet is, az erős modellt legeneráltam programmal, illetve kézzel is, és a fent leírtak mindig tökéletesen beigazolódtak.
 	
 	Program eredménye:
 	
@@ -451,7 +456,7 @@ A program további részében egy másik függvényben megjelennek a fájlba ír
 	
 	Mivel a megfigyelésem többször is beigazolódott, ezért a következő sejtést fogalmaztam meg:
 	
-	Feltételezem, hogy ha minden irányított gráf, nevezetesen G, két \textsc{SCC}-ből áll, $ S_1 $-ből, és $ S_2 $-ből, akkor ha $ S_1 $-ből legalább egy él vezet $ S_2 $-be, akkor függetlenül az élek számától, illetve, hogy konkrétan az élek melyik $ S_1 $-ben lévő csomópontból, melyik $ S_2 $-ben lévő csomópontba vezetnek, akkor G-nek a \textsc{SAT} modelljének pontosan ez az egy megoldása lesz, amennyiben a modellhez hozzáadjuk a fekete és a fehér klózokat is: $ \neg S_1\wedge S_2 $, ahol $ \neg S_1 $ ez a formula: $\neg A_1 \wedge \neg A_2\wedge\dots\wedge\neg A_k$, ahol $ S_1 $ csomópontjai: $ A_1,A_2,\dots,A_k $, és $ S_2 $ ez a formula: $ B_1\wedge B_2\wedge\dots\wedge B_m $, ahol $ S_2 $ csomópontjai: $ B_1,B_2,\dots,B_m $.
+	Feltételezem, hogy ha minden irányított gráf, nevezetesen $G$, amely két \textsc{SCC}-ből áll, $ S_1 $-ből, és $ S_2 $-ből, akkor ha $ S_1 $-ből legalább egy él vezet $ S_2 $-be, akkor függetlenül az élek számától, illetve, hogy konkrétan az élek melyik $ S_1 $-ben lévő csomópontból, melyik $ S_2 $-ben lévő csomópontba vezetnek, akkor $G$-nek a \textsc{SAT} modelljének pontosan ez az egy megoldása lesz, amennyiben a modellhez hozzáadjuk a fekete és a fehér klózokat is: $ \neg S_1\wedge S_2 $, ahol $ \neg S_1 $ ez a formula: $\neg A_1 \wedge \neg A_2\wedge\dots\wedge\neg A_k$, ahol $ S_1 $ csomópontjai: $ A_1,A_2,\dots,A_k $, és $ S_2 $ ez a formula: $ B_1\wedge B_2\wedge\dots\wedge B_m $, ahol $ S_2 $ csomópontjai: $ B_1,B_2,\dots,B_m $.
 	
 	Sajnos a sejtésemet egyelőre nem sikerült bizonyítani, de az általam kipróbált minden példára működött, akkor is, ha az erős modellt generáltam, akkor is ha a gyengét, akkor is, ha bármely másikat, azaz szerintem ez egy fontos felismerés.
 	
@@ -478,7 +483,7 @@ A program további részében egy másik függvényben megjelennek a fájlba ír
 		-1&-2&-3&-4&-5&-6&-7& 0 \\
 		1& 2& 3& 4& 5& 6& 7& 0 \\
 		\end{tabular}
-		\caption{\label{table-esm-cnf}A \textsc{DIMACS} formátumú .cnf fájl}
+		\caption{\label{table-esm-cnf}A \textsc{DIMACS} formátumú \texttt{.cnf} fájl}
 	\end{table}
 	
 	Hosszas próbálkozás után a következő ötletem támadt. Rávilágítottam, hogy erős komponensenként egy csomóponttal is leírhatjuk:
@@ -494,23 +499,26 @@ A program további részében egy másik függvényben megjelennek a fájlba ír
 	\[ (A\implies B)\wedge(B\implies A)\wedge(A\vee B \implies X)\wedge(\neg A\vee\neg B\implies\neg X) \]
 
 	Akkor annak a \textsc{DNF}-ben a leegyszerűsített változata:
-	\[ (A\wedge B\wedge X)\vee(\neg A\wedge\neg B\wedge\neg X) \]	
-	Azaz: ((A=>B) és (B=>A) és (A vagy B => X) és ($ \neg A $ vagy $ \neg B $ => $ \neg X $)), ahol az A, és B változókból áll az \textsc{SCC}, valamint X változóval lehet helyettesíteni az \textsc{SCC}-t.
+	\[ (A\wedge B\wedge X)\vee(\neg A\wedge\neg B\wedge\neg X) \]
+
+	%%%%%%%%%IDE KELLENÉNEK $ jelek, hogy szebb legyen: (kész az egész dokumentumban)
+
+	Azaz: $((A$=>$B)$ és $(B$=>$A)$ és $(A$ vagy $B$ => $X)$ és $( \neg A $ vagy $ \neg B $ => $ \neg X ))$, ahol az $A$, és $B$ változókból áll az \textsc{SCC}, valamint $X$ változóval lehet helyettesíteni az \textsc{SCC}-t.
 	
-	A fenti kiegészítést úgy lehet megkapni, hogy az \textsc{SCC} fehér klóza implikálja az $ X $ literált, a fekete klóza pedig a $ \neg X $ literált. Ezzel a kiegészítéssel az \textsc{SCC}-nek ugyanúgy csak két megoldása van, mint a kiegészítés előtt. A két megoldás, a fekete és a fehér hozzárendelése, annyi kiegészítéssel, hogy most már szerepel bennük az X atom is. Azaz a két megoldás: $ (A \wedge B \wedge X) $, valamint $ (\neg A \wedge \neg B \wedge \neg X) $
+	A fenti kiegészítést úgy lehet megkapni, hogy az \textsc{SCC} fehér klóza implikálja az $ X $ literált, a fekete klóza pedig a $ \neg X $ literált. Ezzel a kiegészítéssel az \textsc{SCC}-nek ugyanúgy csak két megoldása van, mint a kiegészítés előtt. A két megoldás, a fekete és a fehér hozzárendelése, annyi kiegészítéssel, hogy most már szerepel bennük az $X$ atom is. Azaz a két megoldás: $ (A \wedge B \wedge X) $, valamint $ (\neg A \wedge \neg B \wedge \neg X) $
 	
 	Ezzel a kiegészítéssel azt lehet nyerni. hogy ha van két \textsc{SCC}, mondjuk $ S_1 $ és $ S_2 $, ekkor $ S_1 $-et az $ X $-el egészítem ki és $ S_2 $-t az $ Y $-al, akkor minden élt, ami $ S_1 $-ből $ S_2 $-be megy, azt le tudom írni egy darab klózzal: $ (X\implies Y) $, azaz $ (\neg X\vee Y) $, ami kisebb \textsc{SAT} modellhez vezethet.
 	
 	\begin{figure}[!ht]
 		\centering
 		\includegraphics[width=3cm]{images/sajat_pelda_5_9_to_esm}
-		\caption{Leegyszerűsített gráf, behelyettesítés után. Kibővített erős modell (\textsc{ESM})}
+		\caption{A leegyszerűsített gráf, behelyettesítés után. Kibővített erős modell (\textsc{ESM})}
 		\label{abra-sajatpelda-59to-esm}
 	\end{figure}
 
 	Ráadásul a modelleknek az általam vizsgált összes tulajdonsága megmarad.
 	
-	Egy ettől is egyszerűbb megoldás, ha az első \textsc{SCC}-t az 1-es számmal, $ A $ változóval, a másodikat pedig a 2-es számmal, B változóval helyettesítem. Így rendre egy-egy változót (de mindegyikhez különbözőt) rendelek az erős komponensekhez. Ebből generálok egy erős modellt, majd ennek az erős modellnek a megoldásaimban visszahelyettesítem az \textsc{SCC}-k eredeti változóit a megoldásban kapott előjellel. Így akár nagyon nagy, több ezres irányított gráfok megoldása is milliszekundumok alatt lehetséges.
+	Egy ettől is egyszerűbb megoldás, ha az első \textsc{SCC}-t az 1-es számmal, $ A $ változóval, a másodikat pedig a 2-es számmal, $B$ változóval helyettesítem. Így rendre egy-egy változót (de mindegyikhez különbözőt) rendelek az erős komponensekhez. Ebből generálok egy erős modellt, majd ennek az erős modellnek a megoldásaimban visszahelyettesítem az \textsc{SCC}-k eredeti változóit a megoldásban kapott előjellel. Így akár nagyon nagy, több ezres irányított gráfok megoldása is milliszekundumok alatt lehetséges.
 	\newpage
 	
 	Ehhez természetesen meg kell találni az összes \textsc{SCC}-t és a köztük lévő kapcsolatokat, ami nem egyszerű feladat. Változatos a gráfok minden formája. Egy általánosított modellt próbáltam meghatározni \ref{abra-sajatpelda-altalanos}.~ábrán, ami az összes lehetséges alakot lefedi.
@@ -522,12 +530,12 @@ A program további részében egy másik függvényben megjelennek a fájlba ír
 		\label{abra-sajatpelda-altalanos}
 	\end{figure}	
 
-	Ehhez az ihletet Johnson cikkéből \cite{johnson} merítettem. Itt említi meg, hogy Tarján algoritmusára \cite{tarjan} mik a legrosszabb eshetőségek, ehhez volt pár ábra, amit az általánosításkor jó alapnak bizonyult.
+	Ehhez az ihletet Johnson cikkéből~\cite{johnson} merítettem. Itt említi meg, hogy Tarján algoritmusára~\cite{tarjan} mik a legrosszabb eshetőségek, ehhez volt pár ábra, amit az általánosításkor jó alapnak bizonyult.
 
 	\begin{figure}[!ht]
 		\centering
 		\includegraphics[width=5cm]{images/sajat_pelda-altalanos_scck_a}
-		\caption{Egy lehetséges erős komponens alakja (a) változóval jelölve, az $ S_1 $-es erős komponensben.}
+		\caption{Egy lehetséges erős komponens alakja $(a)$ változóval jelölve, az $ S_1 $-es erős komponensben.}
 		\label{abra-sajatpelda-altalanos_scck_a-verzio}
 	\end{figure}
 	\newpage	
@@ -535,7 +543,7 @@ A program további részében egy másik függvényben megjelennek a fájlba ír
 	\begin{figure}[!ht]
 		\centering
 		\includegraphics[width=8cm]{images/sajat_pelda-altalanos_scck_b2}
-		\caption{Egy lehetséges erős komponens alakja (b) változóval jelölve, az $ S_2 $-es erős komponensben.}
+		\caption{Egy lehetséges erős komponens alakja $(b)$ változóval jelölve, az $ S_2 $-es erős komponensben.}
 		\label{abra-sajatpelda-altalanos_scck_b-verzio}
 	\end{figure}
 	
@@ -543,11 +551,11 @@ A program további részében egy másik függvényben megjelennek a fájlba ír
 	\section{Kiindulási pont}
 	Ebben a fejezetben a programból kiemelt sorok szerepelnek, úgyhogy nem minden részlet van kifejtve és leírva.
 	
-	A programozási feladat, ami egy saját készítésű \textsc{SAT} megoldó a CSFLOCK, egy Java-ban írt program. A bemeneti formátuma, amivel dolgozik az egy .cnf fájl, aminek több fajtája is ismert. Munkám során ilyen fájlokat tudok generálni a graph\_cnf\_GEN nevű programok segítségével. Ezek különböző verziókban készültek el, ahogyan előrehaladtunk. Az alapokat korábban Biró Csaba egyetemi docens készítette el konzulensemmel közös munkájuk során.
+	A programozási feladat, ami egy saját készítésű \textsc{SAT} megoldó a \textsc{CSFLOCK}, egy Java-ban írt program. A bemeneti formátuma, amivel dolgozik az egy \texttt{.cnf} fájl, aminek több fajtája is ismert. Munkám során ilyen fájlokat tudok generálni a \texttt{graph\_cnf\_GEN} nevű programok segítségével. Ezek különböző verziókban készültek el, ahogyan előrehaladtunk. Az alapokat korábban Biró Csaba egyetemi docens készítette el konzulensemmel közös munkájuk során.
 	
-	Ez a graph\_cnf\_GEN\_0.8.py \cite{github-py08} fájl névre hallgat. Ebből az alapból kiindulva tanulmányoztam a fájl szerkezetét. Tartalmilag néhány része nem volt teljesen kifejtve, ez a későbbi verzióban már letisztult és használható formában jelenik meg. Az eredeti fájlnak nem az összes funkcióját ültettem át, hiszen a hangsúlyt a kutató munkára helyeztem.
+	Ez a \texttt{graph\_cnf\_GEN\_0.8.py}~\cite{github-py08} fájl névre hallgat. Ebből az alapból kiindulva tanulmányoztam a fájl szerkezetét. Tartalmilag néhány része nem volt teljesen kifejtve, ez a későbbi verzióban már letisztult és használható formában jelenik meg. Az eredeti fájlnak nem az összes funkcióját ültettem át, hiszen a hangsúlyt a kutató munkára helyeztem.
 	
-	A program egy részének lefordítása futási problémákba ütközött, nem produkálta a teljes működést. Ennek a kijavítása ugyan fontos lépés a modellek pontos működéséhez. A kód megfelelő beállítása és finomhangolása rendkívül összetett folyamat, mivel \az{\cite{github-py08}} egy korábbi, 2.0 Python-ban készülhetett, ezért kompatibilitás hiánya miatt hibára futott az újabb Python 3.0 feletti verzióban.
+	A program egy részének lefordítása futási problémákba ütközött, nem produkálta a teljes működést. Ennek a kijavítása ugyan fontos lépés a modellek pontos működéséhez. A kód megfelelő beállítása és finomhangolása rendkívül összetett folyamat, mivel \az{\cite{github-py08}} kód egy korábbi, Python 2.0 verzióban készülhetett, ezért kompatibilitás hiánya miatt hibára futott az újabb Python 3.0 feletti verzióban.
 	
 	\begin{lstlisting}
 for i in xrange(len(clauseSet)):
@@ -572,7 +580,7 @@ if find_cycle(g):
 	isCici=len(find_cycle(g))
 	\end{lstlisting}
 
-	A program ezen sorainak vizsgálata alatt azt feltételeztem, hogy nem megoldható feladat az előző, és a felette lévő kódrészletekben a find\_cycle() függvény futtatása során háromféle érték visszaadása. A cic változó értéke a megtalált körök, valamint egy Boolean érték (kör találása esetén), majd egy harmadik esetben annak a körnek a hosszát megadni, vagy hogy mennyi kör van a ,,g'' irányított gráfban. Ezeket a kódrészleteket kezdetben még nem tudtam átfordítani, emiatt úgy döntöttem, hogy külön fájlban, új verzió számmal elkezdem a nulláról felépíteni a projektet. A teljes kód átdolgozásáig hosszú út vezet, viszont a következő részben arról írok, amit a kód átfordítása során megértettem és kiviteleztem, hogy futtatás során a program érthetően és hiba nélkül működjön.
+	A program ezen sorainak vizsgálata alatt azt feltételeztem, hogy nem megoldható feladat az előző, és a felette lévő kódrészletekben a \texttt{find\_cycle()} függvény futtatása során háromféle érték visszaadása. A cic változó értéke a megtalált körök, valamint egy Boolean érték (kör találása esetén), majd egy harmadik esetben annak a körnek a hosszát megadni, vagy hogy mennyi kör van a ,,g'' irányított gráfban. Ezeket a kódrészleteket kezdetben még nem tudtam átfordítani, emiatt úgy döntöttem, hogy külön fájlban, új verzió számmal elkezdem a nulláról felépíteni a projektet. A teljes kód átdolgozásáig hosszú út vezet, viszont a következő részben arról írok, amit a kód átfordítása során megértettem és kiviteleztem, hogy futtatás során a program érthetően és hiba nélkül működjön.
 	
 	\section{A kiterjesztett erős modell Python megoldásai}
 	\subsection{A legelső megvalósítás}
@@ -585,7 +593,7 @@ import networkx as nx
 import pylab
 	\end{lstlisting}
 
-	Sorban, ahogyan felhasználtam őket: indexeléshez és pontosabb lista bejáráshoz használom az első sor könyvtárait. A \texttt{NetworkX} könyvtár a legfontosabb munkám során, hiszen minden ami a gráfokhoz kapcsolódik, azt ebből merítettem. Használata közben a fejlesztők felé jeleztem saját github repository-jukba írt issue-val \cite{git-issue-for-examples}, hogy néhány példával egészítsék ki a condensation függvényük leírását, ami nagyban megkönnyítheti a kód pontos használatának a megértését. Ez a könyvtár segít gráfot építeni, módosítani, keresni benne, csomópontokat rendezni és még sok más hasznos osztályt és függvényt is tartalmaz, de ezekről majd később beszélek részletesen. Nem szabad megfeledkeznünk az utolsó sorról sem, ami a gráfok fájlba írását segíti. Rengeteg matematikai műveletet tartalmaz és segít kezelni, formázni a gráfunkat, hogy képeket, és .cnf fájlokat készíthessünk belőle.
+	Sorban, ahogyan felhasználtam őket: indexeléshez és pontosabb lista bejáráshoz használom az első sor könyvtárait. A \texttt{networkx} könyvtár a legfontosabb munkám során, hiszen minden ami a gráfokhoz kapcsolódik, azt ebből merítettem. Használata közben a fejlesztők felé jeleztem saját github repository-jukba írt issue-val~\cite{git-issue-for-examples}, hogy néhány példával egészítsék ki a condensation függvényük leírását, ami nagyban megkönnyítheti a kód pontos használatának a megértését. Ez a könyvtár segít gráfot építeni, módosítani, keresni benne, csomópontokat rendezni és még sok más hasznos osztályt és függvényt is tartalmaz, de ezekről majd később beszélek részletesen. Nem szabad megfeledkeznünk az utolsó sorról sem, ami a gráfok fájlba írását segíti. Rengeteg matematikai műveletet tartalmaz és segít kezelni, formázni a gráfunkat, hogy képeket, és \texttt{.cnf} fájlokat készíthessünk belőle.
 	
 	A következő részletben a fő elemet láthatjuk. Ebben indítom, el az összes folyamatot és módosítom a bemeneti gráfot.
 	
@@ -610,14 +618,14 @@ main()
 	\end{lstlisting}
 
 	
-	Kell egy üres lista, amihez különleges módon adom hozzá az éleket. Az éleknek megfelelő számokat a \texttt{NetworkX} fejlesztői egy konvenció alapján adják át \cite{git-issue-for-examples}, legalábbis ebből a korábban említett issue-ból ezt sejtem. Ebben a következő használatot javasolják:
+	Kell egy üres lista, amihez különleges módon adom hozzá az éleket. Az éleknek megfelelő számokat a \texttt{networkx} fejlesztői egy konvenció alapján adják át~\cite{git-issue-for-examples}, legalábbis ebből a korábban említett issue-ból ezt sejtem. Ebben a következő használatot javasolják:
 	
 	\begin{lstlisting}
 edges = []
 edges.append(((2,1),(1,3),(1,4),(3,2),(4,5),(5,4)))
 	\end{lstlisting}
 	
-	Én azért használom hosszabban leírva, mert számomra sokkal átláthatóbb, jobban szerkeszthető és követhető, hogy miből áll a gráfunk. Egy szám egy csomópontnak felel meg. Egy számpáros pedig azt mutatja, hogy a két csomópont közt él van. Ezek listáját átadom a \texttt{NetworkX} irányított gráf generáló algoritmusnak, az elkészült gráfot pedig eltárolom egy változóban. Ezek után saját függvényeimet hívom meg, és elkészítem a modellnek megfelelő literálok halmazát. Végül az elkészült literálokat adom át a Biró Csaba tanár úr által korábban elkészített .cnf fájlt generáló függvénynek.
+	Én azért használom hosszabban leírva, mert számomra sokkal átláthatóbb, jobban szerkeszthető és követhető, hogy miből áll a gráfunk. Egy szám egy csomópontnak felel meg. Egy számpáros pedig azt mutatja, hogy a két csomópont közt él van. Ezek listáját átadom a \texttt{networkx} irányított gráf generáló algoritmusnak, az elkészült gráfot pedig eltárolom egy változóban. Ezek után saját függvényeimet hívom meg, és elkészítem a modellnek megfelelő literálok halmazát. Végül az elkészült literálokat adom át a Biró Csaba tanár úr által korábban elkészített \texttt{.cnf} fájlt generáló függvénynek.
 	\newpage
 	Az általam készített függvény a következő:
 
@@ -640,7 +648,7 @@ def expanded_strong_model_literal_gen(G):
 	else:
 	\end{lstlisting}\label{kod-nx-condensation}
 
-	A \texttt{print} függvényt használom állandó visszajelzésnek, mivel sokszor modellgenerálást váltok, ezért jó látni, melyikkel dolgozom jelenleg, és milyen rész információk kapcsolódnak ehhez. A megfelelő bemenetet használtam-e, azaz csak az éleket kell átadni, és azt is figyelni kell, hogy egy csomópont nem mutathat magára. Ezek után a \texttt{NetworkX} könyvtárában a \texttt{condensation} függvényt használva visszakapom a gráfom kondenzációját, amit egy változóban eltárolok. Ezen belül létrejött egy szótár, amiben tárolja az erős komponensekhez hozzárendelt új csomópontokat, és ezeknek az eredeti csomópontjait. A erősen összetett komponenseket Tarján Róbert algoritmusával \cite{tarjan} és Nuutila módosításával \cite{nuutila} találja meg. Ezekkel az adatokkal már egyszerűbb dolgunk van. Ha az egész szótárt bejárjuk, akkor láthatjuk, hogy hány új él van. Ha nincs benne él, akkor az egész gráf egy erősen összetett komponens volt, és minden csomópontot negatívként adunk hozzá a klózhalmazhoz.
+	A \texttt{print} függvényt használom állandó visszajelzésnek, mivel sokszor modellgenerálást váltok, ezért jó látni, melyikkel dolgozom jelenleg, és milyen rész információk kapcsolódnak ehhez. A megfelelő bemenetet használtam-e, azaz csak az éleket kell átadni, és azt is figyelni kell, hogy egy csomópont nem mutathat magára. Ezek után a \texttt{networkx} könyvtárában a \texttt{condensation} függvényt használva visszakapom a gráfom kondenzációját, amit egy változóban eltárolok. Ezen belül létrejött egy szótár, amiben tárolja az erős komponensekhez hozzárendelt új csomópontokat, és ezeknek az eredeti csomópontjait. A erősen összetett komponenseket Tarján Róbert algoritmusával~\cite{tarjan} és Nuutila módosításával~\cite{nuutila} találja meg. Ezekkel az adatokkal már egyszerűbb dolgunk van. Ha az egész szótárt bejárjuk, akkor láthatjuk, hogy hány új él van. Ha nincs benne él, akkor az egész gráf egy erősen összetett komponens volt, és minden csomópontot negatívként adunk hozzá a klózhalmazhoz.
 
 	Ennek ,,else'' ágában:
 	\begin{lstlisting}
@@ -702,7 +710,7 @@ for prev, curr in previous(mem.items()):
 		-1 & -2 & -3 & -4 & 0\\
 		 1 &  2 &  3 &  4 & 0\\
 		\end{tabular}
-		\caption{A \textsc{DIMACS} formátumú .cnf fájl első verziója}
+		\caption{A \textsc{DIMACS} formátumú \texttt{.cnf} fájl első verziója}
 	\end{table}
 	
 	\subsection{Az első verzió egy továbbfejlesztett megoldása}
@@ -719,18 +727,18 @@ if len(dagG.edges()) == 0:
 	return clause
 	\end{lstlisting}
 	
-	Itt fontos, hogy egy változót kihagytam és csak egy ciklusmag van, ezzel erőforrást spóroltam. A kikommentelt részletet még miközben írtam átgondoltam, hogy ha csak egy SCC van, akkor nem kell hozzáadni a klózhoz azt, amivel az egészet helyettesíteném. Még további teszteket igényel, hogy kipuhatoljam milyen eredményekkel jár, ha ez az eset fut le. Legvalószínűbb megoldásnak a NetworkX megoldását találom, miszerint a 0 hosszú/nagyságú/méretű/élű egyszerűsített gráf esetén a program csak lépjen ki a metódusból.
+	Itt fontos, hogy egy változót kihagytam és csak egy ciklusmag van, ezzel erőforrást spóroltam. A kikommentelt részletet még miközben írtam átgondoltam, hogy ha csak egy \texttt{SCC} van, akkor nem kell hozzáadni a klózhoz azt, amivel az egészet helyettesíteném. Még további teszteket igényel, hogy kipuhatoljam milyen eredményekkel jár, ha ez az eset fut le. Legvalószínűbb megoldásnak a \texttt{networkx} megoldását találom, miszerint a 0 hosszú, nagyságú, méretű, vagy élű egyszerűsített gráf esetén a program csak lépjen ki a metódusból.
 	
-	\Az{\ref{kod-nx-condensation}}.~kódrészletben a 2.~sorában egy apró, ám hasznos változást vezettem be. Az említett NetworkX-es condensation függvényt kiegészítettem egy harmadik, opcionális paraméterrel, ami egyszerűen a számozás kezdetét határozza meg, azaz honnan indítsa az új SCC-ket helyettesítő csomópontok számozását. Még egy kicsit kutatnom kellett hozzá, hogy az eredeti függvényt ki tudjam egészíteni a megfelelő módon. A válasz meglepően rövid volt a korábbi elképzeléseimhez képest:
+	\Az{\ref{kod-nx-condensation}}.~kódrészletben a 2.~sorában egy apró, ám hasznos változást vezettem be. Az említett \texttt{networkx}-es condensation függvényt kiegészítettem egy harmadik, opcionális paraméterrel, ami egyszerűen a számozás kezdetét határozza meg, azaz honnan indítsa az új \textsc{SCC}-ket helyettesítő csomópontok számozását. Még egy kicsit kutatnom kellett hozzá, hogy az eredeti függvényt ki tudjam egészíteni a megfelelő módon. A válasz meglepően rövid volt a korábbi elképzeléseimhez képest:
 
 \begin{lstlisting}
 	#dagG = condensation(G)
 	dagG = condensation(G, None, G.number_of_nodes() + 1)
 \end{lstlisting}
 
-	A kikommentelt rész, ahogy eredetileg meghívtam. Az új függvényhívásban a None érték, csak a paraméterek átadásának helyes sorrendje miatt kell. Ahogyan a következő kódrészletben is látjuk alapértelmezésben is a None érték adódik át.
+	A kikommentelt rész, ahogy eredetileg meghívtam. Az új függvényhívásban a \texttt{None} érték, csak a paraméterek átadásának helyes sorrendje miatt kell. Ahogyan a következő kódrészletben is látjuk alapértelmezésben is a \texttt{None} érték adódik át.
 
-	Kezdetben, ahogy eddig is, 0-tól indul a számozás, ha nem adunk át értéket. Ez az extra paraméter ahhoz kell, hogy a condensation függvényben amikor az SCC-ket számoljuk, akkor az enumerate függvény honnan kezdje a számozást.
+	Kezdetben, ahogy eddig is, 0-tól indul a számozás, ha nem adunk át értéket. Ez az extra paraméter ahhoz kell, hogy a \texttt{condensation} függvényben amikor az \textsc{SCC}-ket számoljuk, akkor az enumerate függvény honnan kezdje a számozást.
 
 \begin{lstlisting}
 def condensation(G, scc=None, offset=0):
@@ -757,21 +765,21 @@ def condensation(G, scc=None, offset=0):
 	return C	
 \end{lstlisting}
 
-	Így elég volt csak az offset változót a jó helyre hozzátennem. Habár ez elég egyszerűnek tűnik, ennek megértése és átlátása alapos értelmezést és odafigyelést igényel. Ebből a NetworkX csapatához intéztem egy külön kérdést, egy beszélgetés formájában \cite{git-issue-for-offset}.
+	Így elég volt csak az offset változót a jó helyre hozzátennem. Habár ez elég egyszerűnek tűnik, ennek megértése és átlátása alapos értelmezést és odafigyelést igényel. Ebből a \texttt{networkx} csapatához intéztem egy külön kérdést, egy beszélgetés formájában~\cite{git-issue-for-offset}.
 
 	Az eltolást, mint harmadik paraméter úgy adom át, hogy lehetőleg a csomópontok számát meghaladja. Egy kisebb konvenció, hogy amikor irányított gráfot írunk le, akkor a legkisebb természetes számtól kezdjük a csomópontok számozását és a következőnek elemnek a számát is ugyan így, a következő legkisebb természetes számtól kezdjük. Erre a javaslatra az előtte lévő mondatból következtettem, hiszen függvénnyel így lehet pontos eredményt generálni.
 
 	\section{Célok a jövőben, variációk a fejlesztésre}
 	
-	Még rengeteg metódus és függvény van, amit meg lehet írni az eredeti kód \cite{github-py08} alapján. Jómagam is terveztem folytatni a modellek átírását az új Python verzióra, valamint implementálni az értelmezését. A jelenlegi kódot is célszerű karbantartani, kitakarítani, egyszerűsíteni. Sok lehetőség van még benne. Úgy érzem, hogy a jelenleg elkészült programkód értelmezése egyszerű, könnyen bővíthető és használatához nem kell külön az én segítségemet kérni.
+	Még rengeteg metódus és függvény van, amit meg lehet írni az eredeti kód~\cite{github-py08} alapján. Jómagam is terveztem folytatni a modellek átírását az új Python verzióra, valamint implementálni az értelmezését. A jelenlegi kódot is célszerű karbantartani, kitakarítani, egyszerűsíteni. Sok lehetőség van még benne. Úgy érzem, hogy a jelenleg elkészült programkód értelmezése egyszerű, könnyen bővíthető és használatához nem kell külön az én segítségemet kérni.
 	
-	A kód legvége mintegy ötletbörzeként, tartalmaz egy pár tesztesetet, ezek kiinduló pontjai lehetnek egy újabb fejlesztésnek is. Külön fájlba gyűjtve, sok elemet tartalmazó, sokoldalú teszteset gyűjtemény hozható létre belőle. A teszteseteket, ahogy tőlem is kérték meg lehetne írni a \texttt{NetworkX} csapatának annotálásával, stílusával és konvenciójával. A további gráfok generálására érdemes kibővíteni a teszteseteket, hogy lefedjék az összes eshetőséget és általánosságban beszélhessünk a gráfokról. Erre azért van szükség, hogy biztosan meg tudjuk állapítani, hogy jó .cnf fájlt ad a tanáraim által korábban létrehozott véletlenszerű, irányított gráf generátor, ami \textsc{WSN} hálózatokat \cite{am} ír le az által, hogy kommunikációs gráfokat generál.
+	A kód legvége mintegy ötletbörzeként, tartalmaz egy pár tesztesetet, ezek kiinduló pontjai lehetnek egy újabb fejlesztésnek is. Külön fájlba gyűjtve, sok elemet tartalmazó, sokoldalú teszteset gyűjtemény hozható létre belőle. A teszteseteket, ahogy tőlem is kérték meg lehetne írni a \texttt{networkx} csapatának annotálásával, stílusával és konvenciójával. A további gráfok generálására érdemes kibővíteni a teszteseteket, hogy lefedjék az összes eshetőséget és általánosságban beszélhessünk a gráfokról. Erre azért van szükség, hogy biztosan meg tudjuk állapítani, hogy jó \texttt{.cnf} fájlt ad a tanáraim által korábban létrehozott véletlenszerű, irányított gráf generátor, ami \textsc{WSN} hálózatokat~\cite{am} ír le az által, hogy kommunikációs gráfokat generál.
 	
 	További fejlesztés lehetőségeként a változók értékeinek nyomon követésére a programba beépített modult lehetne használni a \texttt{print} függvények helyett.
 	
 	Az eredeti programkódból szakdolgozatom felhasználásával tovább lehet fejleszteni a gyenge modellt akár kiemeléssel, kiegészítéssel, átalakítással, mivel a jelenlegi kód megírásakor végül nem ezt a részt dolgoztam ki. Szívesen folytatom a munkát a későbbiekben a többi modell és az algoritmus Python nyelvre való átfordításával, amennyiben ez támogatja a fejlesztők munkáját. Fejlesztését lehet folytatni a többi modellnek is.
 
-	A \textsc{SAT} megoldóhoz is, amit a konzulensem Java programozási környezetben írt meg és \textsc{CSFLOC} névre hallgat számtalan fejlesztési lehetőség társul. Úgy tudom abban is lehet fejlesztéseket eszközölni, lásd gyorsabb körkereső algoritmus implementálása \cite[Johnson]{johnson} algoritmusa alapján. A gyenge modellhez pedig minden lehetőség adott, és már csak egy karnyújtásnyira van, hogy annak is láthassuk a végeredményét.	A \textsc{CSFLOCK} teszteléséhez az alappillérek, azok a modellek, melyek még fejlesztésre várnak és amelyek szükségesek ahhoz, hogy ez a projekt tovább fejlődjön.
+	A \textsc{SAT} megoldóhoz is, amit a konzulensem Java programozási környezetben írt meg és \textsc{CSFLOC} névre hallgat számtalan fejlesztési lehetőség társul. Úgy tudom abban is lehet fejlesztéseket eszközölni, lásd gyorsabb körkereső algoritmus implementálása~\cite[Johnson]{johnson} algoritmusa alapján. A gyenge modellhez pedig minden lehetőség adott, és már csak egy karnyújtásnyira van, hogy annak is láthassuk a végeredményét.	A \textsc{CSFLOCK} teszteléséhez az alappillérek, azok a modellek, melyek még fejlesztésre várnak és amelyek szükségesek ahhoz, hogy ez a projekt tovább fejlődjön.
 	
 \chapter*{Összegzés}\addcontentsline{toc}{chapter}{Összegzés}
 	Szakirodalmat fordítottam, értelmeztem és dolgoztam fel.
@@ -792,13 +800,13 @@ def condensation(G, scc=None, offset=0):
 	
 \chapter*{Köszönetnyilvánítás}
 
-	Nagy hálával és köszönettel tartozom konzulensemnek Dr.~Kusper Gábornak és tanáromnak Biró Csabának, amiért megadták az alapokat szakdolgozatom megírásához, segítették egyetemi tanulmányaimat, és támogatták előre haladásomat.
+	Nagy hálával és köszönettel tartozom konzulensemnek Dr.~Kusper Gábornak és tanáromnak Dr.~Biró Csabának, amiért megadták az alapokat szakdolgozatom megírásához, segítették egyetemi tanulmányaimat, és támogatták előre haladásomat.
 
 	Köszönöm minden egyetemi tanáromnak az építő kritikát, a türelmet és az odaadást, amivel tanítottak.
 	
 	Köszönöm szüleimnek, hogy mindig mellettem álltak. Köszönöm lelki és anyagi támogatásukat, a néha kemény szavakat, amivel kitartásra ösztönöztek. Nem utolsó sorban türelmüket, hiszen az ő segítségük nélkül nem jutottam volna el idáig.
 	
-	Köszönetet mondok a barátnőmnek és családjának, a barátaimnak, akiket jó párszor a végletekig igénybe vettem, végighallgattak, segítséget kérhettem tőlük Discordon \cite{dc}, akármilyen későn is hívtam fel őket.
+	Köszönetet mondok a barátnőmnek és családjának, a barátaimnak, akiket jó párszor a végletekig igénybe vettem, végighallgattak, segítséget kérhettem tőlük Discordon~\cite{dc}, akármilyen későn is hívtam fel őket.
 	
 	Hálás szívvel gondolok mindazokra, akik hozzájárultak céljaim eléréséhez.
 	
@@ -845,7 +853,7 @@ def condensation(G, scc=None, offset=0):
 	
 	\bibitem{git-issue-for-offset}Az általam elindított plussz paraméter témájú beszélgetés GitHub-on itt található:
 	\\\url{https://github.com/networkx/networkx/discussions/5570}%, amiből kiindult az issue:
-	%\\\url{https://github.com/networkx/networkx/issues/5449}
+	%\\\url{tobecontinued}
 
 	\bibitem{dc}Discord weboldala:
 	\\\url{https://discord.com}
