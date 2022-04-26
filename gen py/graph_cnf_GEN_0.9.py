@@ -46,24 +46,13 @@ def previous(some_iterable):
 	prevs, items = tee(some_iterable, 2)
 	prevs = chain([None], prevs)
 	return zip(prevs, items)
-	
-#Todo: csinálj teszteket a tesztelő file-al. Csinálj még több tesztet, hogy biztosan jól működjön.
 
 def strong_model_literal_gen(G):
 	clause = []
-	# bw_clause = []
 	for i, j in G.edges():
 		clause.append(-i)
 		clause.append(j)
 		clause.append(0.1)
-	# for i in G.nodes():
-	# 	bw_clause.append(i)
-	# for i in bw_clause:
-	# 	clause.append(-i)
-	# clause.append(0.1)
-	# for i in bw_clause:
-	# 	clause.append(i)
-	# clause.append(0.1)
 	return clause
 
 
@@ -317,10 +306,7 @@ def main():
 	-3 4 0
 	-1 -2 -3 -4 0
 	1 2 3 4 0
-	 """
-
-	# A 4. node-ba csak befele mennek élek. Nincs szomszédja.
-	# Todo Mennyi szomszédot ad vissza a 3. csúcs?
+	"""
 
 	# SYNASC2020_submission_77_v20.pdf Fig. 3. example:
 	# a=1, b=2, c=3, d=4
@@ -347,7 +333,6 @@ def main():
 	# edges.append((5,3))
 
 	g = nx.DiGraph(edges)
-	# algo_check(g)
 	# model_to_picture()
 	Literals = expanded_strong_model_literal_gen(g)
 	model_to_cnf_file(g, Literals, "ESM")
